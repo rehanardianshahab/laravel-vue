@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 01, 2022 at 04:46 AM
+-- Generation Time: Nov 02, 2022 at 04:25 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -83,6 +83,35 @@ INSERT INTO `pelanggan` (`id`, `nama_pelanggan`, `jenis_kelamin`, `alamat`) VALU
 (1, 'Lilyy', 'Wanita', 'indramayu'),
 (2, 'Arhatia', 'Pria', 'in the rama you');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `penjual`
+--
+
+CREATE TABLE `penjual` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `alamat` text NOT NULL,
+  `kota` varchar(255) NOT NULL,
+  `no_telp` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `transaksi`
+--
+
+CREATE TABLE `transaksi` (
+  `id` int(11) NOT NULL,
+  `id_penjual` int(11) NOT NULL,
+  `id_obat` int(11) NOT NULL,
+  `id_pelanggan` int(255) NOT NULL,
+  `pajak` int(11) NOT NULL,
+  `total_bayar` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 --
 -- Indexes for dumped tables
 --
@@ -107,6 +136,21 @@ ALTER TABLE `pelanggan`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `penjual`
+--
+ALTER TABLE `penjual`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_pelanggan` (`id_pelanggan`),
+  ADD KEY `fk_penjual` (`id_penjual`),
+  ADD KEY `fk_obat` (`id_obat`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -129,6 +173,18 @@ ALTER TABLE `pelanggan`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `penjual`
+--
+ALTER TABLE `penjual`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- Constraints for dumped tables
 --
 
@@ -137,6 +193,14 @@ ALTER TABLE `pelanggan`
 --
 ALTER TABLE `obat`
   ADD CONSTRAINT `fk_jenisobat` FOREIGN KEY (`id_jenisobat`) REFERENCES `jenis_obat` (`id`);
+
+--
+-- Constraints for table `transaksi`
+--
+ALTER TABLE `transaksi`
+  ADD CONSTRAINT `fk_obat` FOREIGN KEY (`id_obat`) REFERENCES `obat` (`id`),
+  ADD CONSTRAINT `fk_pelanggan` FOREIGN KEY (`id_pelanggan`) REFERENCES `pelanggan` (`id`),
+  ADD CONSTRAINT `fk_penjual` FOREIGN KEY (`id_penjual`) REFERENCES `penjual` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
