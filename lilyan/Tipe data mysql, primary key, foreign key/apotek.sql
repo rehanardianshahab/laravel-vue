@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2022 at 04:25 PM
+-- Generation Time: Nov 04, 2022 at 02:57 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -20,6 +20,21 @@ SET time_zone = "+00:00";
 --
 -- Database: `apotek`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `distributor`
+--
+
+CREATE TABLE `distributor` (
+  `id` int(11) NOT NULL,
+  `penjual_id` int(11) NOT NULL,
+  `nama` varchar(50) NOT NULL,
+  `alamat` varchar(255) NOT NULL,
+  `kota` varchar(32) NOT NULL,
+  `no_telp` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -117,6 +132,13 @@ CREATE TABLE `transaksi` (
 --
 
 --
+-- Indexes for table `distributor`
+--
+ALTER TABLE `distributor`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_penjualobat` (`penjual_id`);
+
+--
 -- Indexes for table `jenis_obat`
 --
 ALTER TABLE `jenis_obat`
@@ -155,6 +177,12 @@ ALTER TABLE `transaksi`
 --
 
 --
+-- AUTO_INCREMENT for table `distributor`
+--
+ALTER TABLE `distributor`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `jenis_obat`
 --
 ALTER TABLE `jenis_obat`
@@ -187,6 +215,12 @@ ALTER TABLE `transaksi`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `distributor`
+--
+ALTER TABLE `distributor`
+  ADD CONSTRAINT `fk_penjualobat` FOREIGN KEY (`penjual_id`) REFERENCES `penjual` (`id`);
 
 --
 -- Constraints for table `obat`
