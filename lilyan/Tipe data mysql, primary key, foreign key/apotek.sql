@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 04, 2022 at 02:57 PM
+-- Generation Time: Nov 05, 2022 at 12:37 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -123,6 +123,7 @@ CREATE TABLE `transaksi` (
   `id_penjual` int(11) NOT NULL,
   `id_obat` int(11) NOT NULL,
   `id_pelanggan` int(255) NOT NULL,
+  `jumlah_obat` int(11) NOT NULL,
   `pajak` int(11) NOT NULL,
   `total_bayar` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
