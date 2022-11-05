@@ -1,0 +1,12 @@
+10 Macam Query
+
+1. SELECT * FROM obat WHERE id_jenisobat = 2
+2. INSERT INTO jenis_obat (id, jenis_obat) VALUES (NULL, 'Obat Sariawan');
+3. UPDATE pelanggan SET nama_pelanggan = 'Ayunda' WHERE id = 7;
+4. DELETE FROM jenis_obat WHERE jenis_obat.id = 11
+5. SELECT * FROM pelanggan ORDER BY nama_pelanggan ASC
+6. SELECT alamat FROM pelanggan GROUP BY alamat
+7. SELECT alamat, COUNT(id) FROM pelanggan GROUP BY alamat
+8. SELECT * FROM obat WHERE nama_obat LIKE 'K%'
+9. SELECT * FROM pelanggan LIMIT 5
+10. SELECT MIN(harga) FROM obat

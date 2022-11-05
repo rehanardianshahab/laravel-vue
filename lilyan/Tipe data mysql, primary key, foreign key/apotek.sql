@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 05, 2022 at 12:37 AM
+-- Generation Time: Nov 05, 2022 at 08:11 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.10
 
@@ -36,6 +36,22 @@ CREATE TABLE `distributor` (
   `no_telp` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `distributor`
+--
+
+INSERT INTO `distributor` (`id`, `penjual_id`, `nama`, `alamat`, `kota`, `no_telp`) VALUES
+(1, 1, 'Annafi', 'Pekayon', 'Bekasi', '0898937733'),
+(2, 2, 'Lintang', 'Jaka setia', 'Bekasi', '08978767654'),
+(3, 3, 'Indah', 'Pawidean', 'Indramayu', '08363728922'),
+(4, 4, 'Abu', 'Plumbon', 'Cirebon', '089786767'),
+(5, 5, 'Fauzy', 'Gunung Jati', 'Cirebon', '089878678'),
+(6, 6, 'Fitriana', 'Pekandangan', 'Indramayu', '089787564657'),
+(7, 7, 'Sandi', 'Jatisawit', 'Jatibarang', '089786757'),
+(8, 8, 'Pranata', 'Cirebon', 'Cirebon', '0899986757'),
+(9, 9, 'Azizah', 'Kertasmaya', 'Indramayu', '0898786768'),
+(10, 10, 'Fani', 'Jakarta', 'Jakarta', '089878897');
+
 -- --------------------------------------------------------
 
 --
@@ -52,8 +68,16 @@ CREATE TABLE `jenis_obat` (
 --
 
 INSERT INTO `jenis_obat` (`id`, `jenis_obat`) VALUES
-(1, 'Antiotik'),
-(2, 'Batuk');
+(1, 'Obat Antiotik'),
+(2, 'Obat Batuk'),
+(3, 'Obat Tetes'),
+(4, 'Obat Salep'),
+(5, 'Obat Cair'),
+(6, 'Obat Antivirus'),
+(7, 'Obat Herbal'),
+(8, 'Obat Magh'),
+(9, 'Obat Anti Jamur'),
+(10, 'Obat Tidur');
 
 -- --------------------------------------------------------
 
@@ -75,7 +99,17 @@ CREATE TABLE `obat` (
 
 INSERT INTO `obat` (`id`, `nama_obat`, `harga`, `stok_obat`, `id_jenisobat`) VALUES
 (1, 'Amoxilin', 5000, 80, 1),
-(2, 'OBH Combi', 60000, 90, 2);
+(2, 'OBH Combi', 60000, 90, 2),
+(3, 'Insto Mata', 15000, 45, 3),
+(4, 'Salep 88', 25000, 67, 4),
+(5, 'Sirup', 20000, 78, 5),
+(6, 'Acyclovir', 45000, 50, 6),
+(7, 'Kunyit Asem', 15000, 80, 7),
+(8, 'Promagh', 12000, 43, 8),
+(9, 'Kalpanax', 26000, 89, 9),
+(10, 'Sleepinal', 45000, 78, 10),
+(11, 'Komik Herbal', 2000, 90, 2),
+(12, 'Laserin', 6000, 65, 2);
 
 -- --------------------------------------------------------
 
@@ -96,7 +130,15 @@ CREATE TABLE `pelanggan` (
 
 INSERT INTO `pelanggan` (`id`, `nama_pelanggan`, `jenis_kelamin`, `alamat`) VALUES
 (1, 'Lilyy', 'Wanita', 'indramayu'),
-(2, 'Arhatia', 'Pria', 'in the rama you');
+(2, 'Arhatia', 'Pria', 'Indramayu'),
+(3, 'Tia', 'Pria', 'Jatibarang'),
+(4, 'Nurkom', 'Wanita', 'Pamayahan'),
+(5, 'Agustin', 'Pria', 'Jakarta'),
+(6, 'Aldini', 'Wanita', 'Bekasi'),
+(7, 'Ayunda', 'Wanita', 'Pagirikan'),
+(8, 'Fajri', 'Pria', 'Kertasmaya'),
+(9, 'Wahyu Annafi', 'Pria', 'Cirebon'),
+(10, 'Arip', 'Pria', 'Kedawung');
 
 -- --------------------------------------------------------
 
@@ -111,6 +153,22 @@ CREATE TABLE `penjual` (
   `kota` varchar(255) NOT NULL,
   `no_telp` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `penjual`
+--
+
+INSERT INTO `penjual` (`id`, `nama`, `alamat`, `kota`, `no_telp`) VALUES
+(1, 'Tia', 'Pawidean', 'Indramayu', 898738367),
+(2, 'Lilyan', 'Jatibarang', 'Indramayu', 875657676),
+(3, 'Arha', 'Balongan', 'Indramayu', 898767755),
+(4, 'Cahyanto', 'Majalengka', 'Majalengka', 897878788),
+(5, 'Viki', 'Slaur', 'Indramayu', 797877556),
+(6, 'Triana', 'Karanganyar', 'Indramayu', 797876756),
+(7, 'Andi', 'Dukuh', 'Indramayu', 889654356),
+(8, 'Faisal', 'Karanganyar', 'Indramayu', 899667687),
+(9, 'Ibrahim', 'Losari', 'Cirebon', 898787878),
+(10, 'Nisa', 'Pawidean', 'Indramayu', 898767578);
 
 -- --------------------------------------------------------
 
@@ -127,6 +185,22 @@ CREATE TABLE `transaksi` (
   `pajak` int(11) NOT NULL,
   `total_bayar` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `transaksi`
+--
+
+INSERT INTO `transaksi` (`id`, `id_penjual`, `id_obat`, `id_pelanggan`, `jumlah_obat`, `pajak`, `total_bayar`) VALUES
+(1, 1, 1, 1, 3, 3000, 56000),
+(2, 2, 2, 2, 4, 2000, 35000),
+(3, 3, 3, 3, 6, 3000, 45000),
+(4, 1, 4, 4, 5, 4000, 25000),
+(5, 1, 5, 5, 7, 5000, 68000),
+(6, 1, 6, 6, 2, 2000, 3200),
+(7, 2, 7, 7, 8, 6000, 80000),
+(8, 1, 8, 8, 5, 7000, 46000),
+(9, 2, 9, 9, 8, 3000, 34000),
+(10, 3, 10, 10, 4, 4000, 65000);
 
 --
 -- Indexes for dumped tables
@@ -181,37 +255,37 @@ ALTER TABLE `transaksi`
 -- AUTO_INCREMENT for table `distributor`
 --
 ALTER TABLE `distributor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `jenis_obat`
 --
 ALTER TABLE `jenis_obat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `obat`
 --
 ALTER TABLE `obat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `pelanggan`
 --
 ALTER TABLE `pelanggan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `penjual`
 --
 ALTER TABLE `penjual`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Constraints for dumped tables
