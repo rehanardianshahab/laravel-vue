@@ -1,0 +1,7 @@
+5 Query Update dan Delete
+
+1. UPDATE pelanggan SET nama_pelanggan = 'Agustine' WHERE id = 5;
+2. INSERT INTO jenis_obat (id, jenis_obat) VALUES (NULL, 'Obat Sariawan');
+3. DELETE FROM jenis_obat WHERE jenis_obat.id = 11
+4. UPDATE `pelanggan` SET `nama_pelanggan` = 'Lilyyy' WHERE id = '1'
+5. DELETE FROM `obat` WHERE id = '11'
