@@ -26,13 +26,14 @@
 			</tr>
 			<tr> 
 				<td>Tahun</td>
-				<td><input type="text" name="tahun"></td>
+				<td><input type="year" name="tahun"></td>
 			</tr>
 			<tr> 
 				<td>Penerbit</td>
 				<td>
 					<select name="id_penerbit">
 						<?php 
+							echo "<option>--Pilih Penerbit--</option>";
 						    while($penerbit_data = mysqli_fetch_array($penerbit)) {         
 						    	echo "<option value='".$penerbit_data['id_penerbit']."'>".$penerbit_data['nama_penerbit']."</option>";
 						    }
@@ -45,6 +46,7 @@
 				<td>
 					<select name="id_pengarang">
 						<?php 
+							echo "<option>--Pilih Pengarang--</option>";
 						    while($pengarang_data = mysqli_fetch_array($pengarang)) {         
 						    	echo "<option value='".$pengarang_data['id_pengarang']."'>".$pengarang_data['nama_pengarang']."</option>";
 						    }
@@ -66,11 +68,11 @@
 			</tr>
 			<tr> 
 				<td>Qty Stok</td>
-				<td><input type="text" name="qty_stok"></td>
+				<td><input type="number" name="qty_stok"></td>
 			</tr>
 			<tr> 
 				<td>Harga Pinjam</td>
-				<td><input type="text" name="harga_pinjam"></td>
+				<td><input type="number" name="harga_pinjam"></td>
 			</tr>
 			<tr> 
 				<td></td>
