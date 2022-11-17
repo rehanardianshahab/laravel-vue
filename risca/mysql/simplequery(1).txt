@@ -1,0 +1,10 @@
+1. SELECT * FROM pelanggan WHERE alamat='Bogor';
+2. SELECT * FROM `obat` WHERE stok >= 50;
+3. SELECT tanggal FROM `transaksi` WHERE jenis_transaksi='tunai';
+4. SELECT id_obat, total_harga FROM `detail_transaksi`;
+5. SELECT * FROM `detail_transaksi` WHERE total_harga >=25000 AND total_harga <=30000;
+6. SELECT * FROM `pelanggan` ORDER BY nama DESC;
+7. SELECT * FROM `pelanggan` ORDER BY nama ASC;
+8. SELECT * FROM `obat` WHERE nama LIKE 'A%';
+9. SELECT * FROM `obat` WHERE nama LIKE '%n';
+10. SELECT * FROM `obat` WHERE nama NOT LIKE '%o%';
