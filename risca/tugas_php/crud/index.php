@@ -24,7 +24,7 @@
     <hr>
 </center>
 
-<a href="add.php">Add New Buku</a><br/><br/>
+<a href="buku/buku_add.php">Add New Buku</a><br/><br/>
  
     <table class="table" width='80%' border=1>
  
@@ -50,7 +50,7 @@
             echo "<td>".$buku_data['nama_katalog']."</td>";    
             echo "<td>".$buku_data['qty_stok']."</td>";    
             echo "<td>".$buku_data['harga_pinjam']."</td>";    
-            echo "<td><a class='btn btn-primary' href='edit.php?isbn=$buku_data[isbn]'>Edit</a> | <a class='btn btn-danger' href='delete.php?isbn=$buku_data[isbn]'>Delete</a></td></tr>";        
+            echo "<td><a class='btn btn-primary' href='buku/buku_edit.php?isbn=$buku_data[isbn]'>Edit</a> | <a class='btn btn-danger' href='buku/buku_delete.php?isbn=$buku_data[isbn]'>Delete</a></td></tr>";        
         }
     ?>
     </table>
