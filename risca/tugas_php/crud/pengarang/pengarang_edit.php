@@ -10,7 +10,7 @@
 
 	$buku = mysqli_query($mysqli, "SELECT * FROM buku");
     $penerbit = mysqli_query($mysqli, "SELECT * FROM penerbit");
-    $pengarang = mysqli_query($mysqli, "SELECT * FROM pengarang");
+    $pengarang = mysqli_query($mysqli, "SELECT * FROM pengarang WHERE id_pengarang='$id_pengarang'");
     $katalog = mysqli_query($mysqli, "SELECT * FROM katalog");
 
     while($pengarang_data = mysqli_fetch_array($pengarang))
@@ -31,7 +31,7 @@
 		<table width="25%" border="0">
 			<tr> 
 				<td>ID Pengarang</td>
-				<td><input type="text" name="id_pengarang" value="<?php echo $id_pengarang; ?>"></td>
+				<td style="font-size: 11pt;"><?php echo $id_pengarang; ?> </td>
 			</tr>
 			<tr> 
 				<td>Nama Pengarang</td>
@@ -61,7 +61,7 @@
 		// Check If form submitted, insert form data into users table.
 		if(isset($_POST['update'])) {
 
-			$id_pengarang = $_POST['id_pengarang'];
+			$id_pengarang = $_GET['id_pengarang'];
 			$nama_pengarang = $_POST['nama_pengarang'];
 			$email = $_POST['email'];
 			$telp = $_POST['telp'];

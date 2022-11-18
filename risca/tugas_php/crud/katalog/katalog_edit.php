@@ -11,7 +11,7 @@
 	$buku = mysqli_query($mysqli, "SELECT * FROM buku");
     $penerbit = mysqli_query($mysqli, "SELECT * FROM penerbit");
     $pengarang = mysqli_query($mysqli, "SELECT * FROM pengarang");
-    $katalog = mysqli_query($mysqli, "SELECT * FROM katalog");
+    $katalog = mysqli_query($mysqli, "SELECT * FROM katalog WHERE id_katalog='$id_katalog'");
 
     while($katalog_data = mysqli_fetch_array($katalog))
     {
@@ -46,7 +46,7 @@
 		// Check If form submitted, insert form data into users table.
 		if(isset($_POST['update'])) {
 
-			$id_katalog = $_POST['id_katalog'];
+			$id_katalog = $_GET['id_katalog'];
 			$nama = $_POST['nama'];
 			
 			include_once("../connect.php");

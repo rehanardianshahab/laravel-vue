@@ -5,7 +5,8 @@
 </head>
 
 <?php
-	include_once("connect.php");
+	include_once("../connect.php");
+	$buku = mysqli_query($mysqli, "SELECT * FROM buku");
     $penerbit = mysqli_query($mysqli, "SELECT * FROM penerbit");
     $pengarang = mysqli_query($mysqli, "SELECT * FROM pengarang");
     $katalog = mysqli_query($mysqli, "SELECT * FROM katalog");
@@ -15,7 +16,7 @@
 	<a href="index.php">Go to Home</a>
 	<br/><br/>
  
-	<form action="add.php" method="post" name="form1">
+	<form action="buku_add.php" method="post" name="form1">
 		<table width="25%" border="0">
 			<tr> 
 				<td>ISBN</td>
@@ -93,11 +94,11 @@
 			$qty_stok = $_POST['qty_stok'];
 			$harga_pinjam = $_POST['harga_pinjam'];
 			
-			include_once("connect.php");
+			include_once("../connect.php");
 
 			$result = mysqli_query($mysqli, "INSERT INTO `buku` (`isbn`, `judul`, `tahun`, `id_penerbit`, `id_pengarang`, `id_katalog`, `qty_stok`, `harga_pinjam`) VALUES ('$isbn', '$judul', '$tahun', '$id_penerbit', '$id_pengarang', '$id_katalog', '$qty_stok', '$harga_pinjam');");
 			
-			header("Location:index.php");
+			header("Location:../index.php");
 		}
 	?>
 </body>

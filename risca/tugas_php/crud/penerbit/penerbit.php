@@ -15,7 +15,7 @@
 
 <center>
     <a href="../index.php">Buku</a> |
-    <a href="../penerbit/penerbit.php">Penerbit</a> |
+    <a href="../penerbit.php">Penerbit</a> |
     <a href="../pengarang/pengarang.php">Pengarang</a> |
     <a href="../katalog/katalog.php">Katalog</a>
     <hr>
@@ -23,8 +23,7 @@
 
 <a href="penerbit_add.php">Add New Penerbit</a><br/><br/>
  
-    <table class="table" width='80%' border=1>
- 
+    <table class="table" width='80%' border=1> 
     <tr>
         <th>ID Penerbit</th>
         <th>Nama Penerbit</th>

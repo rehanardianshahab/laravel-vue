@@ -38,7 +38,7 @@
 		// Check If form submitted, insert form data into users table.
 		if(isset($_POST['Submit'])) {
 			$id_katalog = $_POST['id_katalog'];
-			$nama_katalog = $_POST['nama'];
+			$nama = $_POST['nama'];
 			
 			include_once("../connect.php");
 

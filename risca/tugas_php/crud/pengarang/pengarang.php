@@ -16,7 +16,7 @@
 <center>
     <a href="../index.php">Buku</a> |
     <a href="../penerbit/penerbit.php">Penerbit</a> |
-    <a href="pengarang/pengarang.php">Pengarang</a> |
+    <a href="../pengarang/pengarang.php">Pengarang</a> |
     <a href="../katalog/katalog.php">Katalog</a>
     <hr>
 </center>

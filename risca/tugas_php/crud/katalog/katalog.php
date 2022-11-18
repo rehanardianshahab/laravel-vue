@@ -25,7 +25,7 @@
  
     <table class="table" width='80%' border=1>
     <tr>
-        <th>ID Penerbit</th>
+        <th>ID Katalog</th>
         <th>Nama Katalog</th>
         <th>Aksi</th>
     </tr>
