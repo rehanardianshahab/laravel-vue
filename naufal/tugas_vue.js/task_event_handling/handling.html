@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event Handling</title>
+  </head>
+  <body>
+    <!-- Listening to Events -->
+    <div id="example-1">
+      <button v-on:click="counter += 10">Add 10</button>
+      <p>The button above has been clicked {{ counter }} times.</p>
+    </div>
+
+    <!-- Method Event Handlers -->
+    <div id="example-2">
+      <!-- `greet` is the name of a method defined below -->
+      <button v-on:click="sapa">Sapa</button>
+    </div>
+    <br />
+    <!-- Methods in Inline Handlers -->
+    <div id="example-3">
+      <button v-on:click="say('so')">Say so</button>
+      <button v-on:click="say('yoru asa made')">Say yoru asa made</button>
+    </div>
+    <br />
+    <div id="example-3-1"><button v-on:click="warn('Form belum bisa disubmit.', $event)">Submit</button></div>
+    <br />
+
+    <!-- Event Modifiers -->
+    <div id="example-4">
+      <form v-on:submit.prevent action="">
+        <button v-on:click.once="counter += 10">Add 10</button>
+      </form>
+      <p>The button above has been clicked {{ counter }} times.</p>
+    </div>
+
+    <!-- Key Modifiers -->
+    <div>
+      <form action="">
+        <label for="content">Konten</label>
+        <input type="text" id="content" name="content" v-on:keyup.enter="submit" />
+      </form>
+    </div>
+  </body>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+  // Listening to Events
+  var example1 = new Vue({
+    el: "#example-1",
+    data: {
+      counter: 0,
+    },
+  });
+
+  // Method Event Handlers
+  var example2 = new Vue({
+    el: "#example-2",
+    data: {
+      name: "Pengunjung",
+    },
+    // define methods under the `methods` object
+    methods: {
+      sapa: function (event) {
+        // `this` inside methods points to the Vue instance
+        alert("Hello " + this.name + "!");
+        // `event` is the native DOM event
+        if (event) {
+          alert(event.target.tagName);
+        }
+      },
+    },
+  });
+
+  // Methods in Inline Handlers
+  new Vue({
+    el: "#example-3",
+    methods: {
+      say: function (message) {
+        alert(message);
+      },
+    },
+  });
+
+  new Vue({
+    el: "#example-3-1",
+    methods: {
+      warn: function (message, event) {
+        // now we have access to the native event
+        if (event) {
+          event.preventDefault();
+        }
+        alert(message);
+      },
+    },
+  });
+
+  // Event Modifiers
+  var example1 = new Vue({
+    el: "#example-4",
+    data: {
+      counter: 0,
+    },
+  });
+</script>
