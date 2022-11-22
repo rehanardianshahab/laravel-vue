@@ -16,19 +16,27 @@
  
 <body>
 
-<center>
-    <a href="index.php">Buku</a> |
-    <a href="penerbit/penerbit.php">Penerbit</a> |
-    <a href="pengarang/pengarang.php">Pengarang</a> |
-    <a href="katalog/katalog.php">Katalog</a>
-    <hr>
-</center>
+<ul class="nav justify-content-center bg-light">
+  <li class="nav-item">
+    <a class="nav-link" href="index.php">Buku</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="penerbit/penerbit.php">Penerbit</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="pengarang/pengarang.php">Pengarang</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="katalog/katalog.php">Katalog</a>
+  </li>
+</ul>
 
-<a href="buku/buku_add.php">Add New Buku</a><br/><br/>
+
+<a href="buku/buku_add.php" class="btn btn-primary mt-4">Add New Buku</a><br/><br/>
  
-    <table class="table" width='80%' border=1>
+    <table class="table table-bordered table-striped table-hover" width='80%' border=1>
  
-    <tr>
+    <tr class="bg-primary" style="text-align: center; color: #FFF;">
         <th>ISBN</th> 
         <th>Judul</th> 
         <th>Tahun</th> 

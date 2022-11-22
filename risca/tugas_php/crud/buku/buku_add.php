@@ -17,7 +17,7 @@
 	<br/><br/>
  
 	<form action="buku_add.php" method="post" name="form1">
-		<table width="25%" border="0">
+	<table width="25%" border="0">
 			<tr> 
 				<td>ISBN</td>
 				<td><input type="text" name="isbn"></td>
@@ -79,8 +79,7 @@
 				<td><input type="submit" name="Submit" value="Add"></td>
 			</tr>
 		</table>
-	</form>
-	
+		
 	<?php
 	 
 		// Check If form submitted, insert form data into users table.
