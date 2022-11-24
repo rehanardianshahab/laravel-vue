@@ -27,7 +27,7 @@
 ?>
 
 <body>
-	<a href="index.php">Go to Home</a>
+	<a href="../index.php">Go to Home</a>
 	<br/><br/>
  
 	<form action="buku_edit.php?isbn=<?php echo $isbn; ?>" method="post">
