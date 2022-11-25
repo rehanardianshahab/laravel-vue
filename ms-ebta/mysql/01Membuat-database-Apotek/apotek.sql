@@ -31,7 +31,7 @@ CREATE TABLE `daftar_obat` (
   `id` int(11) NOT NULL,
   `nama_obat` varchar(100) NOT NULL,
   `bentuk` varchar(100) NOT NULL,
-  `barcode` varchar(1000) NOT NULL,
+  `barcode` varchar(100) NOT NULL,
   `golongan` varchar(100) NOT NULL,
   `stok` int(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -95,7 +95,7 @@ CREATE TABLE `penjualan` (
   `waktu` datetime NOT NULL DEFAULT current_timestamp(),
   `nama_pembeli` varchar(100) NOT NULL,
   `id_dafar_obat` int(11) NOT NULL,
-  `Jumlah_penjualan` int(11) NOT NULL,
+  `jumlah_penjualan` int(11) NOT NULL,
   `id_karyawan` int(11) NOT NULL,
   `id_resep` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -117,7 +117,7 @@ CREATE TABLE `resep` (
   `nama_pasien` varchar(100) NOT NULL,
   `no_resep` varchar(100) NOT NULL,
   `dokter_resep` varchar(100) NOT NULL,
-  `daftar_obat` varchar(1000) NOT NULL
+  `daftar_obat` text(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
