@@ -93,7 +93,7 @@ CREATE TABLE `karyawan` (
 CREATE TABLE `penjualan` (
   `id` int(11) NOT NULL,
   `tanggal` date NOT NULL,
-  `waktu` time NOT NULL DEFAULT current_timestamp(),
+  `waktu` datetime NOT NULL DEFAULT current_timestamp(),
   `nama_pembeli` varchar(100) NOT NULL,
   `id_dafar_obat` int(11) NOT NULL,
   `Jumlah_penjualan` int(11) NOT NULL,
