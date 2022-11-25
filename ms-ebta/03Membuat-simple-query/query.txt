@@ -1,0 +1,29 @@
+// 1. memilih untuk menampilkan tabel penjualan dalam semua field dimana field 'nama_pembeli' sama dengan 'Sumiyati'
+        SELECT * FROM `penjualan` WHERE nama_pembeli = 'Sumiyati';
+
+// 2. memilih untuk menampilkan tabel penjualan dalam semua field dimana field 'id_resep' sama dengan 1 (semua penjualan dalam 1 resep dengan id 1)
+        SELECT * FROM `penjualan` WHERE id_resep = '1';
+
+// 3. memilih untuk menampilkan tabel penjualan dalam semua field dimana field 'id_karyawan' sama dengan 4 (semua penjualan yang dilakukan liliana cyntia)
+        SELECT * FROM `penjualan` WHERE id_karyawan = 4;
+
+// 4. memilih untuk menampilkan tabel resep dalam semua field dimana field 'daftar_obat' ada kata Antalgin (semua resep yang mengandung Antalgin)
+        SELECT * FROM `resep` WHERE daftar_obat LIKE '%Antalgin%';
+
+// 5. memilih untuk menampilkan tabel karyawan dalam field nama dan no_telp dimana field 'nama' sama dengan 'Levy Lion' (mencari nomor telpon Levy Lion)
+        SELECT no_telp, nama FROM `karyawan` WHERE nama = 'Levy Lion';
+
+// 6. memilih untuk menampilkan tabel resep dalam semua field dimana field 'tanggal' sama dengan '2022-11-28' (mencari penjualan resep pada tanggal 28)
+        SELECT * nama FROM `resep` WHERE tanggal = '2022-11-28';
+
+// 7. memilih untuk menampilkan tabel resep dalam field nama dimana field 'jabatan' sama dengan 'apoteker' (mencari siapa nama apoteker apotiknya)
+        SELECT nama FROM `karyawan` WHERE jabatan = 'apoteker';
+
+// 8. memilih untuk menampilkan tabel detil_obat dalam field `komposisi` dan `nama_standar_mims` dimana field `nama_standar_mims` mengandung kata 'claneksi' (mencari tau komposisi obat claneksi)
+        SELECT `komposisi`, `nama_standar_mims` FROM `detil_obat` WHERE `nama_standar_mims` LIKE '%claneksi%';
+
+// 9. memilih untuk menampilkan tabel penjualan dalam semua field (melihat semua daftar penjualan)
+        SELECT * FROM `penjualan`;
+
+// 10. memilih untuk menampilkan tabel resep dalam semua field dimana dokter_resep sama dengan Dr. Budi (melihat penjualan resep dari dokter Budi)
+        SELECT * FROM `resep` WHERE dokter_resep = 'Dr. Budi';
