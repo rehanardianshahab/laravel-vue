@@ -1,5 +1,0 @@
-1. UPDATE `pelanggan` SET `alamat`='jakarta' WHERE `id_pelanggan`='1';
-2. UPDATE `pelanggan` SET `nama`='[Zaskia febi]',`alamat`='Bogor' WHERE `id_pelanggan`='14';
-3. UPDATE `obat` SET `stok`='100' WHERE `id_obat`='5';
-4. DELETE FROM `pelanggan` WHERE id_pelanggan='1';
-5. DELETE FROM `detail_transaksi` WHERE id_detail = '10';
