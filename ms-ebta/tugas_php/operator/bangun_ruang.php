@@ -57,20 +57,24 @@
         <button name="submit" type="submit">submit</button>
 
         <?php 
-          if( isset($_POST['diameter']) && isset($_POST['Ttabung']) ) { 
-                $RTabung = $_POST['diameter']*0.5;
+          if( isset($_POST['Ttabung']) ) { 
+            if (strlen($_POST['jari2']) >= 1 ) {
+                $RTabung = $_POST['jari2'];
                 $LAlasTabung = $RTabung*$RTabung*3.14;
                 $Ttabung = $_POST['Ttabung'];
                 $Vtabung = $LAlasTabung*$Ttabung;
 
-            echo "<p>Volume Tabungan kamu adalah ".$Vtabung."cm";
-          } elseif ( isset($_POST['jari2']) && isset($_POST['Ttabung']) ) {
-            $RTabung = $_POST['jari2'];
-            $LAlasTabung = $RTabung*$RTabung*3.14;
-            $Ttabung = $_POST['Ttabung'];
-            $Vtabung = $LAlasTabung*$Ttabung;
+              echo "<p>Volume Tabungan kamu adalah ".$Vtabung."cm";
+            } elseif (strlen($_POST['diameter']) >= 1 ) {
+              $RTabung = $_POST['diameter']*0.5;
+              $LAlasTabung = $RTabung*$RTabung*3.14;
+              $Ttabung = $_POST['Ttabung'];
+              $Vtabung = $LAlasTabung*$Ttabung;
 
-            echo "<p>Volume Tabung kamu adalah ".$Vtabung."cm";
+              echo "<p>Volume Tabungan kamu adalah ".$Vtabung."cm";
+            } else {
+              echo "<p>silahkan masukkan diameter atau jari-jari dari atas tabung.</p>";
+            }    
           }
         ?>
       </fieldset>
