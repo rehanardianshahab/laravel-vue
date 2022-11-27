@@ -14,9 +14,11 @@
         background-color: #33adff;
       }
       <?php
-        for ($i=1; $i < 9; $i++) {
-          echo ".baris".$i.", ";
-          $i++;
+        $a = 1;
+        while ($a < 9) {
+          echo ".baris".$a.", ";
+          $a++;
+          $a++;
         }
       ?> .baris9 {
         background-color: #cccccc;
