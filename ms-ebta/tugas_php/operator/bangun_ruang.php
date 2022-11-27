@@ -79,7 +79,7 @@
         ?>
       </fieldset>
     </form>
-    <a href="bangun_datar.php"><button>Bersihkan</button></a>
+    <a href="bangun_ruang.php"><button>Bersihkan</button></a>
 </body>
 <script>
     function hilangr() {
