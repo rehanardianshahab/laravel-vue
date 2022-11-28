@@ -18,8 +18,7 @@
           padding: 0.5rem;
       }
       tbody tr:nth-child(odd) {
-          background-color: lightgray;
-          
+          background-color: lightgray;   
       }
     </style>
 </head>
