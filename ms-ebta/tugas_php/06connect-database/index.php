@@ -2,8 +2,10 @@
     require 'databases.php';
 
     $belum_pinjam = "SELECT anggota.* FROM `anggota` LEFT OUTER JOIN `peminjaman` ON peminjaman.id_anggota = anggota.id_anggota WHERE peminjaman.id_anggota IS NULL AND NOT role = 'admin';";
+    $sudah_pinjam = "SELECT anggota.* FROM anggota INNER JOIN peminjaman ON anggota.id_anggota = peminjaman.id_anggota GROUP BY peminjaman.id_anggota;";
     $belum_pinjam = query($belum_pinjam);
-    // var_dump($belum_pinjam);
+    $sudah_pinjam = query($sudah_pinjam);
+    // var_dump($sudah_pinjam);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,6 +39,30 @@
         </thead>
         <tbody>
           <?php foreach( $belum_pinjam as $datum ) : ?>
+            <?php $i++; ?>
+            <tr>
+              <td><?= $i; ?></td>
+              <td><?= $datum['nama']; ?></td>
+              <td><?= $datum['alamat']; ?></td>
+              <td><?= $datum['sex']; ?></td>
+              <td><?= $datum['tgl_entry']; ?></td>
+            </tr>
+          <?php endforeach ?>
+        </tbody>
+    </table>
+
+    <br />
+
+    <p>Daftar anggota yang sudah pernah meminjam buku :</p>
+    <?php $i = 0; ?>
+    <table>
+        <thead>
+          <tr>
+            <td>No</td><td>Nama</td><td>Alamat</td><td>Gender</td><td>Tgl. Pendaftaran</td>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach( $sudah_pinjam as $datum ) : ?>
             <?php $i++; ?>
             <tr>
               <td><?= $i; ?></td>
