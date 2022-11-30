@@ -31,8 +31,8 @@
     </style>
 </head>
 <body>
-  <nav>
-    <a>Buku</a><a>Anggota</a><a>Katalog</a>
+ <nav>
+    <?php require '../navigasi.php'; ?>
   </nav>
   <hr /><br />
   <a href="tambah.php">

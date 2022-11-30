@@ -26,7 +26,6 @@
         $pengarang = query($pengarang);
         // fetch data katalig
         $katalog = query($katalog);
-        var_dump($data_buku);
 
     // mulai editing
     if ( isset($_POST["submit"]) ) {

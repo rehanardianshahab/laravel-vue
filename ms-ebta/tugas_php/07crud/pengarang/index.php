@@ -32,7 +32,7 @@
 </head>
 <body>
   <nav>
-    <a>Buku</a><a>Anggota</a><a>Katalog</a>
+    <?php require '../navigasi.php'; ?>
   </nav>
   <hr /><br />
   <a href="tambah.php">
