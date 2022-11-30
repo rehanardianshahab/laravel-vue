@@ -3,6 +3,7 @@
 ||||||||||||||||||||||||sistem edit|||||||||||||||||||||||||||||
 ================================================================*/
 	function edit( $data, $koneksi, $tabel ){
+        mysqli_query($koneksi, 'SET foreign_key_checks = 0');
 		// ambil data dari tiap elemen dalam form
         $keyValue = [];
         $forquery = '';
@@ -24,8 +25,9 @@
 
             // query insert data {menambah statement where}
             foreach ($_GET as $key => $value) {
-                $queryEdit = "UPDATE ".$tabel." VALUE SET ".$forquery." WHERE ". $key." = ".$value;
+                $queryEdit = "UPDATE ".$tabel." VALUE SET ".$forquery." WHERE ". $key." = '".strtolower($value)."'";
             }
+            echo $queryEdit;
 
         // melakukan query
         mysqli_query($koneksi, $queryEdit);
@@ -47,6 +49,7 @@
                     alert('data gagal ditambahkan');
                 </script>";
         };
+        mysqli_query($koneksi, 'SET foreign_key_checks = 1');
 	}
 ?>
 
@@ -83,7 +86,7 @@
 		if ( mysqli_affected_rows($koneksi) == 1 ) {
             // membuat redirec setelah menginput
            echo "<script>
-                    alert('data berhasil dutambahkan');
+                    alert('data berhasil ditambahkan');
                     document.location.href = 'index.php'; /*redirect versi js*/
                 </script>";
         } else {
@@ -99,8 +102,9 @@
 |||||||||||||||||||||||||||sistem Hapus||||||||||||||||||||||||||||
 ===================================================================*/
     function hapus( $data, $koneksi, $tabel ) {
+        mysqli_query($koneksi, 'SET foreign_key_checks = 0');
         foreach ($_GET as $key => $value) {
-            mysqli_query($koneksi, "DELETE FROM ".$tabel." WHERE ". $key . " = ". $value );
+            mysqli_query($koneksi, "DELETE FROM ".$tabel." WHERE ". $key . " = '". $value."'" );
         }
         
         // mengembalikan nilai jika ada manipulasi data di database 
@@ -115,5 +119,6 @@
                     alert('data gagal ditambahkan';
                 </script>";
         };
+        mysqli_query($koneksi, 'SET foreign_key_checks = 1');
     }
 ?>
