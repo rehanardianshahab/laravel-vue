@@ -98,7 +98,7 @@
 
         <label for="id_katalog">Katalog : </label>
         <select name="id_katalog" id="id_katalog" required>
-            <option value="">Pilih pengarang</option>
+            <option value="">Pilih katalog</option>
           <?php foreach ($katalog as $key => $val) : ?>
                 <option value="<?= $val['id_katalog']; ?>"><?= $val['nama']; ?></option>
            <?php endforeach; ?>
