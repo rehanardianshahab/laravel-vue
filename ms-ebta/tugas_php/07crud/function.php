@@ -27,7 +27,6 @@
             foreach ($_GET as $key => $value) {
                 $queryEdit = "UPDATE ".$tabel." VALUE SET ".$forquery." WHERE ". $key." = '".strtolower($value)."'";
             }
-            echo $queryEdit;
 
         // melakukan query
         mysqli_query($koneksi, $queryEdit);
