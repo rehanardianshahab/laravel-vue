@@ -28,7 +28,7 @@
     if ( isset($_POST["submit"]) ) {
         $forCheckId = true;
         foreach( $data_buku as $id ) {
-            if ( $id["isbn"] == $_POST["isbn"] ) {
+            if ( strtolower($id["isbn"]) == strtolower($_POST["isbn"]) ) {
                 $forCheckId = false;
                 if ($forCheckId==false) {
                     break;
