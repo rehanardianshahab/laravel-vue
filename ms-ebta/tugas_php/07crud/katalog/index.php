@@ -28,29 +28,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Katalog</title>
-    <style>
-        table {
-          border-collapse: collapse;
-      }
-      th, td {
-          border: solid 1px black;
-          padding: 0.5rem;
-      }
-      tbody tr:nth-child(odd) {
-          background-color: lightgray;   
-      }
-    </style>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
  <nav>
     <?php require '../navigasi.php'; ?>
   </nav>
-  <hr /><br />
-  <a href="tambah.php">
-    <button type="button">Tambah Data</button>
-  </a>
+  <br />
   
   <main>
+
+    <a href="tambah.php">
+      <button type="button">Tambah Data</button>
+    </a>
 
     <br><br>
     <form action="" method="post">
