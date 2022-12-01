@@ -43,7 +43,7 @@
         <br />
 
         <label for="telp">No. Telp : </label>
-        <input type="number" name="telp" id="telp" value="<?= $penerbitBuku['telp']; ?>" required>
+        <input type="number" name="telp" id="telp" value="<?= $penerbitBuku['telp']; ?>">
         
         <br />
 

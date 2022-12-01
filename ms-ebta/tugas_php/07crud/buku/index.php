@@ -54,11 +54,6 @@
   <a href="tambah.php">
     <button type="button">Tambah Data</button>
   </a>
-  <?php if (isset($_POST['cari'])) : ?>
-    <a href="index.php">
-      <button type="button">Tampilkan Semua Data</button>
-    </a>
-  <?php endif ?>
   <main>
 
     <br><br>
