@@ -4,10 +4,10 @@
     require '../function.php';
 
     // ambil data primaty key di url
-    $id = $_GET["id_anggota"];
+    $id = $_GET["isbn"];
 
     // mulai input data
-    if ( isset($_GET["id_anggota"]) ) {
-        hapus( $_GET, $conn , 'anggota');
+    if ( isset($_GET["isbn"]) ) {
+        hapus( $_GET, $conn , 'buku');
     }
 ?>

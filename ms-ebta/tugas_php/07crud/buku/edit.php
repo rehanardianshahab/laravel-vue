@@ -26,10 +26,41 @@
         $pengarang = query($pengarang);
         // fetch data katalig
         $katalog = query($katalog);
+        
+        // query isbn
+        $isbn = "SELECT isbn FROM buku";
+        $isbn = query($isbn);
+        $isbnCheck = "SELECT isbn FROM buku WHERE NOT isbn = '".$id."'";
+        $isbnCheck = query($isbnCheck);
+        // var_dump($isbnCheck);
 
     // mulai editing
     if ( isset($_POST["submit"]) ) {
-        edit( $_POST, $conn, 'buku' );
+            $forCheckId = true;
+        foreach( $isbnCheck as $id ) {
+            if ( strtolower($id["isbn"]) == strtolower($_POST["isbn"] )) {
+                $forCheckId = false;
+                if ($forCheckId==false) {
+                    break;
+                }
+            } else {
+                $forCheckId = true;
+            }
+        }
+        // if ( strlen($_POST["id_katalog"])>3 ) {
+            //     echo "<script>
+            //             alert('Data Id Katalog tidak boleh lebih dari 3 karakter');
+            //         </script>";
+            // } else {
+                if ($forCheckId) {
+                    edit( $_POST, $conn, 'buku' );
+                } else {
+                    echo "<script>
+                            alert('Data Isbn Tidak boleh sama dengan yang sudah ada');
+                        </script>";
+                }
+            // }
+        // edit( $_POST, $conn, 'buku' );
     }
 ?>
 <!DOCTYPE html>
@@ -108,5 +139,21 @@
 
         <button type="submit" name="submit">Edit Data</button>
     </form>
+    <?php if ( isset($_POST["submit"]) ) : ?>
+        <?php if ($forCheckId==false) : ?>
+        <p>
+            Daftar Id Katalog yang sudah ada :
+            <ul>
+              <?php foreach ( $isbn as $data ) : ?>
+                <?php if ( strtolower($data["isbn"]) == strtolower($_GET["isbn"]) ) : ?>
+                    <li><?= $_GET['isbn']; ?> <span style="color: red;">(ini adalah id kamu saat ini)</span></li>
+                  <?php else : ?>
+                    <li><?= $data['isbn']; ?>
+                <?php endif; ?>
+              <?php endforeach; ?>
+            </ul>
+        </p>
+        <?php endif; ?>
+    <?php endif; ?>
 </body>
 </html>

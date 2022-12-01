@@ -8,7 +8,11 @@
 
   // fetch datanya dengan fungsi query (dari file databases)
     $data_anggota = query($data_anggota);
-
+    
+  // menjaankan pencarian
+    if (isset($_POST['cari'])) {
+      $data_anggota = cari($_POST['keyword'], 'anggota');
+    }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -39,6 +43,14 @@
     <button>Tambah Data</button>
   </a>
   <main>
+
+    <br><br>
+    <form action="" method="post">
+      <input type="text" name="keyword" size="50" autofocus placeholder="Masukkan Keyword" autocomplete="off">
+      <button type="submit" name="cari">Cari Data</button>
+    </form>
+    <br />
+
     <?php $i = 0; ?>
     <table>
         <thead>

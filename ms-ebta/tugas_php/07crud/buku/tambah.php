@@ -38,7 +38,7 @@
             }
         };
         if ($forCheckId) {
-            tambah( $_POST, $conn, 'katalog' );
+            tambah( $_POST, $conn, 'buku' );
         } else {
             echo "<script>
                     alert('Data Isbn Tidak boleh sama dengan yang sudah ada');

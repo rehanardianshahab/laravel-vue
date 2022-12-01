@@ -9,6 +9,22 @@
   // fetch datanya dengan fungsi query (dari file databases)
     $data_buku = query($data_buku);
 
+  // menjaankan pencarian
+  if (isset($_POST['cari'])) {
+    // query untuk syarat search
+    $keyword = $_POST['keyword'];
+		$query = "SELECT * FROM buku WHERE
+    isbn LIKE '%$keyword%' OR
+    judul LIKE '%$keyword%' OR
+    tahun LIKE '%$keyword%' OR
+    id_penerbit LIKE '%$keyword%' OR
+    id_pengarang LIKE '%$keyword%' OR
+    id_katalog LIKE '%$keyword%' OR
+    tahun LIKE '%$keyword%'";
+    // jalankan fungsinya
+    $data_buku = cari($query);
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +54,20 @@
   <a href="tambah.php">
     <button type="button">Tambah Data</button>
   </a>
+  <?php if (isset($_POST['cari'])) : ?>
+    <a href="index.php">
+      <button type="button">Tampilkan Semua Data</button>
+    </a>
+  <?php endif ?>
   <main>
+
+    <br><br>
+    <form action="" method="post">
+      <input type="text" name="keyword" size="50" autofocus placeholder="Masukkan Keyword" autocomplete="off">
+      <button type="submit" name="cari">Cari Data</button>
+    </form>
+    <br />
+
     <?php $i = 0; ?>
     <table>
         <thead>
