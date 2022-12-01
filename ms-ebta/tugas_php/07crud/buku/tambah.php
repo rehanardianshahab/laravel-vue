@@ -28,7 +28,7 @@
     if ( isset($_POST["submit"]) ) {
         $forCheckId = true;
         foreach( $data_buku as $id ) {
-            if ( $id["isbn"] == $_POST["isbn"] ) {
+            if ( strtolower($id["isbn"]) == strtolower($_POST["isbn"]) ) {
                 $forCheckId = false;
                 if ($forCheckId==false) {
                     break;
@@ -38,7 +38,7 @@
             }
         };
         if ($forCheckId) {
-            tambah( $_POST, $conn, 'katalog' );
+            tambah( $_POST, $conn, 'buku' );
         } else {
             echo "<script>
                     alert('Data Isbn Tidak boleh sama dengan yang sudah ada');
@@ -52,7 +52,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Data Anggota</title>
+    <title>Tambah Data Buku</title>
 </head>
 <body>
     <form action="" method="post">

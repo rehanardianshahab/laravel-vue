@@ -9,6 +9,19 @@
   // fetch datanya dengan fungsi query (dari file databases)
     $data_pengarang = query($data_pengarang);
 
+  // menjaankan pencarian
+  if (isset($_POST['cari'])) {
+    // query untuk syarat search
+    $keyword = $_POST['keyword'];
+		$query = "SELECT * FROM pengarang WHERE
+    id_pengarang LIKE '%$keyword%' OR
+    nama_pengarang LIKE '%$keyword%' OR
+    email LIKE '%$keyword%' OR
+    alamat LIKE '%$keyword%'";
+    // jalankan fungsinya
+    $data_pengarang = cari($query);
+  }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +29,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data Katalog</title>
+    <title>Data Pengarang</title>
     <style>
         table {
           border-collapse: collapse;
@@ -39,6 +52,19 @@
     <button type="button">Tambah Data</button>
   </a>
   <main>
+
+    <br><br>
+    <form action="" method="post">
+      <input type="text" name="keyword" size="50" autofocus placeholder="Masukkan Keyword" autocomplete="off">
+      <button type="submit" name="cari">Cari Data</button>
+      <?php if (isset($_POST['cari'])) : ?>
+        <a href="index.php">
+          <button type="button">Tampilkan Semua Data</button>
+        </a>
+      <?php endif ?>
+    </form>
+    <br />
+
     <?php $i = 0; ?>
     <table>
         <thead>

@@ -10,7 +10,7 @@
     if ( isset($_POST["submit"]) ) {
         $forCheckId = true;
         foreach( $dataId as $id ) {
-            if ( $id["id_penerbit"] == $_POST["id_penerbit"] ) {
+            if ( strtolower($id["id_penerbit"]) == strtolower($_POST["id_penerbit"]) ) {
                 $forCheckId = false;
                 if ($forCheckId==false) {
                     break;

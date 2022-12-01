@@ -10,7 +10,7 @@
     if ( isset($_POST["submit"]) ) {
         $forCheckId = true;
         foreach( $dataId as $id ) {
-            if ( $id["id_pengarang"] == $_POST["id_pengarang"] ) {
+            if ( strtolower($id["id_pengarang"]) == strtolower($_POST["id_pengarang"]) ) {
                 $forCheckId = false;
                 if ($forCheckId==false) {
                     break;
@@ -40,7 +40,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Data Katalog</title>
+    <title>Tambah Data Pengarang</title>
 </head>
 <body>
     <form action="" method="post">

@@ -18,17 +18,17 @@
 
     // jalankan fungsi edit
     if ( isset($_POST["submit"]) ) {
-        $forCheckId = true;
-        foreach( $dataId as $id ) {
-            if ( strtolower($id["id_katalog"]) == strtolower($_POST["id_katalog"] )) {
-                $forCheckId = false;
-                if ($forCheckId==false) {
-                    break;
-                }
-            } else {
-                $forCheckId = true;
-            }
-        };
+        // $forCheckId = true;
+        // foreach( $dataId as $id ) {
+        //     if ( strtolower($id["id_katalog"]) == strtolower($_POST["id_katalog"] )) {
+        //         $forCheckId = false;
+        //         if ($forCheckId==false) {
+        //             break;
+        //         }
+        //     } else {
+        //         $forCheckId = true;
+        //     }
+        // };
         // if ( strlen($_POST["id_katalog"])>3 ) {
         //     echo "<script>
         //             alert('Data Id Katalog tidak boleh lebih dari 3 karakter');
@@ -42,6 +42,7 @@
         //             </script>";
         //     }
         // }
+        edit( $_POST, $conn, 'katalog' );
     }
 ?>
 <!DOCTYPE html>
@@ -50,7 +51,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hapus Data Anggota</title>
+    <title>Edit Data Katalog</title>
 </head>
 <body>
     <form action="" method="post">
