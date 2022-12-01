@@ -65,6 +65,11 @@
     <form action="" method="post">
       <input type="text" name="keyword" size="50" autofocus placeholder="Masukkan Keyword" autocomplete="off">
       <button type="submit" name="cari">Cari Data</button>
+      <?php if (isset($_POST['cari'])) : ?>
+        <a href="index.php">
+          <button type="button">Tampilkan Semua Data</button>
+        </a>
+      <?php endif ?>
     </form>
     <br />
 
