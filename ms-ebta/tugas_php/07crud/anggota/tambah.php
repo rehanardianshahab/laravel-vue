@@ -18,7 +18,7 @@
 </head>
 <body>
     <form action="" method="post">
-        <input type="hidden" name="id" value="">
+        <input type="hidden" name="id_anggota" value="">
         
         <br />
 

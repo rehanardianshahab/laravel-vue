@@ -58,25 +58,32 @@
 ===================================================================*/
     function tambah( $data, $koneksi, $tabel ) {
         $keyValue = [];
+        $thekey = [];
         foreach ($data as $key => $value) {
             $value = htmlspecialchars($value);
             array_push($keyValue, $value);
+            array_push($thekey, $key);
         }
 
         // // Pembuatan sintaks query
         $j = count($data);
+        $forkey = '';
         $forquery = '';
             // finishing untuk query {menambah koma}
             for ($i = 0, $k = 1; $i < $j-1; $i++, $k++) {
                 $forquery = $forquery."'".$keyValue[$i]."'";
+                $forkey = $forkey.$thekey[$i];
                 if ($k<$j-1) {
                     $forquery = $forquery.', ';
+                    $forkey = $forkey.', ';
                 }
             }
 
             // query insert data
-            $queryInsert = "INSERT INTO ". $tabel." VALUE (".$forquery.")";
+            $queryInsert = "INSERT INTO $tabel ($forkey)
+            VALUES ($forquery)";
             echo $queryInsert;
+            // var_dump($queryInsert);
 
         // melakukan query
         mysqli_query($koneksi, $queryInsert);
