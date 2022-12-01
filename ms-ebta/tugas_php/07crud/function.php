@@ -76,7 +76,7 @@
 
             // query insert data
             $queryInsert = "INSERT INTO ". $tabel." VALUE (".$forquery.")";
-            echo $queryInsert;
+            // echo $queryInsert;
 
         // melakukan query
         mysqli_query($koneksi, $queryInsert);
