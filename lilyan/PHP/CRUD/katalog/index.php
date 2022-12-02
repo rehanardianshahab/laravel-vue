@@ -12,31 +12,40 @@
  
 <body>
 
-<center>
-    <a href="../buku/index.php">Buku</a> |
-    <a href="../penerbit/index.php">Penerbit</a> |
-    <a href="../pengarang/index.php">Pengarang</a> |
-    <a href="../katalog/index.php">Katalog</a>
-    <hr>
-</center>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <ul class="navbar-nav mx-auto">
+      <li class="nav-item">
+        <a class="nav-link mx-3" href="../buku/index.php">Buku</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link mx-3" href="../penerbit/index.php">Penerbit</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link mx-3" href="../pengarang/index.php">Pengarang</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link mx-3 active" aria-current="page" href="../katalog/index.php">Katalog</a>
+      </li>
+    </ul>
+</nav>
+<br>
 
-<a href="add.php">Add New Katalog</a><br/><br/>
+<a class="btn btn-outline-primary" href="add.php">Add New Katalog</a><br/><br/>
  
-    <table class="table" width='80%' border=1>
- 
-    <tr>
-        <th>ID Katalog</th> 
-        <th>Nama Katalog</th> 
-        <th>Aksi</th>
-    </tr>
-    <?php  
-        while($data_katalog = mysqli_fetch_array($katalog)) {         
-            echo "<tr>";
-            echo "<td>".$data_katalog['id_katalog']."</td>";
-            echo "<td>".$data_katalog['nama']."</td>";    
-            echo "<td><a class='btn btn-primary' href='edit.php?id_katalog=$data_katalog[id_katalog]'>Edit</a> | <a class='btn btn-danger' href='delete.php?id_katalog=$data_katalog[id_katalog]'>Delete</a></td></tr>";        
-        }
-    ?>
+    <table class="table table-striped" border=1>
+      <tr>
+          <th>ID Katalog</th> 
+          <th>Nama Katalog</th> 
+          <th>Aksi</th>
+      </tr>
+      <?php  
+          while($data_katalog = mysqli_fetch_array($katalog)) {         
+              echo "<tr>";
+              echo "<td>".$data_katalog['id_katalog']."</td>";
+              echo "<td>".$data_katalog['nama']."</td>";    
+              echo "<td><a class='btn btn-primary' href='edit.php?id_katalog=$data_katalog[id_katalog]'>Edit</a> | <a class='btn btn-danger' href='delete.php?id_katalog=$data_katalog[id_katalog]'>Delete</a></td></tr>";        
+          }
+      ?>
     </table>
 </body>
 </html>
