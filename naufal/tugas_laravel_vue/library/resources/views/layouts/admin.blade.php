@@ -33,7 +33,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="index3.html" class="nav-link">Home</a>
+        <a href="{{ url('home') }}" class="nav-link">Home</a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
         <a href="#" class="nav-link">Contact</a>
@@ -207,11 +207,63 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+
+               {{-- HOME --}}
           <li class="nav-item">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+            <a href="{{ url('home') }}" class="nav-link {{ request()->is('home') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-home"></i>
               <p>
                 Home
+              </p>
+            </a>
+          </li>
+
+          {{-- CATALOG --}}
+          <li class="nav-item">
+            <a href="{{ url('catalog') }}" class="nav-link {{ request()->is('catalog') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-bookmark"></i>
+              <p>
+                Catalog
+              </p>
+            </a>
+          </li>
+
+          {{-- PUBLISHER --}}
+          <li class="nav-item">
+            <a href="{{ url('publisher') }}" class="nav-link {{ request()->is('publisher') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-building"></i>
+              <p>
+                Publisher
+              </p>
+            </a>
+          </li>
+
+          {{-- AUTHOR --}}
+          <li class="nav-item">
+            <a href="{{ url('author') }}" class="nav-link {{ request()->is('author') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-user"></i>
+              <p>
+                Author
+              </p>
+            </a>
+          </li>
+
+          {{-- BOOK --}}
+          <li class="nav-item">
+            <a href="{{ url('book') }}" class="nav-link {{ request()->is('book') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-book"></i>
+              <p>
+                Book
+              </p>
+            </a>
+          </li>
+
+          {{-- MEMBER --}}
+          <li class="nav-item">
+            <a href="{{ url('member') }}" class="nav-link {{ request()->is('member') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-users"></i>
+              <p>
+                Member
               </p>
             </a>
           </li>
@@ -229,7 +281,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0">@yield('header')</h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
