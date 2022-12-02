@@ -4,5 +4,4 @@
   <a href="../penerbit">Penerbit</a> |
   <a href="../pengarang">Pengarang</a> |
   <a href="../katalog">Katalog</a>
-    <hr>
 </center>

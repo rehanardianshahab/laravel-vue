@@ -29,32 +29,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data anggota</title>
-    <style>
-        table {
-          border-collapse: collapse;
-      }
-      th, td {
-          border: solid 1px black;
-          padding: 0.5rem;
-      }
-      tbody tr:nth-child(odd) {
-          background-color: lightgray;   
-      }
-    </style>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
   <nav>
     <?php require '../navigasi.php'; ?>
   </nav>
-  <hr /><br />
-  <a href="tambah.php">
-    <button>Tambah Data</button>
-  </a>
   <main>
+  
+    <br />
+    <a href="tambah.php">
+      <button>Tambah Data</button>
+    </a>
 
     <br><br>
     <form action="" method="post">
-      <input type="text" name="keyword" size="50" autofocus placeholder="Masukkan Keyword" autocomplete="off">
+      <input class="cari" type="text" name="keyword" size="50" autofocus placeholder="Masukkan Keyword" autocomplete="off">
       <button type="submit" name="cari">Cari Data</button>
       <?php if (isset($_POST['cari'])) : ?>
         <a href="index.php">
@@ -86,7 +76,7 @@
           <?php foreach( $data_anggota as $datum ) : ?>
             <?php $i++; ?>
             <tr>
-              <td><?= $i; ?></td>
+              <td><?= $i; ?>.</td>
               <!-- <td><?= $datum['id_anggota']; ?></td> -->
               <td><?= $datum['nama']; ?></td>
               <td><?= $datum['username']; ?></td>
