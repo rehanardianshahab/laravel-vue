@@ -1,0 +1,100 @@
+/* ==================== gambar persegi =============================== */
+/* text */
+.gb p {
+    text-align: center;
+    font-size: 150%;
+    margin-left: 2%;
+    transform: translateY(100%);
+}
+/* img */
+.gb img {
+    width: 100%;
+    height: auto;
+}
+.persegi {
+    width: 100%;
+    max-width: 150px;
+    margin-top: -3%;
+}
+/* ==================== gambar persegi panjang ====================== */
+/* text */
+.text-samping {
+    display: inline-block;
+    transform: translateY(70%);
+    font-size: 150%;
+}
+/* img */
+.ppanjang {
+    width: 100%;
+    max-width: 150px;
+    margin-top: -2%;
+    min-width: 15%;
+}
+.ppanjang img, .ppanjang p {
+    min-width: 200px;
+}
+.block-gb {
+    display: flex;
+    align-items: center;
+    margin-top: -3%;
+}
+/* ==================== gambar segi tiga ====================== */
+/* text */
+.s3 p {
+    text-align: center;
+    font-size: 150%;
+    margin-left: 2%;
+    transform: translateY(-100%);
+}
+.text-samping-s3 {
+    display: inline-block;
+    font-size: 150%;
+    transform: translatex(-120%);
+}
+.text-s3 {
+    margin-top: -5%;
+}
+/* img */
+.s3 {
+    width: 100%;
+    max-width: 150px;
+    min-width: 15%;
+}
+.block-s3 {
+    display: flex;
+    align-items: center;
+}
+.s3 img, .s3 p {
+    min-width: 200px;
+}
+/* ==================== gambar persegi panjang ====================== */
+/* text */
+.bawah {
+    margin-top: -0.6rem;
+}
+.atas {
+    margin-bottom: -0.4rem;
+}
+.trapezoid p {
+    text-align: center;
+    font-size: 150%;
+    margin-left: 2%;
+}
+/* img */
+.trapezoid {
+    width: 100%;
+    max-width: 150px;
+    /* margin-top: -3%; */
+    min-width: 15%;
+}
+.trapezoid img {
+    width: 100%;
+    height: auto;
+}
+.box-trapezoid {
+    display: flex;
+    align-items: center;
+}
+.kiri-trpz {
+    transform: translateX(190%);
+}
