@@ -1,5 +1,0 @@
-1. UPDATE `karyawan` SET `no_telp`='088123' WHERE `id` = 2;
-2. UPDATE `resep` SET `dokter_resep`='Dr. Andini' WHERE `id`= 1;
-3. UPDATE `daftar_obat` SET `nama_obat`='Captopril 12.5mg Tablet' WHERE `id`= 1;
-4. DELETE FROM `karyawan` WHERE id = 5;
-5. DELETE FROM `penjualan` WHERE id = 10;
