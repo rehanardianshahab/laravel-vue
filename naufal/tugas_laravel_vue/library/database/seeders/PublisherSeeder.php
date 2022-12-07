@@ -20,7 +20,7 @@ class PublisherSeeder extends Seeder
         for ($i=0; $i<10; $i++) {
             $publisher = new Publisher;
 
-            $publisher->name = $faker->name;
+            $publisher->publisher_name = $faker->name;
             $publisher->email = $faker->email;
             $publisher->phone_number = '082'.$faker->randomNumber(8);
             $publisher->address = $faker->address;

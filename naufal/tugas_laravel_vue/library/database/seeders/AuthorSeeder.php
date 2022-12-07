@@ -20,7 +20,7 @@ class AuthorSeeder extends Seeder
         for ($i=0; $i < 20; $i++) {
             $author = new Author;
 
-            $author->name = $faker->name;
+            $author->author_name = $faker->name;
             $author->email = $faker->email;
             $author->phone_number = '08'.$faker->randomNumber(8);
             $author->address = $faker->address;

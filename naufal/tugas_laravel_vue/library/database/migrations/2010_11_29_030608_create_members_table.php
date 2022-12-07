@@ -20,6 +20,8 @@ class CreateMembersTable extends Migration
             $table->char('phone_number', 15);
             $table->text('address');
             $table->string('email', 64);
+            $table->string('role', 64);
+            $table->date('entry_date');
             $table->timestamps();
         });
     }

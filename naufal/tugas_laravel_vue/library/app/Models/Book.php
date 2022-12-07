@@ -20,4 +20,8 @@ class Book extends Model
     public function catalog() {
         return $this->belongsTO('App\Models\Catalog', 'catalog_id');
     }
+
+    protected $primaryKey = 'isbn';
+
+    public $incrementing = false;
 }
