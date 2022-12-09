@@ -25,6 +25,7 @@ class MemberSeeder extends Seeder
         	$member->phone_number = '0821'.$faker->randomNumber(8);
         	$member->address = $faker->address;
         	$member->email = $faker->email;
+            $member->role = $faker->randomElement(['admin', 'user']);
 
         	$member->save();
         }
