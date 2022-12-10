@@ -15,6 +15,7 @@
             <th style="width: 10px">#</th>
             <th class="text-center">Author Name</th>
             <th class="text-center">Email</th>
+            <th class="text-center">Phone Number</th>
             <th class="text-center">Address</th>
           </tr>
         </thead>
@@ -24,6 +25,7 @@
             <td>{{ $key+1 }}</td>
             <td>{{ $author->author_name }}</td>
             <td class="text-center">{{ $author->email }}</td>
+            <td class="text-center">{{ $author->phone_number }}</td>
             <td class="text-center">{{ $author->address }}</td>
           </tr>
           @endforeach
