@@ -5,7 +5,7 @@
 @section('content')
 <div class="card">
   <div class="card-header">
-    <h3 class="card-title">Data Catalog</h3>
+    <a href="{{ url('catalogs/create') }}" class="btn btn-sm btn-primary">Create New Catalog</a>
   </div>
   <!-- /.card-header -->
   <div class="card-body p-0">
@@ -16,6 +16,7 @@
           <th class="text-center">Catalog</th>
           <th class="text-center">Total Books</th>
           <th class="text-center">Created at</th>
+          <th class="text-center">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -25,6 +26,14 @@
           <td>{{ $catalog->catalog_name }}</td>
           <td class="text-center">{{ count($catalog->books) }}</td>
           <td class="text-center">{{ date('d/m/Y', strtotime($catalog->created_at)) }}</td>
+          <td class="text-center">
+            <a href="{{ url('catalogs/'.$catalog->id.'/edit') }}" class="btn btn-sm btn-warning">Edit</a>
+            <form action="{{ url('catalogs', ['id' => $catalog->id]) }}" method="post">
+              <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+              @method('delete')
+              @csrf
+            </form>
+          </td>
         </tr>
         @endforeach
       </tbody>
