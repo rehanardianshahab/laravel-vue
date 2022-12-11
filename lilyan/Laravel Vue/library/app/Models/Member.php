@@ -7,5 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Member extends Model
 {
-    use HasFactory;
+    use HasFactory; 
+
+    public function user()
+    {
+        return $this->hasOne('App\Models\User', 'member_id');
+    }
 }
