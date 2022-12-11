@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Basic Component Vue.JS</title>
+  </head>
+  <body>
+    <div id="app" v-if="status == 'show' ">
+      {{ message }}<br /><br />
+      <label v-for="user in users"
+        >Nama item: {{ user.item }}<br />
+        Stok: {{ user.stok }}<br /><br
+      /></label>
+    </div>
+  </body>
+</html>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script type="text/javascript">
+  var app = new Vue({
+    el: "#app",
+    data: {
+      message: "Selamat Datang di Stok Barang Kami",
+      status: "show",
+      users: [
+        {
+          item: "Apel",
+          stok: 20,
+        },
+        {
+          item: "Pisang",
+          stok: 17,
+        },
+        {
+          item: "Brokoli",
+          stok: 19,
+        },
+        {
+          item: "Kangkung",
+          stok: 15,
+        },
+        {
+          item: "Asparagus",
+          stok: 18,
+        },
+      ],
+    },
+  });
+</script>
