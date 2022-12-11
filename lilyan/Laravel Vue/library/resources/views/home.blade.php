@@ -4,6 +4,10 @@
     Halaman Home
 @endsection
 
+@section('header')
+    Home
+@endsection
+
 @section('content')
 
 @endsection
