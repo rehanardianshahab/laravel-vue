@@ -5,5 +5,5 @@
 @section('header', 'Book')
 
 @section('content')
-    
+    Ini Halaman Book
 @endsection

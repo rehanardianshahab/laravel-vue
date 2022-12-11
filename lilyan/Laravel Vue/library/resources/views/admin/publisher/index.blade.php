@@ -5,5 +5,5 @@
 @section('header','Publisher')
 
 @section('content')
-    
+    Ini Halaman Publisher
 @endsection
