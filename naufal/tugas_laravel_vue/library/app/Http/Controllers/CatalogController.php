@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Catalog;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class CatalogController extends Controller
 {
@@ -82,7 +83,7 @@ class CatalogController extends Controller
     public function update(Request $request, Catalog $catalog)
     {
         $this->validate($request, [
-            'catalog_name' => ['required', 'unique:catalogs'],
+            'catalog_name' => ['required', Rule::unique('catalogs')->ignore($catalog->id)],
         ]);
 
         $catalog->update($request->all());

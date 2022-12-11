@@ -40,7 +40,7 @@
 
                 <div class="form-group">
                   <label for="address">Address</label>
-                  <input type="text" class="form-control" id="address" name="address" placeholder="Enter publisher's addres" required>
+                  <input type="text" class="form-control" id="address" name="address" placeholder="Enter publisher's addres">
                 </div>
               </div>
               <!-- /.card-body -->
