@@ -17,17 +17,26 @@
               <div class="card-body">
                 <div class="form-group">
                   <label for="publisher_name">Name</label>
-                  <input type="text" class="form-control" id="publisher_name" name="publisher_name" placeholder="Enter publisher's name" value="{{ $publisher->publisher_name }}" required>
+                  <input type="text" class="form-control @error('publisher_name') is-invalid @enderror" id="publisher_name" name="publisher_name" placeholder="Enter publisher's name" value="{{ $publisher->publisher_name }}" required>
+                  @error('publisher_name')
+                      <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
 
                 <div class="form-group">
                   <label for="email">Email</label>
-                  <input type="text" class="form-control" id="email" name="email" placeholder="Enter publisher's email" value="{{ $publisher->email }}" required>
+                  <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" placeholder="Enter publisher's email" value="{{ $publisher->email }}" required>
+                  @error('email')
+                      <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
 
                 <div class="form-group">
                   <label for="phone_number">Phone Number</label>
-                  <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Enter publisher's phone number" value="{{ $publisher->phone_number }}" required>
+                  <input type="text" class="form-control @error('phone_number') is-invalid @enderror" id="phone_number" name="phone_number" placeholder="Enter publisher's phone number" value="{{ $publisher->phone_number }}" required>
+                  @error('phone_number')
+                      <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
 
                 <div class="form-group">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Publisher;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class PublisherController extends Controller
 {
@@ -81,9 +82,9 @@ class PublisherController extends Controller
     public function update(Request $request, Publisher $publisher)
     {
         $this->validate($request, [
-            'publisher_name' => ['required', 'unique:publishers', 'max:255'],
-            'email' => ['required', 'unique:publishers', 'max:255'],
-            'phone_number' => ['required', 'unique:publishers', 'max:13'],
+            'publisher_name' => ['required', Rule::unique('publishers')->ignore($publisher->id), 'max:255'],
+            'email' => ['required', Rule::unique('publishers')->ignore($publisher->id), 'max:255'],
+            'phone_number' => ['required', Rule::unique('publishers')->ignore($publisher->id), 'max:13'],
             'address' => ['required'],
         ]);
 
