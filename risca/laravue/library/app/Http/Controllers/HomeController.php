@@ -154,12 +154,12 @@ class HomeController extends Controller
         //               ->get();
 
         // no 20
-        $data20 = Member::select('*')
-                      ->whereMonth('members.created_at','=','06')
-                      ->get();
+        // $data20 = Member::select('*')
+        //               ->whereMonth('members.created_at','=','06')
+        //               ->get();
 
 
-        return $data20;
+        // return $data20;
         return view('home');
     }
 }
