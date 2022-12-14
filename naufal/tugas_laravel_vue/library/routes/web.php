@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\PublisherController;
+use App\Http\Controllers\AuthorController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,8 +43,9 @@ Route::get('/members', [App\Http\Controllers\MemberController::class, 'index']);
 // Route::delete('/publishers/{publisher}', [App\Http\Controllers\PublisherController::class, 'destroy']);
 
 // CRUD Author
-Route::get('/authors', [App\Http\Controllers\AuthorController::class, 'index']);
+// Route::get('/authors', [App\Http\Controllers\AuthorController::class, 'index']);
 
 // Route Resource
-Route::resource('catalogs', CatalogController::class);
-Route::resource('publishers', PublisherController::class);
+Route::resource('/catalogs', CatalogController::class);
+Route::resource('/publishers', PublisherController::class);
+Route::resource('/authors', AuthorController::class);
