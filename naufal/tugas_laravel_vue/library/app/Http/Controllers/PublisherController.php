@@ -8,6 +8,9 @@ use Illuminate\Validation\Rule;
 
 class PublisherController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -103,6 +106,6 @@ class PublisherController extends Controller
     {
         $publisher->delete();
 
-        return redirect('publishers');
+        // return redirect('publishers');
     }
 }

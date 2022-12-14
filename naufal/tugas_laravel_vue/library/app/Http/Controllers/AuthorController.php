@@ -4,9 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Author;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class AuthorController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -37,7 +41,16 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'author_name' => ['required', 'unique:authors'],
+            'email' => ['required', 'unique:authors', 'max:255'],
+            'phone_number' => ['required', 'unique:authors', 'max:13'],
+            'address' => ['required'],
+        ]);
+
+        Author::create($request->all());
+
+        return redirect('authors');
     }
 
     /**
@@ -71,7 +84,16 @@ class AuthorController extends Controller
      */
     public function update(Request $request, Author $author)
     {
-        //
+        $this->validate($request, [
+            'author_name' => ['required', Rule::unique('authors')->ignore($author->id)],
+            'email' => ['required', Rule::unique('authors')->ignore($author->id), 'max:255'],
+            'phone_number' => ['required', Rule::unique('authors')->ignore($author->id), 'max:13'],
+            'address' => ['required'],
+        ]);
+
+        $author->update($request->all());
+
+        return redirect('authors');
     }
 
     /**
@@ -82,6 +104,6 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
-        //
+        $author->delete();
     }
 }
