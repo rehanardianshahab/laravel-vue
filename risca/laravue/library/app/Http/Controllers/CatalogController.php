@@ -40,7 +40,9 @@ class CatalogController extends Controller
     {
 
         //script validasi
-        $this->validate($request,['name' => ['required'],]);
+        $this->validate($request,[
+                           'name' => 'required|max:50',
+                        ]);
 
         //insert data cara 1
         // $catalog = new Catalog;
@@ -72,7 +74,7 @@ class CatalogController extends Controller
      */
     public function edit(Catalog $catalog)
     {
-        return view ('admin.catalog.edit', compact('catalog'));
+        return view('admin.catalog.edit', compact('catalog'));
     }
 
     /**
@@ -85,8 +87,8 @@ class CatalogController extends Controller
     public function update(Request $request, Catalog $catalog)
     {
         $this->validate($request,[
-            'name' => ['required'],
-        ]);
+                            'name' => ['required'],
+                        ]);
 
         $catalog->update($request->all());
 

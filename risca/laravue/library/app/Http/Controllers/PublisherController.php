@@ -38,18 +38,12 @@ class PublisherController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name' => ['required'],
-            'email' => ['required'], 
-            'phone_number' => ['required'],
-            'address' => ['required'],
+            'name' => 'required|max:50',
+            'email' => 'required|email', 
+            'phone_number' => 'required|max:15',
+            'address' => 'required',
                 ]);
 
-        //insert data cara 1
-        // $catalog = new Catalog;
-        // $catalog->name = $request->name;
-        // $catalog->save();
-
-        //insert data cara ke2 tambah fillable di model
         Publisher::create($request->all());
 
         return redirect('publishers');
@@ -74,7 +68,7 @@ class PublisherController extends Controller
      */
     public function edit(Publisher $publisher)
     {
-        return view ('admin.publisher.edit', compact('publishers'));
+        return view('admin.publisher.edit', compact('publisher'));
     }
 
     /**
@@ -86,8 +80,13 @@ class PublisherController extends Controller
      */
     public function update(Request $request, Publisher $publisher)
     {
-
-        //insert data cara ke2 tambah fillable di model
+        $this->validate($request,[
+            'name' => 'required|max:50',
+            'email' => 'required|email', 
+            'phone_number' => 'required|max:15',
+            'address' => 'required',
+                ]);
+             
         $publisher->update($request->all());
 
         return redirect('publishers');
