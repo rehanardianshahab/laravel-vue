@@ -3,7 +3,10 @@
 @section('header', 'Author')
 
 @section('css')
-
+<!-- DataTables -->
+<link rel="stylesheet" href="{{ asset('assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 @endsection
 
 @section('content')
@@ -15,8 +18,8 @@
             <a href="#" @click="addData()" class="btn btn-sm btn-primary">Create New Author</a>
           </div>
           <!-- /.card-header -->
-          <div class="card-body p-0">
-            <table class="table">
+          <div class="card-body">
+            <table id="datatable" class="table table-striped table-bordered">
               <thead>
                 <tr>
                   <th style="width: 10px">#</th>
@@ -35,8 +38,8 @@
                   <td>{{ $author->email }}</td>
                   <td class="text-center">{{ $author->phone_number }}</td>
                   <td>{{ $author->address }}</td>
-                  <td>
-                    <a href="#" @click="editData({{ $author }})" class="btn btn-sm btn-warning">Edit</a>
+                  <td class="d-flex justify-content-center">
+                    <a href="#" @click="editData({{ $author }})" class="btn btn-sm btn-warning">Edit</a>|
                     <a href="#" @click="deleteData({{ $author->id }})" class="btn btn-sm btn-danger">Delete</a>
                   </td>
                 </tr>
@@ -100,39 +103,59 @@
 @endsection
 
 @section('js')
-  <script type="text/javascript">
-    var controller = new Vue ({
-      el: '#controller',
-      data: {
-          data : {},
-          actionUrl : '{{ url('authors') }}',
-          editStatus : false
-      },
-      mounted: function () {
+<!-- DataTables  & Plugins -->
+<script src="{{ asset('assets/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+<!-- Page specific script -->
+<script type="text/javascript">
+  $(function () {
+    $("#datatable").DataTable();
+  });
+</script>
+{{-- CRUD Vue JS --}}
+<script type="text/javascript">
+  var controller = new Vue ({
+    el: '#controller',
+    data: {
+        data : {},
+        actionUrl : '{{ url('authors') }}',
+        editStatus : false
+    },
+    mounted: function () {
 
-      },
-      methods: {
-          addData() {
-            this.data = {};
-            this.actionUrl = '{{ url('authors') }}';
-            this.editStatus = false;
-            $('#modal-default').modal();
-          },
-          editData(data) {
-            this.data = data;
-            this.actionUrl = '{{ url('authors') }}'+'/'+data.id;
-            this.editStatus = true;
-            $('#modal-default').modal();
-          },
-          deleteData(id) {
-            this.actionUrl = '{{ url('authors') }}'+'/'+id;
-            if (confirm("Are you sure?")) {
-              axios.post(this.actionUrl, {_method: 'DELETE'}).then(response => {
-                location.reload();
-              });
-            }
+    },
+    methods: {
+        addData() {
+          this.data = {};
+          this.actionUrl = '{{ url('authors') }}';
+          this.editStatus = false;
+          $('#modal-default').modal();
+        },
+        editData(data) {
+          this.data = data;
+          this.actionUrl = '{{ url('authors') }}'+'/'+data.id;
+          this.editStatus = true;
+          $('#modal-default').modal();
+        },
+        deleteData(id) {
+          this.actionUrl = '{{ url('authors') }}'+'/'+id;
+          if (confirm("Are you sure?")) {
+            axios.post(this.actionUrl, {_method: 'DELETE'}).then(response => {
+              location.reload();
+            });
           }
-      }
-    });
-  </script>
+        }
+    }
+  });
+</script>
 @endsection
