@@ -14,7 +14,12 @@
 				<div class="card-body">
 					<div class="form-group">
 						<label>Name</label>
-						<input type="text" name="name" class="form-control" placeholder="Enter Name" required="">
+						<input type="text" name="name" class="form-control @error('name') is-invalid @enderror" placeholder="Enter Name" required="">
+						@error('name')
+							<div class="invalid-feedback">
+								{{ $message }}
+							</div>
+						@enderror
 					</div>
 					
 				</div>
