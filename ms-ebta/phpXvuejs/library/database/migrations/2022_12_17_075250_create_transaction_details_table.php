@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('transaction_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('transaction_id');
+            $table->unsignedBigInteger('book_id');
+            $table->integer('qty');
             $table->timestamps();
         });
     }
