@@ -18,9 +18,9 @@ return new class extends Migration
             $table->integer('isbn');
             $table->string('title', 64);
             $table->integer('year');
-            $table->unsignetBigInteger('publisher_id');
-            $table->unsignetBigInteger('author_id');
-            $table->unsignetBigInteger('catalog_id');
+            $table->unsignedBigInteger('publisher_id');
+            $table->unsignedBigInteger('author_id');
+            $table->unsignedBigInteger('catalog_id');
             $table->integer('qty');
             $table->integer('price');
             $table->timestamps();
