@@ -131,7 +131,7 @@
           <img src="{{ asset('assets/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
+          <a href="#" class="d-block">{{ auth()->user()->name}}</a>
         </div>
       </div>
 
@@ -162,7 +162,7 @@
             </a>
           </li>
           <li class="nav-item menu-open">
-            <a href="{{ url('member') }}" class="nav-link {{ request()->is('member') ? 'active' : '' }}">
+            <a href="{{ url('members') }}" class="nav-link {{ request()->is('members') ? 'active' : '' }}">
               <i class="nav-icon far fa-plus-square"></i>
               <p>
                 Member
@@ -170,7 +170,7 @@
               </p>
             </a>
             <li class="nav-item menu-open">
-            <a href="{{ url('book') }}" class="nav-link {{ request()->is('book') ? 'active' : '' }}">
+            <a href="{{ url('books') }}" class="nav-link {{ request()->is('books') ? 'active' : '' }}">
               <i class="nav-icon fas fa-book"></i>
               <p>
                 Book
@@ -179,7 +179,7 @@
             </a>
           </li>
           <li class="nav-item menu-open">
-            <a href="{{ url('author') }}" class="nav-link {{ request()->is('author') ? 'active' : '' }}">
+            <a href="{{ url('authors') }}" class="nav-link {{ request()->is('authors') ? 'active' : '' }}">
               <i class="nav-icon fas fa-file"></i>
               <p>
                 Author
@@ -189,7 +189,7 @@
           </li>
           </li>
           <li class="nav-item menu-open">
-            <a href="{{ url('catalog') }}" class="nav-link {{ request()->is('catalog') ? 'active' : '' }}">
+            <a href="{{ url('catalogs') }}" class="nav-link {{ request()->is('catalogs') ? 'active' : '' }}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Catalog
@@ -198,7 +198,7 @@
             </a>
           </li>
           <li class="nav-item menu-open">
-            <a href="{{ url('publisher') }}" class="nav-link {{ request()->is('publisher') ? 'active' : '' }}">
+            <a href="{{ url('publishers') }}" class="nav-link {{ request()->is('publishers') ? 'active' : '' }}">
               <i class="nav-icon fas fa-edit"></i>
               <p>
                 Publisher
