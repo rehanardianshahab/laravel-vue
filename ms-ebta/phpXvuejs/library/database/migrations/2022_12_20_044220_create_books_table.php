@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('price');
             $table->timestamps();
 
-            $table->foreign('publisher_id')->references('id')->on('publisers');
+            $table->foreign('publisher_id')->references('id')->on('publishers');
             $table->foreign('author_id')->references('id')->on('authors');
             $table->foreign('catalog_id')->references('id')->on('catalogs');
         });
