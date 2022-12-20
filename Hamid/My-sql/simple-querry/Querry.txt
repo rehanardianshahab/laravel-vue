@@ -1,0 +1,18 @@
+1.SELECT * FROM transaksi
+WHERE jumlah_transaksi > 1 
+2.INSERT INTO `obat` (`id_obat`, `nama_obat`, `pembuat_obat`, `stok_obat`, `tanggal_kadaluwarsa`) VALUES (NULL, 'Betadine', NULL, '3', '2016-12-20');
+3.CREATE TABLE transaksi(
+PRIMARY KEY (id_transaksi)
+);
+4.UPDATE pasien
+SET nama_pasien = 'Udin',
+WHERE id_pasien = 1;
+5.DELETE FROM pasien WHERE nama_pasien = 'Udin';
+6.ALTER TABLE pasien
+DROP COLUMN tanggal_lahir_pasien
+7.ALTER TABLE transaksi
+ADD CONSTRAINT 'id_obat' FOREIGN KEY ('id_obat') REFERENCES 'obat' ('id_obat')
+8.ALTER TABLE `obat`
+MODIFY `id_obat` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+9.ALTER TABLE pasien AUTO_INCEREMENT=3;
+10.ALTER TABLE transaksi AUTO_INCREMENT=3;
