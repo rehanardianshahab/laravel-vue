@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\MemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,7 +25,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/books', [App\Http\Controllers\BookController::class, 'index']);
-Route::get('/members', [App\Http\Controllers\MemberController::class, 'index']);
+// Route::get('/members', [App\Http\Controllers\MemberController::class, 'index']);
 
 // CRUD Catalog
 // Route::get('/catalogs', [App\Http\Controllers\CatalogController::class, 'index']);
@@ -49,3 +50,9 @@ Route::get('/members', [App\Http\Controllers\MemberController::class, 'index']);
 Route::resource('/catalogs', CatalogController::class);
 Route::resource('/publishers', PublisherController::class);
 Route::resource('/authors', AuthorController::class);
+Route::resource('/members', MemberController::class);
+
+// Route API
+Route::get('/api/authors', [AuthorController::class, 'api']);
+Route::get('/api/publishers', [PublisherController::class, 'api']);
+Route::get('/api/members', [MemberController::class, 'api']);

@@ -30,21 +30,6 @@
                   <th class="text-center">Action</th>
                 </tr>
               </thead>
-              <tbody>
-                  @foreach($authors as $key => $author)
-                <tr>
-                  <td>{{ $key+1 }}</td>
-                  <td>{{ $author->author_name }}</td>
-                  <td>{{ $author->email }}</td>
-                  <td class="text-center">{{ $author->phone_number }}</td>
-                  <td>{{ $author->address }}</td>
-                  <td class="d-flex justify-content-center">
-                    <a href="#" @click="editData({{ $author }})" class="btn btn-sm btn-warning">Edit</a>|
-                    <a href="#" @click="deleteData({{ $author->id }})" class="btn btn-sm btn-danger">Delete</a>
-                  </td>
-                </tr>
-                @endforeach
-              </tbody>
             </table>
           </div>
           <!-- /.card-body -->
@@ -56,7 +41,7 @@
     <div class="modal fade" id="modal-default">
       <div class="modal-dialog">
         <div class="modal-content">
-          <form :action="actionUrl" method="post" autocomplete="off">
+          <form :action="actionUrl" method="post" autocomplete="off" @submit="submitForm($event, data.id)">
             <div class="modal-header">
               <h4 class="modal-title">Author</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -116,14 +101,36 @@
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-<!-- Page specific script -->
 <script type="text/javascript">
+    var actionUrl = '{{ url('authors') }}';
+    var apiUrl = '{{ url('api/authors') }}';
+
+    var columns = [
+      {data: 'DT_RowIndex', class: 'text-center', orderable: true},
+      {data: 'author_name', class: 'text-center', orderable: true},
+      {data: 'email', class: 'text-center', orderable: true},
+      {data: 'phone_number', class: 'text-center', orderable: true},
+      {data: 'address', class: 'text-center', orderable: true},
+      {render: function (index, row, data, meta) {
+        return `
+            <a href="#" class="btn btn-sm btn-warning" onclick="controller.editData(event, ${meta.row})">
+              Edit
+            </a>
+            <a href="#" class="btn btn-sm btn-danger" onclick="controller.deleteData(event, ${data.id})">
+              Delete
+            </a>`;
+      }, orderable: false, width: '200px', class: 'text-center'},
+    ];
+</script>
+<script src="{{ url('js/data.js') }}"></script>
+<!-- Page specific script -->
+{{-- <script type="text/javascript">
   $(function () {
     $("#datatable").DataTable();
   });
-</script>
+</script> --}}
 {{-- CRUD Vue JS --}}
-<script type="text/javascript">
+{{-- <script type="text/javascript">
   var controller = new Vue ({
     el: '#controller',
     data: {
@@ -157,5 +164,5 @@
         }
     }
   });
-</script>
+</script> --}}
 @endsection
