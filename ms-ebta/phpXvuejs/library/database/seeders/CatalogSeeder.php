@@ -20,11 +20,11 @@ class CatalogSeeder extends Seeder
         $faker = faker::create();
         // script looping
         for ($i=0; $i < 20; $i++) { 
-            $buku = new Book;
+            $kiatalog = new Catalog;
 
-            $buku->name = $faker->name;
+            $kiatalog->name = $faker->name;
 
-            $buku->save();
+            $kiatalog->save();
         }
     }
 }
