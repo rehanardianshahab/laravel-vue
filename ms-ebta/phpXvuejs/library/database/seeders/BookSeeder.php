@@ -22,7 +22,7 @@ class BookSeeder extends Seeder
         for ($i=0; $i < 20; $i++) { 
             $buku = new Book;
 
-            $buku->isbn = 'ISBN-' . $faker->randomNumber(3) . '-' . $faker->randomNumber(3) . '-' . $faker->randomNumber(3) . '-' . $faker->randomNumber(3) . '-' . $faker->randomNumber(1);
+            $buku->isbn = $faker->randomNumber(9);
             $buku->title = $faker->name;
             $buku->year = rand(1990,2021);
             $buku->publisher_id = rand(1, 20);
