@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Controllers\CatalogController;
-use App\Http\Controllers\PublisherController;
-use App\Http\Controllers\AuthorController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,3 +43,8 @@ Route::get('/transactionDetails', [App\Http\Controllers\TransactionDetailControl
 Route::resource('/catalogs', App\Http\Controllers\CatalogController::class);
 Route::resource('/publishers', App\Http\Controllers\PublisherController::class);
 Route::resource('/authors', App\Http\Controllers\AuthorController::class);
+Route::resource('/members', App\Http\Controllers\MemberController::class);
+
+Route::get('api/authors', [App\Http\Controllers\AuthorController::class, 'api']); 
+Route::get('api/publishers', [App\Http\Controllers\PublisherController::class, 'api']);
+Route::get('api/members', [App\Http\Controllers\MemberController::class, 'api']);
