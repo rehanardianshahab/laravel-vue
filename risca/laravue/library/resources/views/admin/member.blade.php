@@ -55,7 +55,7 @@
 
 						<div class="form-group">
 							<label for="name">Name</label>
-							<input type="text" id="name" class="form-control" name="name" :value="data.name" required="">
+							<input type="text" id="name" class="form-control" name="name" v-model="data.name" required="">
 						</div>
 						<div class="form-group">
 							<label for="gender">Gender</label>
@@ -66,15 +66,15 @@
 						</div>
 						<div class="form-group">
 							<label for="phone_number">Phone Number</label>
-							<input type="number" id="phone_number" class="form-control" name="phone_number" :value="data.phone_number" required="">
+							<input type="number" id="phone_number" class="form-control" name="phone_number" v-model="data.phone_number" required="">
 						</div>
 						<div class="form-group">
 							<label for="address">Address</label>
-							<input type="text" id="address" class="form-control" name="address" :value="data.address" required="">
+							<input type="text" id="address" class="form-control" name="address" v-model="data.address" required="">
 						</div>
 						<div class="form-group">
 							<label for="email">Email</label>
-							<input type="email" id="email" class="form-control" name="email" :value="data.email" required="">
+							<input type="email" id="email" class="form-control" name="email" v-model="data.email" required="">
 						</div>													
 						<div class="form-group">
 							<label for="role">Role</label>
