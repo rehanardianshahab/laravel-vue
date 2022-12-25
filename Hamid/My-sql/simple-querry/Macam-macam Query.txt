@@ -1,0 +1,33 @@
+1.Menampilkan semua data obat:
+SELECT * FROM obat;
+2.Menampilkan data obat dengan harga di atas rata-rata harga obat:
+SELECT * FROM obat WHERE harga > (SELECT AVG(harga) FROM obat);
+3.Menampilkan data obat yang stoknya kurang dari 20:
+SELECT * FROM obat WHERE stok < 20;
+4.Menampilkan data obat yang paling banyak dibeli:
+SELECT obat.nama, COUNT(pembelian.id_obat) as jumlah
+FROM obat INNER JOIN pembelian ON obat.id=pembelian.id_obat
+GROUP BY obat.nama
+ORDER BY jumlah DESC;
+5.Menampilkan data pelanggan yang paling banyak membeli obat:
+SELECT pelanggan.nama, COUNT(penjualan.id_pelanggan) as jumlah
+FROM pelanggan INNER JOIN penjualan ON pelanggan.id=penjualan.id_pelanggan
+GROUP BY pelanggan.nama
+ORDER BY jumlah DESC;
+6.Menampilkan data obat yang paling sering terjual kepada pelanggan dengan nama tertentu:
+SELECT obat.nama, COUNT(penjualan.id_obat) as jumlah
+FROM obat INNER JOIN penjualan ON obat.id=penjualan.id_obat
+WHERE penjualan.id_pelanggan=(SELECT id FROM pelanggan WHERE nama='Pelanggan A')
+GROUP BY obat.nama
+ORDER BY jumlah DESC;
+7.Menampilkan data obat yang terjual pada tanggal tertentu:
+SELECT obat.nama, SUM(penjualan.jumlah) as jumlah
+FROM obat INNER JOIN penjualan ON obat.id=penjualan.id_obat
+WHERE penjualan.tanggal='2022-01-01'
+GROUP BY obat.nama;
+8.Menambahkan data obat baru:
+INSERT INTO obat (nama, harga, stok) VALUES ('Obat X', 10000, 50);
+9.Menambahkan data pelanggan baru:
+INSERT INTO pelanggan (nama, alamat, telepon) VALUES ('Pelanggan Y', 'Jl. Sudirman No. 1', '081234567890');
+10.Menambahkan data pembelian obat baru:
+INSERT INTO pembelian (id_obat, jumlah, tanggal) VALUES (2, 100, '2022-01-02');
