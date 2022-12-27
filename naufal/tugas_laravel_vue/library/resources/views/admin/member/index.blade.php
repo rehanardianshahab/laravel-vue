@@ -138,7 +138,7 @@
       {data: 'address', class: 'text-center', orderable: true},
       {data: 'email', class: 'text-center', orderable: true},
       {data: 'role', class: 'text-center', orderable: true},
-      {data: 'entry_date', class: 'text-center', orderable: true},
+      {data: 'date', class: 'text-center', orderable: true},
       {render: function (index, row, data, meta) {
         return `
             <a href="#" class="btn btn-sm btn-warning" onclick="controller.editData(event, ${meta.row})">
