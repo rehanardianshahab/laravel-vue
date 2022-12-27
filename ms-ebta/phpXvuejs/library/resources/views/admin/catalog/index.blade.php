@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    {{ __('You are logged in!') }}
+                    {{ __('You in katalog!') }}
                 </div>
             </div>
         </div>
