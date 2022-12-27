@@ -21,7 +21,7 @@ class CreateTransactionDetailsTable extends Migration
             $table->timestamps();
 
             $table->foreign('transaction_id')->references('id')->on('transactions');
-            $table->foreign('book_id')->references('isbn')->on('books');
+            $table->foreign('book_id')->references('id')->on('books');
         });
     }
 

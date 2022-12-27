@@ -25,9 +25,9 @@
           <td>{{ $key+1 }}</td>
           <td>{{ $catalog->catalog_name }}</td>
           <td class="text-center">{{ count($catalog->books) }}</td>
-          <td class="text-center">{{ date('d/m/Y', strtotime($catalog->created_at)) }}</td>
-          <td class="text-center">
-            <a href="{{ url('catalogs/'.$catalog->id.'/edit') }}" class="btn btn-sm btn-warning">Edit</a>
+          <td class="text-center">{{ convert_date($catalog->created_at) }}</td>
+          <td class="text-center d-flex justify-content-center">
+            <a href="{{ url('catalogs/'.$catalog->id.'/edit') }}" class="btn btn-sm btn-warning">Edit</a>|
             <form action="{{ url('catalogs', ['id' => $catalog->id]) }}" method="post">
               <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
               @method('delete')
