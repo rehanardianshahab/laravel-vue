@@ -182,6 +182,12 @@
                                     <p>Publisher</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('penulis') }}" class="nav-link {{ request()->is('penulis') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Penulis</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item">
