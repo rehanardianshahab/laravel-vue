@@ -165,7 +165,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link {{ request()->is('buku') ? 'active' : '' }}">
+                                    <a href="{{ url('buku') }}" class="nav-link {{ request()->is('buku') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Buku</p>
                                     </a>
