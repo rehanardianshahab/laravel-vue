@@ -15,7 +15,7 @@
     <div class="col-12">
       <div class="card">
           <div class="card-header">
-            <a href="#" @click="addData()" class="btn btn-sm btn-primary">Create New Publisher</a>
+            <a href="#" @click="addData()" class="btn btn-sm btn-primary">Create New Member</a>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
@@ -45,7 +45,7 @@
       <div class="modal-content">
         <form :action="actionUrl" method="post" autocomplete="off" @submit="submitForm($event, data.id)">
           <div class="modal-header">
-            <h4 class="modal-title">Publisher</h4>
+            <h4 class="modal-title">Member</h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
