@@ -5,9 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PublisherController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\AuthorController;
-
-
-
+use App\Http\Controllers\MemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,7 +26,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/books', [App\Http\Controllers\BookController::class, 'index']);
-Route::get('/members', [App\Http\Controllers\MemberController::class, 'index']);
+// Route::get('/members', [App\Http\Controllers\MemberController::class, 'index']);
 
 //Catalog
 // Route::get('/catalogs', [App\Http\Controllers\CatalogController::class, 'index']);
@@ -54,9 +52,18 @@ Route::get('/members', [App\Http\Controllers\MemberController::class, 'index']);
 // Route::put('/publishers/{publisher}', [App\Http\Controllers\PublisherController::class, 'update']);
 // Route::delete('/publishers/{publisher}', [App\Http\Controllers\PublisherController::class, 'destroy']);
 
+// API
+Route::get('/api/authors', [App\Http\Controllers\AuthorController::class, 'api']);
+Route::get('/api/publishers', [App\Http\Controllers\PublisherController::class, 'api']);
+Route::get('/api/members', [App\Http\Controllers\MemberController::class, 'api']);
+
+
+
 Route::resource('publishers', PublisherController::class);
 Route::resource('catalogs', CatalogController::class);
 Route::resource('authors', AuthorController::class);
+Route::resource('members', MemberController::class);
+
 
 
 
