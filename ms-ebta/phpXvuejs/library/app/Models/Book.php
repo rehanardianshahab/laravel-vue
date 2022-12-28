@@ -12,11 +12,16 @@ class Book extends Model
     // relation database
     public function Publisher()
     {
-        return $this->belongsTo('App\Models\Book', 'publisher_id');
+        return $this->belongsTo('App\Models\Publisher', 'id');
     }
 
     public function Catalog()
     {
-        return $this->belongsTo('App\Models\Book', 'catalog_id');
+        return $this->belongsTo('App\Models\Catalog', 'id');
+    }
+
+    public function Author()
+    {
+        return $this->belongsTo('App\Models\Author', 'id');
     }
 }
