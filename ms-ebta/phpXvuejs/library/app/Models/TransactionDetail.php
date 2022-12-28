@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class TransactionDetail extends Model
 {
     use HasFactory;
+
+    // relasi database
+    public function Transaction()
+    {
+        return $this->belongsTo('App\Models\Transaction', 'transaction_id');
+    }
+
+    public function Book()
+    {
+        return $this->belongsTo('App\Models\Book', 'book_id');
+    }
 }
