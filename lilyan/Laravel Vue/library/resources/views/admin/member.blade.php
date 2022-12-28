@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('header', 'Publisher')
+@section('header', 'Member')
 
 @section('css')
   <!-- DataTables -->
@@ -14,7 +14,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <a href="#" @click="addData()" class="btn btn-primary pull-right">Create New Publisher</a>
+                <a href="#" @click="addData()" class="btn btn-primary pull-right">Create New Member</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -23,10 +23,11 @@
                     <tr>
                       <th style="width: 10px">No</th>
                       <th class="text-center">Name</th>
-                      <th class="text-center">Email</th>
+                      <th class="text-center">Gender</th>
                       <th class="text-center">Phone Number</th>
                       <th class="text-center">Address</th>
-                      <th class="text-center">Action</th>
+                      <th class="text-center">Email</th>
+                      <th class="text-right">Action</th>
                     </tr>
                   </thead>
                 </table>
@@ -41,7 +42,7 @@
             <form method="post" :action="actionUrl" autocomplete="off" @submit="submitForm($event, data.id)">
             <div class="modal-header">
 
-              <h4 class="modal-title">Author</h4>
+              <h4 class="modal-title">Member</h4>
 
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -57,8 +58,12 @@
                     <input type="text" name="name" class="form-control" placeholder="Enter name" :value="data.name" required="">
                   </div>
                   <div class="form-group">
-                    <label>Email</label>
-                    <input type="text" name="email" class="form-control" placeholder="Enter email" :value="data.email" required="">
+                    <label>Gender</label>
+                    <select name="gender" class="form-control" :value="data.gender" required="">
+                        <option disabled value="">Please select one</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
                   </div>
                   <div class="form-group">
                     <label>Phone Number</label>
@@ -69,6 +74,10 @@
                     <label>Address</label>
                     <textarea type="text" name="address" class="form-control" placeholder="Enter address" rows="6" cols="80" 
                     :value="data.address" required=""></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label>Email</label>
+                    <input type="text" name="email" class="form-control" placeholder="Enter email" :value="data.email" required="">
                   </div>
             </div>
             <div class="modal-footer justify-content-between">
@@ -98,15 +107,16 @@
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 
 <script type="text/javascript">
-  var actionUrl = '{{ url('publishers') }}';
-  var apiUrl = '{{ url('api/publishers') }}';
+  var actionUrl = '{{ url('members') }}';
+  var apiUrl = '{{ url('api/members') }}';
 
   var columns = [
-    {data: 'DT_RowIndex', class: 'text-center', orderable: false},
-    {data: 'name', class: 'text-center', orderable: false},
-    {data: 'email', class: 'text-center', orderable: true},
+    {data: 'DT_RowIndex', class: 'text-center', orderable: true},
+    {data: 'name', class: 'text-center', orderable: true},
+    {data: 'gender', class: 'text-center', orderable: true},
     {data: 'phone_number', class: 'text-center', orderable: true},
     {data: 'address', class: 'text-center', orderable: true},
+    {data: 'email', class: 'text-center', orderable: true},
     {render: function (index, row, data, meta) {
       return `
       <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event,
@@ -122,46 +132,4 @@
 </script>
 
 <script src="{{ asset('js/data.js') }}"></script>
-
-{{-- <script type="text/javascript">
-  $(function () {
-    $("#datatable").DataTable();
-  });
-</script>
-
-<!-- CRUD Vue js -->
-    <script type="text/javascript">
-      var controller = new Vue ({
-        el: '#controller',
-        data: {
-          data : {},
-          actionUrl : '{{ url('publishers') }}',
-          editStatus : false
-        },
-        mounted: function () {
-        },
-        methods: {
-          addData() {
-            this.data = {};
-            this.actionUrl = '{{ url('publishers') }}';
-            this.editStatus = false;
-            $('#modal-default').modal();
-          },
-          editData(data) {
-            this.data = data;
-            this.actionUrl = '{{ url('publishers') }}'+'/'+data.id;
-            this.editStatus = true;
-            $('#modal-default').modal();
-          },
-          deleteData(id) {
-            this.actionUrl = '{{ url('publishers') }}'+'/'+id;
-            if (confirm("Are you sure ?")) {
-              axios.post(this.actionUrl, {_method: 'DELETE'}).then(response => {
-                location.reload();
-              });
-            }
-          }
-        }
-      });
-    </script> --}}
 @endsection
