@@ -41,4 +41,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    // relasi database
+    public function member()
+    {
+        return $this->belongsTo('App\Models\Member', 'member_id');
+    }
 }
