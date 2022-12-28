@@ -12,6 +12,11 @@ class Transaction extends Model
     // relasi database
     public function Member()
     {
-        return $this->belongsTo('App\Models\User', 'member_id');
+        return $this->belongsTo('App\Models\Member', 'member_id');
+    }
+
+    public function TransactionDetail()
+    {
+        return $this->hasOne('App\Models\TransactionDetail', 'transaction_id');
     }
 }
