@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Member;
 use App\Models\Book;
+use App\Models\Publisher;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -25,7 +26,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return Book::all();
+        // return Book::with('Publisher')->get();
+        return Publisher::with('Books')->get();
         return view('home');
     }
 }
