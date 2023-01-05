@@ -28,6 +28,7 @@
                                 <th class="text-center">Nama</th>
                                 <th class="text-center">qty</th>
                                 <th class="text-center">Dibuat Pada</th>
+                                <th class="text-center">Aksi</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -37,6 +38,7 @@
                                 <td>{{ $item->name }}</td>
                                 <td class="text-center">{{ count($item->books) }}</td>
                                 <td class="text-center">{{ date('H:i:s - d/M/Y', strtotime($item->created_at)) }}</td>
+                                <td class="text-center"><a href="{{ url('catalogs-edit?id='.$item->id) }}" class="text-success">Perbarui</a> || Hapus</td>
                               </tr>
                             @endforeach
                             </tbody>
