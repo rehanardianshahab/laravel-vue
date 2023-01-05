@@ -155,11 +155,11 @@ class HomeController extends Controller
         //         ->where("qty", "=", 10)
         //         ->get();
         // no.20
-        return Member::select("*")
-                ->whereMonth('created_at', '=', '12')
-                ->get();
+        // return Member::select("*")
+        //         ->whereMonth('created_at', '=', '12')
+        //         ->get();
 
-        return $data;
+        // return $data;
         return view('home');
     }
 }
