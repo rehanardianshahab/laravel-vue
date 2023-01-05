@@ -20,8 +20,14 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/catalogs', [App\Http\Controllers\CatalogController::class, 'index'])->name('home');
-Route::get('/publishers', [App\Http\Controllers\PublisherController::class, 'index'])->name('home');
-Route::get('/books', [App\Http\Controllers\BookController::class, 'index'])->name('home');
-Route::get('/authors', [App\Http\Controllers\AuthorController::class, 'index'])->name('home');
-Route::get('/members', [App\Http\Controllers\MemberController::class, 'index'])->name('home');
+Route::get('/catalogs', [App\Http\Controllers\CatalogController::class, 'index']);
+Route::get('/publishers', [App\Http\Controllers\PublisherController::class, 'index']);
+Route::get('/books', [App\Http\Controllers\BookController::class, 'index']);
+Route::get('/authors', [App\Http\Controllers\AuthorController::class, 'index']);
+Route::get('/members', [App\Http\Controllers\MemberController::class, 'index']);
+
+// crud
+Route::get('/catalogs-create', [App\Http\Controllers\CatalogController::class, 'create']);
+Route::post('/catalogs', [App\Http\Controllers\CatalogController::class, 'store']);
+
+

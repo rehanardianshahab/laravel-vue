@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Katalog') }}</div>
+                <div class="card-header">{{ __('Katalog') }}<span style="float:right;"><a href="{{ url('catalogs-create') }}">Tambah data</a></span></div>
 
                 <div class="card-body">
                     @if (session('status'))

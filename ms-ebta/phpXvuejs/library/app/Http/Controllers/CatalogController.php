@@ -27,7 +27,8 @@ class CatalogController extends Controller
      */
     public function create()
     {
-        //
+        $route = 'catalogs';
+        return view('crud/create', compact('route'));
     }
 
     /**
@@ -38,7 +39,23 @@ class CatalogController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validasi required laravel
+        $this->validate($request, [
+            'name' => ['required']
+        ]);
+
+        // return $request; // testing data dari  post
+
+        // cara1: save data ke database
+        // $catalog= new Catalog;
+        // $catalog->name = $request->name;
+        // $catalog->save();
+
+        // cara2: save data ke database
+        Catalog::create($request->all()); // perlu menambahkan fillable atau guarded di model
+
+        // redirect
+        return redirect('catalogs');
     }
 
     /**
