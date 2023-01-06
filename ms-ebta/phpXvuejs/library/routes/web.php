@@ -38,6 +38,7 @@ Route::get('/publishers-edit', [App\Http\Controllers\PublisherController::class,
 Route::put('/publishers/{publisher}', [App\Http\Controllers\PublisherController::class, 'update']);
 // crud Delete
 Route::delete('/catalogs/{catalog}', [App\Http\Controllers\CatalogController::class, 'destroy']);
+Route::delete('/publishers/{publisher}', [App\Http\Controllers\PublisherController::class, 'destroy']);
 
 
 

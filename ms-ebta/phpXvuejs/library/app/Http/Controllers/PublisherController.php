@@ -92,7 +92,7 @@ class PublisherController extends Controller
         $this->validate($request, [
             'name' => ['required']
         ]);
-        
+
         // update data
         $publisher->update($request->all()); // perlu menambahkan fillable atau guarded di model
 
@@ -108,6 +108,7 @@ class PublisherController extends Controller
      */
     public function destroy(Publisher $publisher)
     {
-        //
+        $publisher->delete();
+        return redirect('catalogs');
     }
 }
