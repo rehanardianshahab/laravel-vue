@@ -77,8 +77,7 @@ class CatalogController extends Controller
      */
     public function edit(Catalog $catalog)
     {
-        $catalogs = Catalog::all()->where("id", "=", $_GET['id']);
-        $catalogs = $catalogs[$_GET['id']-1];
+        $catalogs = Catalog::find($_GET['id']);
         $route = 'catalogs';
         return view('crud/edit', compact('route', 'catalogs'));
     }
@@ -112,6 +111,7 @@ class CatalogController extends Controller
      */
     public function destroy(Catalog $catalog)
     {
-        //
+        $catalog->delete();
+        return redirect('catalogs');
     }
 }

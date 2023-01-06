@@ -32,6 +32,8 @@ Route::post('/catalogs', [App\Http\Controllers\CatalogController::class, 'store'
 // crud edit
 Route::get('/catalogs-edit', [App\Http\Controllers\CatalogController::class, 'edit']);
 Route::put('/catalogs/{catalog}', [App\Http\Controllers\CatalogController::class, 'update']);
+// crud Delete
+Route::delete('/catalogs/{catalog}', [App\Http\Controllers\CatalogController::class, 'destroy']);
 
 
 
