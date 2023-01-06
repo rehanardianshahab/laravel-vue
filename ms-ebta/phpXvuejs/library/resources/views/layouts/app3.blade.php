@@ -165,31 +165,31 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{{ url('buku') }}" class="nav-link {{ request()->is('buku') ? 'active' : '' }}">
+                                    <a href="{{ url('books') }}" class="nav-link {{ request()->is('books') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Buku</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('katalog') }}" class="nav-link {{ request()->is('katalog') ? 'active' : '' }}">
+                                    <a href="{{ url('catalogs') }}" class="nav-link {{ request()->is('catalogs') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Katalog</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('publisher') }}" class="nav-link {{ request()->is('publisher') ? 'active' : '' }}">
+                                    <a href="{{ url('publishers') }}" class="nav-link {{ request()->is('publishers') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Publisher</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('penulis') }}" class="nav-link {{ request()->is('penulis') ? 'active' : '' }}">
+                                    <a href="{{ url('authors') }}" class="nav-link {{ request()->is('authors') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Penulis</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{{ url('member') }}" class="nav-link {{ request()->is('member') ? 'active' : '' }}">
+                                    <a href="{{ url('members') }}" class="nav-link {{ request()->is('members') ? 'active' : '' }}">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>member</p>
                                     </a>
