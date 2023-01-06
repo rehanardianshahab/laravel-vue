@@ -77,9 +77,9 @@ class CatalogController extends Controller
      */
     public function edit(Catalog $catalog)
     {
-        $catalogs = Catalog::find($_GET['id']);
+        $data = Catalog::find($_GET['id']);
         $route = 'catalogs';
-        return view('crud/edit', compact('route', 'catalogs'));
+        return view('crud/edit', compact('route', 'data'));
     }
 
     /**
@@ -91,11 +91,10 @@ class CatalogController extends Controller
      */
     public function update(Request $request, Catalog $catalog)
     {
-         // validasi required laravel
-         $this->validate($request, [
+        // validasi required laravel
+        $this->validate($request, [
             'name' => ['required']
         ]);
-
         // update data
         $catalog->update($request->all()); // perlu menambahkan fillable atau guarded di model
 

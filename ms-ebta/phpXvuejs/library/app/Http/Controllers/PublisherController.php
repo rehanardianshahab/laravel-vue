@@ -14,7 +14,9 @@ class PublisherController extends Controller
      */
     public function index()
     {
-        return view('admin/publisher/index');
+        
+        $publisher = Publisher::with('books')->get();
+        return view('admin/publisher/index', compact('publisher'));
     }
 
     /**
@@ -24,7 +26,9 @@ class PublisherController extends Controller
      */
     public function create()
     {
-        //
+        
+        $route = 'publishers';
+        return view('crud/create', compact('route'));
     }
 
     /**
@@ -35,7 +39,20 @@ class PublisherController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => ['required']
+        ]);
+        // save data ke database
+        $publisher= new Publisher;
+        $publisher->name = $request->name;
+        $publisher->phone_number = $request->phone_number;
+        $publisher->address = $request->address;
+        $publisher->email = $request->email;
+
+
+        $publisher->save();
+        // redirect
+        return redirect('publishers');
     }
 
     /**
@@ -57,7 +74,9 @@ class PublisherController extends Controller
      */
     public function edit(Publisher $publisher)
     {
-        //
+        $data = Publisher::find($_GET['id']);
+        $route = 'publishers';
+        return view('crud/edit', compact('route', 'data'));
     }
 
     /**
@@ -69,7 +88,16 @@ class PublisherController extends Controller
      */
     public function update(Request $request, Publisher $publisher)
     {
-        //
+        // validasi required laravel
+        $this->validate($request, [
+            'name' => ['required']
+        ]);
+        
+        // update data
+        $publisher->update($request->all()); // perlu menambahkan fillable atau guarded di model
+
+        // redirect
+        return redirect('publishers');
     }
 
     /**
