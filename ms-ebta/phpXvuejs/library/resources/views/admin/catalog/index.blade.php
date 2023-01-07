@@ -38,7 +38,14 @@
                                 <td>{{ $item->name }}</td>
                                 <td class="text-center">{{ count($item->books) }}</td>
                                 <td class="text-center">{{ date('H:i:s - d/M/Y', strtotime($item->created_at)) }}</td>
-                                <td class="text-center"><a href="{{ url('catalogs-edit?id='.$item->id) }}" class="text-success">Perbarui</a> || Hapus</td>
+                                <td class="text-center">
+                                  <a href="{{ url('catalogs-edit?id='.$item->id) }}" class="text-success">Perbarui</a>  
+                                  ||<form action="{{ url('catalogs', ['id' => $item->id]) }}" method="post" style="display: inline;">
+                                    <button type="submit" style="border:none; background:none; display:inline; color:red; text-decoration:none;" onclick="return confirm('Apakah anda yakin mau menghapus katalog {{ $item->name }}?')">Hapus</button>
+                                    @method('delete')
+                                    @csrf
+                                  </form>
+                                </td>
                               </tr>
                             @endforeach
                             </tbody>

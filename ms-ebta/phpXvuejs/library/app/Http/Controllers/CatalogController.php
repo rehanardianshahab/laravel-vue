@@ -41,7 +41,7 @@ class CatalogController extends Controller
     {
         // validasi required laravel
         $this->validate($request, [
-            'name' => ['required']
+            'name' => ['required','min:5','max:20']
         ]);
 
         // return $request; // testing data dari  post
@@ -77,10 +77,9 @@ class CatalogController extends Controller
      */
     public function edit(Catalog $catalog)
     {
-        $catalogs = Catalog::all()->where("id", "=", $_GET['id']);
-        $catalogs = $catalogs[$_GET['id']-1];
+        $data = Catalog::find($_GET['id']);
         $route = 'catalogs';
-        return view('crud/edit', compact('route', 'catalogs'));
+        return view('crud/edit', compact('route', 'data'));
     }
 
     /**
@@ -92,11 +91,10 @@ class CatalogController extends Controller
      */
     public function update(Request $request, Catalog $catalog)
     {
-         // validasi required laravel
-         $this->validate($request, [
+        // validasi required laravel
+        $this->validate($request, [
             'name' => ['required']
         ]);
-
         // update data
         $catalog->update($request->all()); // perlu menambahkan fillable atau guarded di model
 
@@ -112,6 +110,7 @@ class CatalogController extends Controller
      */
     public function destroy(Catalog $catalog)
     {
-        //
+        $catalog->delete();
+        return redirect('catalogs');
     }
 }

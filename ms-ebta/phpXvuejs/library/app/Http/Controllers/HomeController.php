@@ -76,6 +76,12 @@ class HomeController extends Controller
         //             ->groupBy("transactions.member_id")
         //             ->having("jumlah_pinjam", ">", 1)
         //             ->get();
+            // atau
+        // return Member::select("members.id", "members.name", Member::raw("COUNT(`transactions`.`member_id`) as `jumlah_pinjam`"))
+        //             ->join("transactions", "transactions.member_id", "=", "members.id")
+        //             ->groupBy("transactions.member_id")
+        //             ->having("jumlah_pinjam", ">", 1)
+        //             ->get();
         // no.6
         // $data = Member::select("name", "phone_number", "address", "date_start", "date_end")
         //             ->join("transactions", function($join){
