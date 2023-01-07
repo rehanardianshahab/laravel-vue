@@ -41,7 +41,7 @@ class CatalogController extends Controller
     {
         // validasi required laravel
         $this->validate($request, [
-            'name' => ['required']
+            'name' => ['required','min:5','max:20']
         ]);
 
         // return $request; // testing data dari  post

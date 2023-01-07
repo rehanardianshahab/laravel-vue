@@ -40,7 +40,10 @@ class PublisherController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => ['required']
+            'name' => ['required','min:5','max:20'],
+            'phone_number' => ['required','numeric'],
+            'address' => ['required'],
+            'email' => ['required','email']
         ]);
         // save data ke database
         $publisher= new Publisher;
