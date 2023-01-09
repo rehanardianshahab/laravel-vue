@@ -1,0 +1,12 @@
+1.UPDATE table_name
+SET column1 = value1, column2 = value2, ...
+WHERE condition;
+
+2.DELETE FROM table_name WHERE condition;
+
+3.INSERT INTO table_name (column1, column2, ...)
+VALUES (value1, value2, ...);
+
+4.SELECT * FROM table_name WHERE condition;
+
+5.SELECT column1, column2, ... FROM table_name WHERE condition;
