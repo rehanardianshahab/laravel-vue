@@ -1,12 +1,13 @@
-1.UPDATE table_name
-SET column1 = value1, column2 = value2, ...
-WHERE condition;
+1.Update harga obat dengan ID tertentu di tabel obat:
+UPDATE obat SET harga = x WHERE id = y
+2.Delete data pelanggan dengan ID tertentu di tabel pelanggan:
+DELETE FROM pelanggan WHERE id = x
+3.Insert data baru ke tabel pembelian:
+INSERT INTO pembelian (id_obat, id_pelanggan, jumlah, tanggal) 
+VALUES (x, y, z, 'yyyy-mm-dd')
+4.Tampilkan data penjualan dari tanggal tertentu:
+SELECT * FROM penjualan WHERE tanggal >= 'yyyy-mm-dd'
+5.Hitung jumlah total pembelian per obat dari tabel pembelian:
+SELECT id_obat, SUM(jumlah) as total FROM pembelian GROUP BY id_obat
 
-2.DELETE FROM table_name WHERE condition;
-
-3.INSERT INTO table_name (column1, column2, ...)
-VALUES (value1, value2, ...);
-
-4.SELECT * FROM table_name WHERE condition;
-
-5.SELECT column1, column2, ... FROM table_name WHERE condition;
+Note:x, y, z merupakan value yang diganti sesuai kebutuhan.
