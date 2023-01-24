@@ -28,7 +28,11 @@ class Book extends Model
     }
 
     public function catalog() {
-        return $this->belongsTO('App\Models\Catalog', 'catalog_id');
+        return $this->belongsTo('App\Models\Catalog', 'catalog_id');
+    }
+
+    public function transaction_detail() {
+        return $this->belongsTo('App\Models\TransactionDetail', 'transaction_id');
     }
 
 }

@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="{{ asset('assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
   @yield('css')
 </head>
+{{-- @dd($counts) --}}
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
@@ -44,7 +45,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <!-- Navbar Search -->
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a class="nav-link" data-widget="navbar-search" href="#" role="button">
           <i class="fas fa-search"></i>
         </a>
@@ -63,10 +64,10 @@
             </div>
           </form>
         </div>
-      </li>
+      </li> --}}
 
       <!-- Messages Dropdown Menu -->
-      <li class="nav-item dropdown">
+      {{-- <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-comments"></i>
           <span class="badge badge-danger navbar-badge">3</span>
@@ -122,39 +123,32 @@
           <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
         </div>
-      </li>
+      </li> --}}
+
       <!-- Notifications Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+          <span class="badge badge-warning navbar-badge">{{ $counts[0]->status_count }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+          <span class="dropdown-item dropdown-header">{{ $counts[0]->status_count }} Notifications</span>
+            @foreach($contents as $content)
+              @if($content->status == 0 && limit_days($content->date > 0))
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item text-wrap">
+                <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i> {{ $content->name }} exceeds time limit ( {{ limit_days($content->date_end) }} days )
+              </a>
+              @endif
+            @endforeach
         </div>
       </li>
-      <li class="nav-item">
+
+      {{-- <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
-      </li>
+      </li> --}}
       <li class="nav-item">
         <a class="nav-link" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
@@ -210,14 +204,31 @@
                with font-awesome or any other icon font library -->
 
                {{-- HOME --}}
-          <li class="nav-item">
+          <li class="nav-item menu-open">
+            <a href="{{ url('home') }}" class="nav-link {{ request()->is('home') ? 'active' : '' }}">
+              <i class="nav-icon fas fa-home"></i>
+              <p>
+                Home
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ url('transactions') }}" class="nav-link {{ request()->is('transaction') ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Book Transaction</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          {{-- <li class="nav-item">
             <a href="{{ url('home') }}" class="nav-link {{ request()->is('home') ? 'active' : '' }}">
               <i class="nav-icon fas fa-home"></i>
               <p>
                 Home
               </p>
             </a>
-          </li>
+          </li> --}}
 
           {{-- CATALOG --}}
           <li class="nav-item">

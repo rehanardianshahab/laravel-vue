@@ -161,97 +161,97 @@
 <!-- Page specific script -->
 <script type="text/javascript">
 
-    var label_donut = '{!! json_encode($label_donut) !!}';
-    var data_donut = '{!! json_encode($data_donut) !!}';
-    var data_bar = '{!! json_encode($data_bar) !!}';
-    var data_pie = '{!! json_encode($data_pie) !!}';
-    var label_pie = '{!! json_encode($label_pie) !!}';
+  var label_donut = '{!! json_encode($label_donut) !!}';
+  var data_donut = '{!! json_encode($data_donut) !!}';
+  var data_bar = '{!! json_encode($data_bar) !!}';
+  var data_pie = '{!! json_encode($data_pie) !!}';
+  var label_pie = '{!! json_encode($label_pie) !!}';
 
-    $(function () {
-    /* ChartJS
-     * -------
-     * Here we will create a few charts using ChartJS
-     */
+  $(function () {
+  /* ChartJS
+   * -------
+   * Here we will create a few charts using ChartJS
+   */
 
-    //-------------
-    //- DONUT CHART -
-    //-------------
-    // Get context with jQuery - using jQuery's .get() method.
-    var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-    var donutData        = {
-      labels: JSON.parse(label_donut),
-      datasets: [
-        {
-          data: JSON.parse(data_donut),
-          backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#8821F8', '#7468DF', '#18906C', '#4B5628', '#E88416'],
-        }
-      ]
-    }
-    var donutOptions     = {
-      maintainAspectRatio : false,
-      responsive : true,
-    }
-    //Create pie or douhnut chart
-    // You can switch between pie and douhnut using the method below.
-    new Chart(donutChartCanvas, {
-      type: 'doughnut',
-      data: donutData,
-      options: donutOptions
-    })
-
-    //-------------
-    //- PIE CHART -
-    //-------------
-    // Get context with jQuery - using jQuery's .get() method.
-    var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
-    var pieData        = {
-      labels: JSON.parse(label_pie),
-      datasets: [
-        {
-          data: JSON.parse(data_pie),
-          backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#8821F8', '#7468DF', '#18906C', '#4B5628', '#E88416'],
-        }
-      ]
-    }
-    var pieOptions     = {
-      maintainAspectRatio : false,
-      responsive : true,
-    }
-    //Create pie or douhnut chart
-    // You can switch between pie and douhnut using the method below.
-    new Chart(pieChartCanvas, {
-      type: 'pie',
-      data: pieData,
-      options: pieOptions
-    })
-
-    //-------------
-    //- BAR CHART -
-    //-------------
-
-    var areaChartData = {
-      labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-      datasets: JSON.parse(data_bar)
-    }
-
-    var barChartCanvas = $('#barChart').get(0).getContext('2d')
-    var barChartData = $.extend(true, {}, areaChartData)
-    // var temp0 = areaChartData.datasets[0]
-    // var temp1 = areaChartData.datasets[1]
-    // barChartData.datasets[0] = temp1
-    // barChartData.datasets[1] = temp0
-
-    var barChartOptions = {
-      responsive              : true,
-      maintainAspectRatio     : false,
-      datasetFill             : false
-    }
-
-    new Chart(barChartCanvas, {
-      type: 'bar',
-      data: barChartData,
-      options: barChartOptions
-    })
+  //-------------
+  //- DONUT CHART -
+  //-------------
+  // Get context with jQuery - using jQuery's .get() method.
+  var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+  var donutData        = {
+    labels: JSON.parse(label_donut),
+    datasets: [
+      {
+        data: JSON.parse(data_donut),
+        backgroundColor : ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#8821F8', '#7468DF', '#18906C', '#4B5628', '#E88416'],
+      }
+    ]
+  }
+  var donutOptions     = {
+    maintainAspectRatio : false,
+    responsive : true,
+  }
+  //Create pie or douhnut chart
+  // You can switch between pie and douhnut using the method below.
+  new Chart(donutChartCanvas, {
+    type: 'doughnut',
+    data: donutData,
+    options: donutOptions
   })
-  </script>
+
+  //-------------
+  //- PIE CHART -
+  //-------------
+  // Get context with jQuery - using jQuery's .get() method.
+  var pieChartCanvas = $('#pieChart').get(0).getContext('2d')
+  var pieData        = {
+    labels: JSON.parse(label_pie),
+    datasets: [
+      {
+        data: JSON.parse(data_pie),
+        backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#8821F8', '#7468DF', '#18906C', '#4B5628', '#E88416'],
+      }
+    ]
+  }
+  var pieOptions     = {
+    maintainAspectRatio : false,
+    responsive : true,
+  }
+  //Create pie or douhnut chart
+  // You can switch between pie and douhnut using the method below.
+  new Chart(pieChartCanvas, {
+    type: 'pie',
+    data: pieData,
+    options: pieOptions
+  })
+
+  //-------------
+  //- BAR CHART -
+  //-------------
+
+  var areaChartData = {
+    labels  : ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    datasets: JSON.parse(data_bar)
+  }
+
+  var barChartCanvas = $('#barChart').get(0).getContext('2d')
+  var barChartData = $.extend(true, {}, areaChartData)
+  // var temp0 = areaChartData.datasets[0]
+  // var temp1 = areaChartData.datasets[1]
+  // barChartData.datasets[0] = temp1
+  // barChartData.datasets[1] = temp0
+
+  var barChartOptions = {
+    responsive              : true,
+    maintainAspectRatio     : false,
+    datasetFill             : false
+  }
+
+  new Chart(barChartCanvas, {
+    type: 'bar',
+    data: barChartData,
+    options: barChartOptions
+  })
+})
+</script>
 @endsection
