@@ -21,9 +21,13 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::with('transaction_detail')->get();
-
-        return view('admin.transaction.index', compact('transactions'));
+        if(auth()->user()->role('admin')) {
+            $transactions = Transaction::with('transaction_detail')->get();
+    
+            return view('admin.transaction.index', compact('transactions'));
+        } else {
+            return abort('403');
+        }
     }
 
     public function api(Request $request) {
