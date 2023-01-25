@@ -11,6 +11,7 @@
 
 @section('content')
 
+@role('admin')
 <div id="controller">
     <div class="row">
         <div class="col-12">
@@ -69,6 +70,7 @@
         </div>
       </div>
 </div>
+@endrole
 
 @endsection
 

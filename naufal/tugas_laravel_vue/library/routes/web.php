@@ -26,6 +26,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\DashboardController::class, 'dashboard']);
+Route::get('spatie', [App\Http\Controllers\PermissionController::class, 'spatie']);
 // Route::get('/books', [App\Http\Controllers\BookController::class, 'index']);
 // Route::get('/members', [App\Http\Controllers\MemberController::class, 'index']);
 
