@@ -2,6 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\PublisherController;
+use App\Http\Controllers\AuthorController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -31,14 +34,16 @@ Route::get('/catalogs-create', [App\Http\Controllers\CatalogController::class, '
 Route::post('/catalogs', [App\Http\Controllers\CatalogController::class, 'store']);
 Route::get('/publishers-create', [App\Http\Controllers\PublisherController::class, 'create']);
 Route::post('/publishers', [App\Http\Controllers\PublisherController::class, 'store']);
+// Route::get('/author', [App\Http\Controllers\AuthorController::class, 'create']);
+Route::post('/authors', [App\Http\Controllers\AuthorController::class, 'store']);
 // crud edit
 Route::get('/catalogs-edit', [App\Http\Controllers\CatalogController::class, 'edit']);
 Route::put('/catalogs/{catalog}', [App\Http\Controllers\CatalogController::class, 'update']);
 Route::get('/publishers-edit', [App\Http\Controllers\PublisherController::class, 'edit']);
 Route::put('/publishers/{publisher}', [App\Http\Controllers\PublisherController::class, 'update']);
+Route::get('/author-edit', [App\Http\Controllers\AuthorController::class, 'edit']);
+Route::put('/authors/{author}', [App\Http\Controllers\AuthorController::class, 'update']);
 // crud Delete
 Route::delete('/catalogs/{catalog}', [App\Http\Controllers\CatalogController::class, 'destroy']);
 Route::delete('/publishers/{publisher}', [App\Http\Controllers\PublisherController::class, 'destroy']);
-
-
-
+Route::delete('/author/{author}', [App\Http\Controllers\AuthorController::class, 'destroy']);

@@ -24,6 +24,8 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="assetAdminLte/dist/css/adminlte.min.css">
 {{-- end --}}
+
+    @yield('css')
 </head>
 <body>
     <div id="app">
@@ -239,5 +241,7 @@
     <!-- AdminLTE App -->
     <script src="assetAdminLte/dist/js/adminlte.min.js"></script>
 {{-- end --}}
+    @yield('scriptLink')
+    @yield('js')
 </body>
 </html>
