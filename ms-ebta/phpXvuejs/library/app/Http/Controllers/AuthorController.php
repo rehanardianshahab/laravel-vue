@@ -25,7 +25,10 @@ class AuthorController extends Controller
      */
     public function create()
     {
-        //
+        // $route = 'publishers';
+        return view('crud.create', [
+            'route' => 'author'
+        ]);
     }
 
     /**
@@ -36,7 +39,23 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // return $request;
+        // validasi
+        $this->validate($request, [
+            'name' => ['required','min:5','max:20'],
+            'phone_number' => ['required','numeric'],
+            'address' => ['required'],
+            'email' => ['required','email', 'unique:authors']
+        ]);
+        // save data ke database
+        $author= new Author;
+        $author->name = $request->name;
+        $author->phone_number = $request->phone_number;
+        $author->address = $request->address;
+        $author->email = $request->email;
+        $author->save();
+        // redirect
+        return redirect('authors')->with('success', 'Postingan berhasil ditambahkan');
     }
 
     /**
@@ -70,7 +89,29 @@ class AuthorController extends Controller
      */
     public function update(Request $request, Author $author)
     {
-        //
+        // $author = Author::with('books')->where('id', $author)->get();
+        if ($request->email === $author->email) {
+            $this->validate($request, [
+                'name' => ['required','min:5','max:20'],
+                'phone_number' => ['required','numeric'],
+                'address' => ['required'],
+            ]);
+        } else {
+            $this->validate($request, [
+                'name' => ['required','min:5','max:20'],
+                'phone_number' => ['required','numeric'],
+                'address' => ['required'],
+                'email' => ['required','email', 'unique:authors']
+            ]);
+        }
+
+        // return $request;
+        // Author::where('id', $author->id)->update($author);
+
+ 
+        $author->update($request->all()); // perlu menambahkan fillable atau guarded di model
+        
+        return redirect('/authors')->with('success', 'Postingan berhasil diedit');
     }
 
     /**
@@ -81,6 +122,7 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
-        //
+        $author->delete();
+        return redirect('authors')->with('success', 'Postingan berhasil dihapus');;
     }
 }

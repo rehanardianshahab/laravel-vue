@@ -16,7 +16,7 @@ class PublisherController extends Controller
     {
         
         $publisher = Publisher::with('books')->get();
-        return view('admin/publisher/index', compact('publisher'));
+        return view('.admin.publisher.index', compact('publisher'));
     }
 
     /**
@@ -27,8 +27,10 @@ class PublisherController extends Controller
     public function create()
     {
         
-        $route = 'publishers';
-        return view('crud/create', compact('route'));
+        // $route = 'publishers';
+        return view('crud.create', [
+            'route' => 'publishers'
+        ]);
     }
 
     /**
@@ -43,8 +45,9 @@ class PublisherController extends Controller
             'name' => ['required','min:5','max:20'],
             'phone_number' => ['required','numeric'],
             'address' => ['required'],
-            'email' => ['required','email']
+            'email' => ['required','email', 'unique:publishers']
         ]);
+        // return $request;
         // save data ke database
         $publisher= new Publisher;
         $publisher->name = $request->name;
@@ -52,10 +55,9 @@ class PublisherController extends Controller
         $publisher->address = $request->address;
         $publisher->email = $request->email;
 
-
         $publisher->save();
         // redirect
-        return redirect('publishers');
+        return redirect('publishers')->with('success', 'Postingan berhasil ditambahkan');
     }
 
     /**
@@ -92,15 +94,26 @@ class PublisherController extends Controller
     public function update(Request $request, Publisher $publisher)
     {
         // validasi required laravel
-        $this->validate($request, [
-            'name' => ['required']
-        ]);
+        if ($request->email === $publisher->email) {
+            $this->validate($request, [
+                'name' => ['required','min:5','max:20'],
+                'phone_number' => ['required','numeric'],
+                'address' => ['required'],
+            ]);
+        } else {
+            $this->validate($request, [
+                'name' => ['required','min:5','max:20'],
+                'phone_number' => ['required','numeric'],
+                'address' => ['required'],
+                'email' => ['required','email', 'unique:publishers']
+            ]);
+        }
 
         // update data
         $publisher->update($request->all()); // perlu menambahkan fillable atau guarded di model
 
         // redirect
-        return redirect('publishers');
+        return redirect('publishers')->with('success', 'Postingan berhasil diedit');
     }
 
     /**
@@ -112,6 +125,6 @@ class PublisherController extends Controller
     public function destroy(Publisher $publisher)
     {
         $publisher->delete();
-        return redirect('publishers');
+        return redirect('publishers')->with('success', 'Postingan berhasil dihapus');
     }
 }

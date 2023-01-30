@@ -9,6 +9,9 @@ class Author extends Model
 {
     use HasFactory;
 
+    // guarded or fillable
+    protected $guarded = ['id'];
+
     // relasi database
     public function Books()
     {
