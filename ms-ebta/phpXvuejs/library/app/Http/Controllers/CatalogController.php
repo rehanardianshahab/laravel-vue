@@ -40,11 +40,11 @@ class CatalogController extends Controller
     public function store(Request $request)
     {
         // validasi required laravel
+        // return $request; // testing data dari  post
         $this->validate($request, [
             'name' => ['required','min:5','max:20']
         ]);
 
-        // return $request; // testing data dari  post
 
         // cara1: save data ke database
         // $catalog= new Catalog;
@@ -55,7 +55,7 @@ class CatalogController extends Controller
         Catalog::create($request->all()); // perlu menambahkan fillable atau guarded di model
 
         // redirect
-        return redirect('catalogs');
+        return redirect('catalogs')->with('success', 'Data berhasil ditambahkan');
     }
 
     /**
@@ -99,7 +99,7 @@ class CatalogController extends Controller
         $catalog->update($request->all()); // perlu menambahkan fillable atau guarded di model
 
         // redirect
-        return redirect('catalogs');
+        return redirect('catalogs')->with('success', 'Data berhasil ditambahkan');
     }
 
     /**
@@ -111,6 +111,56 @@ class CatalogController extends Controller
     public function destroy(Catalog $catalog)
     {
         $catalog->delete();
-        return redirect('catalogs');
+        return redirect('catalogs')->with('success', 'Data berhasil dihapuskan');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {
+        $catalogs = Catalog::onlyTrashed()->get();
+        $trash = true;
+        return view('.admin.catalog.index', compact('catalogs', 'trash'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function restore()
+    {
+        // return $_GET;
+        $restore = Catalog::onlyTrashed()->where('id', $_GET['id'])->restore();
+        // return $restore;
+        return redirect('catalogs/trash')->with('success', 'Data berhasil dimutakhirkan');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function storeAll()
+    {
+        // return $_GET;
+        $restore = Catalog::onlyTrashed()->restore();
+        // return $restore;
+        return redirect('authors/trash')->with('success', 'Seluruh data berhasil dimutakhirkan');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Publisher  $publisher
+     * @return \Illuminate\Http\Response
+     */
+    public function delete()
+    {
+        Catalog::onlyTrashed()->where('id', $_GET['id'])->firstOrFail()->forceDelete();
+        return redirect('catalogs/trash')->with('success', 'Data berhasil dihapus permanen');
     }
 }
