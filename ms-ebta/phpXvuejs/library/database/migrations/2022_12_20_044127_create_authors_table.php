@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name', 64);
             $table->char('phone_number', 15);
             $table->text('address');
+            $table->softDeletes();
             $table->string('email', 64);
             $table->timestamps();
         });

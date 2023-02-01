@@ -57,7 +57,7 @@ class PublisherController extends Controller
 
         $publisher->save();
         // redirect
-        return redirect('publishers')->with('success', 'Postingan berhasil ditambahkan');
+        return redirect('publishers')->with('success', 'Data berhasil ditambahkan');
     }
 
     /**
@@ -113,7 +113,7 @@ class PublisherController extends Controller
         $publisher->update($request->all()); // perlu menambahkan fillable atau guarded di model
 
         // redirect
-        return redirect('publishers')->with('success', 'Postingan berhasil diedit');
+        return redirect('publishers')->with('success', 'Data berhasil diedit');
     }
 
     /**
@@ -125,6 +125,57 @@ class PublisherController extends Controller
     public function destroy(Publisher $publisher)
     {
         $publisher->delete();
-        return redirect('publishers')->with('success', 'Postingan berhasil dihapus');
+        return redirect('publishers')->with('success', 'Data berhasil dihapus');
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {
+        $publisher = Publisher::onlyTrashed()->get();
+        $trash = true;
+        return view('.admin.publisher.index', compact('publisher', 'trash'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function restore()
+    {
+        // return $_GET;
+        $restore = Publisher::onlyTrashed()->where('id', $_GET['id'])->restore();
+        // return $restore;
+        return redirect('publishers/trash')->with('success', 'Data berhasil dimutakhirkan');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function storeAll()
+    {
+        // return $_GET;
+        $restore = Publisher::onlyTrashed()->restore();
+        // return $restore;
+        return redirect('publishers/trash')->with('success', 'Seluruh data berhasil dimutakhirkan');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Publisher  $publisher
+     * @return \Illuminate\Http\Response
+     */
+    public function delete()
+    {
+        Publisher::onlyTrashed()->where('id', $_GET['id'])->firstOrFail()->forceDelete();
+        return redirect('publishers/trash')->with('success', 'Data berhasil dihapus permanen');
+    }
+    
 }

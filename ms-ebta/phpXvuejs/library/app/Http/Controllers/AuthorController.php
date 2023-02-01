@@ -122,7 +122,58 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
+        // return $author;
         $author->delete();
         return redirect('authors')->with('success', 'Postingan berhasil dihapus');;
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function trash()
+    {
+        $author = Author::onlyTrashed()->get();
+        $trash = true;
+        return view('.admin.author.index', compact('author', 'trash'));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function restore()
+    {
+        // return $_GET;
+        $restore = Author::onlyTrashed()->where('id', $_GET['id'])->restore();
+        // return $restore;
+        return redirect('authors/trash')->with('success', 'Data berhasil dimutakhirkan');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function storeAll()
+    {
+        // return $_GET;
+        $restore = Author::onlyTrashed()->restore();
+        // return $restore;
+        return redirect('authors/trash')->with('success', 'Seluruh data berhasil dimutakhirkan');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Publisher  $publisher
+     * @return \Illuminate\Http\Response
+     */
+    public function delete()
+    {
+        Author::onlyTrashed()->where('id', $_GET['id'])->firstOrFail()->forceDelete();
+        return redirect('authors/trash')->with('success', 'Data berhasil dihapus permanen');
     }
 }
