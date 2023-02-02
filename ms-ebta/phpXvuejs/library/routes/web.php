@@ -73,6 +73,8 @@ Route::group(['prefix' => 'home'], function() {
 Route::group(['prefix' => 'books'], function() {
     Route::get('/', [BookController::class, 'index'])->name('books.index');
 });
+
+// halaman catalogs
 Route::group(['prefix' => 'catalogs'], function() {
     Route::get('/force-delete', [CatalogController::class, 'delete']);
     Route::get('/trash', [CatalogController::class, 'trash'])->name('catalogs.trash');
@@ -85,6 +87,9 @@ Route::group(['prefix' => 'catalogs'], function() {
     Route::get('/catalog', [App\Http\Controllers\CatalogController::class, 'restore']);
     Route::get('/restore-all', [App\Http\Controllers\CatalogController::class, 'storeAll'])->name('catalogs.restore-all');
 });
+
+// halaman autors
+Route::get('api/authors', [AuthorController::class, 'api']);
 Route::group(['prefix' => 'authors'], function() {
     Route::get('/force-delete', [AuthorController::class, 'delete']);
     Route::get('/trash', [AuthorController::class, 'trash'])->name('authors.trash');
