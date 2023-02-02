@@ -111,45 +111,8 @@
                             </tr>
                           </thead>
                           <tbody>
-                            @foreach ($author as $key => $item)
-                            <tr>
-                              <td>{{ $key+1 }}</td>
-                              <td>{{ $item->name }}</td>
-                              <td class="text-center">{{ $item->phone_number }}</td>
-                              <td class="text-center">{{ $item->address }}</td>
-                              <td class="text-center">{{ $item->email }}</td>
-                              <td class="text-center">
-                                  @if (isset($trash))
-                                    <form action="/authors/author" method="get" class="d-inline">
-                                      <input type="hidden" value="{{ $item->id }}" name="id">
-                                      <button type="submit" style="border:none; background:none; display:inline; color:blue; text-decoration:none;">Restore</button>
-                                              {{-- @method('head') --}}
-                                        @csrf
-                                    </form>
-                                    <form action="/authors/force-delete" method="get">
-                                      <input type="hidden" value="{{ $item->id }}" name="id">
-                                      <button type="submit" style="border:none; background:none; display:inline; color:red; text-decoration:none;" onclick="return confirm('Apakah anda yakin mau menghapus publiser {{ $item->name }}?')">Hapus</button>
-                                        @csrf
-                                    </form>
-                                  @else
-                                <a href="#" @click="editData({{ $item }})"  class="text-success" data-toggle="modal" data-target="#modal-lg">Perbarui</a>  
-                                        ||<form action="{{ url('authors', ['id' => $item->id]) }}" method="post" style="display: inline;">
-                                  <button type="submit" style="border:none; background:none; display:inline; color:red; text-decoration:none;" onclick="return confirm('Apakah anda yakin mau menghapus katalog {{ $item->name }}?')">Hapus</button>
-                                    @method('delete')
-                                    @csrf
-                                </form>
-                                  @endif
-                              </td>
-                            </tr>
-                              @endforeach
-                              @if (isset($trash))
-                            <tr>
-                              <td></td><td></td><td></td><td></td><td></td>
-                              <td class="text-center"><a href="/authors/restore-all">Restore All</a></td>
-                            </tr>
-                              @else
-                              @endif
-                            </tbody>
+                            
+                          </tbody>
                         </table>
                       </div>
                       <!-- /.card-body -->

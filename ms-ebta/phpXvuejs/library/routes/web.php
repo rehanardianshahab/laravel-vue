@@ -89,7 +89,7 @@ Route::group(['prefix' => 'catalogs'], function() {
 });
 
 // halaman autors
-Route::get('api/authors', [AuthorController::class, 'api']);
+Route::get('/api/authors', [AuthorController::class, 'api']);
 Route::group(['prefix' => 'authors'], function() {
     Route::get('/force-delete', [AuthorController::class, 'delete']);
     Route::get('/trash', [AuthorController::class, 'trash'])->name('authors.trash');
