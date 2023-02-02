@@ -97,4 +97,6 @@ Route::group(['prefix' => 'authors'], function() {
     Route::get('/author', [App\Http\Controllers\AuthorController::class, 'restore']);
     Route::delete('/{author}', [App\Http\Controllers\AuthorController::class, 'destroy']);
 });
-
+Route::group(['prefix' => 'members'], function() {
+    Route::get('/', [App\Http\Controllers\MemberController::class, 'index'])->name('members.index');
+});
