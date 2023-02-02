@@ -1,7 +1,12 @@
 @extends('layouts.app3')
 
 @section('css')
+  {{-- bootsrap icons --}}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" integrity="sha512-Oy+sz5W86PK0ZIkawrG0iv7XwWhYecM3exvUtMKNJMekGFJtVAhibhRPTpmyTj8+lJCkmWfnpxKgT2OopquBHA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- DataTables -->
+  <link rel="stylesheet" href="/assetAdminLte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="/assetAdminLte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="/assetAdminLte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
 @endsection
 
 @section('content')
@@ -65,7 +70,7 @@
   <div class="row justify-content-center">
       <div class="col-md-12">
           <div class="card">
-              <div class="card-header">{{ __('Authors') }}<span style="float:right;"><a href="#"   @click="addData()" data-toggle="modal" data-target="#modal-lg">Tambah data</a></span></div>
+            <div class="card-header">{{ __('Authors') }}<span style="float:right;"><a href="#"   @click="addData()" data-toggle="modal" data-target="#modal-lg">Tambah data</a></span></div>
 
               <div class="card-body">
                   @if (session('success'))
@@ -93,8 +98,8 @@
                         @endif
                       </div>
                       <!-- /.card-header -->
-                      <div class="card-body p-0">
-                        <table class="table table-sm">
+                      <div class="card-body px-1 p-0 pt-1">
+                        <table id="example1" class="table table-sm">
                           <thead>
                             <tr>
                               <th class="text-center">No</th>
@@ -106,7 +111,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                          @foreach ($author as $key => $item)
+                            @foreach ($author as $key => $item)
                             <tr>
                               <td>{{ $key+1 }}</td>
                               <td>{{ $item->name }}</td>
@@ -114,47 +119,48 @@
                               <td class="text-center">{{ $item->address }}</td>
                               <td class="text-center">{{ $item->email }}</td>
                               <td class="text-center">
-                                @if (isset($trash))
+                                  @if (isset($trash))
                                     <form action="/authors/author" method="get" class="d-inline">
                                       <input type="hidden" value="{{ $item->id }}" name="id">
                                       <button type="submit" style="border:none; background:none; display:inline; color:blue; text-decoration:none;">Restore</button>
-                                      {{-- @method('head') --}}
-                                      @csrf
+                                              {{-- @method('head') --}}
+                                        @csrf
                                     </form>
                                     <form action="/authors/force-delete" method="get">
                                       <input type="hidden" value="{{ $item->id }}" name="id">
                                       <button type="submit" style="border:none; background:none; display:inline; color:red; text-decoration:none;" onclick="return confirm('Apakah anda yakin mau menghapus publiser {{ $item->name }}?')">Hapus</button>
-                                      @csrf
+                                        @csrf
                                     </form>
-                                @else
+                                  @else
                                 <a href="#" @click="editData({{ $item }})"  class="text-success" data-toggle="modal" data-target="#modal-lg">Perbarui</a>  
-                                ||<form action="{{ url('authors', ['id' => $item->id]) }}" method="post" style="display: inline;">
+                                        ||<form action="{{ url('authors', ['id' => $item->id]) }}" method="post" style="display: inline;">
                                   <button type="submit" style="border:none; background:none; display:inline; color:red; text-decoration:none;" onclick="return confirm('Apakah anda yakin mau menghapus katalog {{ $item->name }}?')">Hapus</button>
-                                  @method('delete')
-                                  @csrf
+                                    @method('delete')
+                                    @csrf
                                 </form>
-                                @endif
+                                  @endif
                               </td>
                             </tr>
-                            @endforeach
-                            @if (isset($trash))
+                              @endforeach
+                              @if (isset($trash))
                             <tr>
                               <td></td><td></td><td></td><td></td><td></td>
                               <td class="text-center"><a href="/authors/restore-all">Restore All</a></td>
                             </tr>
-                            @else
-                            @endif
-                          </tbody>
+                              @else
+                              @endif
+                            </tbody>
                         </table>
                       </div>
                       <!-- /.card-body -->
                   </div>
                   <!-- /.card -->
               </div>
+              <!-- /.card-body -->
+            </div>
           </div>
       </div>
   </div>
-</div>
 {{-- <div> --}}
 @endsection
 
@@ -165,6 +171,19 @@
 <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
 <!-- Remember to include jQuery :) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+<!-- DataTables  & Plugins -->
+<script src="/assetAdminLte/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/assetAdminLte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="/assetAdminLte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="/assetAdminLte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+<script src="/assetAdminLte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+<script src="/assetAdminLte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+<script src="/assetAdminLte/plugins/jszip/jszip.min.js"></script>
+<script src="/assetAdminLte/plugins/pdfmake/pdfmake.min.js"></script>
+<script src="/assetAdminLte/plugins/pdfmake/vfs_fonts.js"></script>
+<script src="/assetAdminLte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+<script src="/assetAdminLte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+<script src="/assetAdminLte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 @endsection
 
 @section('js')
@@ -203,6 +222,24 @@
 
         }
       }
+    });
+  </script>
+  <!-- Page specific script -->
+  <script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
     });
   </script>
 @endsection
