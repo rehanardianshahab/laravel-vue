@@ -150,7 +150,7 @@
 @endsection
 
 @section('js')
-  <script>
+  {{-- <script>
     // vue js
     var controllerVue = new Vue({
       el: '#controllerForVue',
@@ -186,6 +186,25 @@
         }
       }
     });
+  </script> --}}
+
+  {{-- script untuk datatable tajrabox --}}
+  <script>
+    let actionUrl = '{{ url('authors') }}';
+    let apiUrl = '{{ url('api/authors') }}';
+
+    let coloumns = [
+      {data: 'DT_RowIndex', class: 'text-center', orderable:true},
+      {data: 'name', class: 'text-center', orderable:true},
+      {data: 'phone_number', class: 'text-center', orderable:true},
+      {data: 'address', class: 'text-center', orderable:true},
+      {data: 'email', class: 'text-center', orderable:true},
+      {render: function (index, row, data, meta) {
+        return `
+          <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event, ${meta.row})">Edit</a>
+          <a href="#" class="btn btn-danger btn-sm" onclick="controller.deletData(event, ${data.id})">Delete</a>`;
+      }, orderable: false, width: '200px', class: 'text-center'},
+    ];
   </script>
   <!-- Page specific script -->
   <script>
