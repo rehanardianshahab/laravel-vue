@@ -12,7 +12,7 @@
 @section('content')
 <div id="controllerForVue">
 {{-- modal --}}
-<div class="modal fade" id="modal-lg">
+{{-- <div class="modal fade" id="modal-lg">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <form class="form-horizontal" :action="actionUrl" method="post">
@@ -23,9 +23,9 @@
         </button>
       </div>
       <div class="modal-body">
-        <input type="hidden" name="_method" value="PUT" v-if="statusEdit">
-          @csrf {{-- untuk get token --}}
-          <div class="card-body">
+        <input type="hidden" name="_method" value="PUT" v-if="statusEdit"> --}}
+          {{-- @csrf untuk get token --}}
+          {{-- <div class="card-body">
               <div class="form-group row">
                   <label for="inputNamaAuthor" class="col-sm-2 col-form-label">Nama</label>
                   <div class="col-sm-10">
@@ -53,8 +53,8 @@
           </div>
           <!-- /.card-body -->
         <!-- /.card-footer -->
-      </div>
-      <div class="modal-footer justify-content-between">
+      </div> --}}
+      {{-- <div class="modal-footer justify-content-between">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         <button type="submit" class="btn btn-info">@{{  tombol  }}</button>
       </div>
@@ -63,7 +63,7 @@
     <!-- /.modal-content -->
   </div>
   <!-- /.modal-dialog -->
-</div>
+</div> --}}
 
 
 {{-- <div class="container"> --}}
@@ -99,7 +99,7 @@
                       </div>
                       <!-- /.card-header -->
                       <div class="card-body px-1 p-0 pt-1">
-                        <table id="example1" class="table table-sm">
+                        <table id="datatable" class="table table-sm">
                           <thead>
                             <tr>
                               <th class="text-center">No</th>
@@ -110,9 +110,9 @@
                               <th class="text-center">Aksi</th>
                             </tr>
                           </thead>
-                          <tbody>
+                          {{-- <tbody>
                             
-                          </tbody>
+                          </tbody> --}}
                         </table>
                       </div>
                       <!-- /.card-body -->
@@ -193,7 +193,7 @@
     let actionUrl = '{{ url('authors') }}';
     let apiUrl = '{{ url('api/authors') }}';
 
-    let coloumns = [
+    let columns = [
       {data: 'DT_RowIndex', class: 'text-center', orderable:true},
       {data: 'name', class: 'text-center', orderable:true},
       {data: 'phone_number', class: 'text-center', orderable:true},
@@ -205,11 +205,39 @@
           <a href="#" class="btn btn-danger btn-sm" onclick="controller.deletData(event, ${data.id})">Delete</a>`;
       }, orderable: false, width: '200px', class: 'text-center'},
     ];
+
+    let controllerVue = new Vue({
+      el: '#controllerForVue',
+      data: {
+        datas: [],// menampung data author
+        data: {},// untuk crud
+        actionUrl,//dipakai dengan crud
+        apiUrl,//dipakai dengan ajax
+        editStatus: false,
+      },
+      mounted: function () {
+        this.datatable();
+      },
+      methods: {
+        datatable() {
+          const _this = this;
+          _this.table = $('#datatable').DataTable({
+            ajax: {
+              url: _this.apiUrl,
+              type: 'GET',
+            },//memanggil data dari data api dengan ajax, disimpan di DataTable
+            columns: columns
+          }).on('xhr', function () {
+            _this.datas = _this.table.ajax.json().data;
+          });
+        },
+      }
+    });
   </script>
   <!-- Page specific script -->
-  <script>
+  {{-- <script>
     $(function () {
-      $("#example1").DataTable({
+      $("#datatable").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,
         "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
       }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
@@ -223,5 +251,5 @@
         "responsive": true,
       });
     });
-  </script>
+  </script> --}}
 @endsection
