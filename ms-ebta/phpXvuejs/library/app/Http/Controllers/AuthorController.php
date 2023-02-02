@@ -9,7 +9,10 @@ class AuthorController extends Controller
 {
     public function api()
     {
-        # code...
+        $author = Author::all();
+        $datatable = datatables()->of($author)->addIndexColumn();
+
+        return  $datatable->make(true);
     }
     /**
      * Display a listing of the resource.
