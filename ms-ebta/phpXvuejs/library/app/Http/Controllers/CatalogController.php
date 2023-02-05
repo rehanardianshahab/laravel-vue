@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 class CatalogController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -162,5 +172,17 @@ class CatalogController extends Controller
     {
         Catalog::onlyTrashed()->where('id', $_GET['id'])->firstOrFail()->forceDelete();
         return redirect('catalogs/trash')->with('success', 'Data berhasil dihapus permanen');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Publisher  $publisher
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteAll()
+    {
+        Catalog::onlyTrashed()->forceDelete();
+        return redirect('catalogs/trash')->with('success', 'Semua data berhasil dihapus permanen');
     }
 }

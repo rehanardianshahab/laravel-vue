@@ -9,8 +9,12 @@
     <div class="row justify-content-center">
         <div class="col-md-11 col-sm-12">
             <div class="card">
-                <div class="card-header">{{ __('Katalog') }}<span style="float:right;"><a href="{{ url('/catalogs/catalogs-create') }}">Tambah data</a></span></div>
-
+                <div class="card-header">{{ __('Katalog') }}<span style="float:right;">
+                  @if (isset($trash))
+                    <a href="{{ url('/catalogs') }}">Back</a></span></div>
+                  @else
+                    <a href="{{ url('/catalogs/catalogs-create') }}">Tambah data</a></span></div>
+                  @endif
                 <div class="card-body">
                     @if (session('success'))
                         <div class="alert alert-success" role="alert">
@@ -73,8 +77,9 @@
                             @endforeach
                               @if (isset($trash))
                               <tr>
-                                <td></td><td></td><td></td><td></td><td></td>
-                                <td class="text-center"><a href="/catalogs/restore-all">Restore All</a></td>
+                                <td></td><td></td><td></td><td></td>
+                                <td class="text-center"><a href="/catalogs/restore-all" onclick="return confirm('Apakah anda yakin mau merestore semua data?')">Restore All</a></td>
+                                <td class="text-center"><a href="/catalogs/delete-all" onclick="return confirm('Apakah anda yakin mau menghapus permanen semua data}?')">Delete All</a></td>
                               </tr>
                               @else
                               @endif

@@ -52,18 +52,27 @@ Auth::routes();
 // Route::get('/publishers/trash', [PublisherController::class, 'trash'])->name('publisher.trash');
 
 // // publisher
+Route::get('/api/publishers', [PublisherController::class, 'api']);
+Route::get('/api/publishers/trash', [PublisherController::class, 'apiTrash']);
 Route::group(['prefix' => 'publishers'], function() {
     Route::get('/', [PublisherController::class, 'index'])->name('publisher.index');
     // Route::get('/create', [PublisherController::class, 'create'])->name('publisher.create');
-    Route::get('/publish', [PublisherController::class, 'restore']);
+    // Route::get('/restore', [PublisherController::class, 'restore']);
+    Route::get('/restoreAll', [PublisherController::class, 'restoreAll']);
     Route::get('/trash', [PublisherController::class, 'trash'])->name('publisher.trash');
-    Route::get('/create', [PublisherController::class, 'store'])->name('publisher.store');
+    // Route::get('/create', [PublisherController::class, 'store'])->name('publisher.store');
+    // Route::post('/create', [PublisherController::class, 'store'])->name('publisher.store');
+    Route::post('/', [PublisherController::class, 'store'])->name('publisher.store');
     // Route::get('/{publisher}/show', 'PublisherController@show')->name('publisher.show');
     // Route::get('/{publisher}/edit', 'PublisherController@edit')->name('publisher.edit');
-    Route::put('/{publisher}/update', [PublisherController::class, 'update'])->name('publisher.update');
-    Route::get('/rest/{publisher}', [PublisherController::class, 'restore']);
-    Route::delete('/{publisher}/delete', [PublisherController::class, 'destroy'])->name('publisher.destroy');
+    Route::post('/{publisher}/update', [PublisherController::class, 'update'])->name('publisher.update');
+    // Route::put('/{publisher}/update', [PublisherController::class, 'update'])->name('publisher.update');
+    Route::get('/restore', [PublisherController::class, 'restore']);
+    Route::delete('/delete/{publisher}', [PublisherController::class, 'destroy'])->name('publisher.destroy');
     Route::get('/force-delete', [PublisherController::class, 'delete']);
+    // Route::get('/delete/{publisher}', [PublisherController::class, 'destroy'])->name('publisher.destroy');
+    Route::get('/force-delete', [PublisherController::class, 'delete']);
+    Route::get('/force-deleteAll', [PublisherController::class, 'deleteAll']);
     Route::get('/restore-all', [PublisherController::class, 'storeAll'])->name('publisher.restore-all');
 });
 
@@ -73,6 +82,8 @@ Route::group(['prefix' => 'home'], function() {
 Route::group(['prefix' => 'books'], function() {
     Route::get('/', [BookController::class, 'index'])->name('books.index');
 });
+
+// halaman catalogs
 Route::group(['prefix' => 'catalogs'], function() {
     Route::get('/force-delete', [CatalogController::class, 'delete']);
     Route::get('/trash', [CatalogController::class, 'trash'])->name('catalogs.trash');
@@ -84,7 +95,11 @@ Route::group(['prefix' => 'catalogs'], function() {
     Route::delete('/{catalog}', [App\Http\Controllers\CatalogController::class, 'destroy']);
     Route::get('/catalog', [App\Http\Controllers\CatalogController::class, 'restore']);
     Route::get('/restore-all', [App\Http\Controllers\CatalogController::class, 'storeAll'])->name('catalogs.restore-all');
+    Route::get('/delete-all', [App\Http\Controllers\CatalogController::class, 'deleteAll'])->name('catalogs.delete-all');
 });
+
+// halaman autors
+// Route::get('/api/authors', [AuthorController::class, 'api']);
 Route::group(['prefix' => 'authors'], function() {
     Route::get('/force-delete', [AuthorController::class, 'delete']);
     Route::get('/trash', [AuthorController::class, 'trash'])->name('authors.trash');
@@ -92,11 +107,24 @@ Route::group(['prefix' => 'authors'], function() {
     Route::put('/{author}', [App\Http\Controllers\AuthorController::class, 'update']);
     Route::get('/', [App\Http\Controllers\AuthorController::class, 'index']);
     Route::get('/restore-all', [App\Http\Controllers\AuthorController::class, 'storeAll'])->name('author.restore-all');
+    Route::get('/delete-all', [App\Http\Controllers\AuthorController::class, 'deleteAll'])->name('author.delete-all');
     Route::post('/', [App\Http\Controllers\AuthorController::class, 'store']);
     Route::get('/authors-create', [App\Http\Controllers\AuthorController::class, 'create']);
     Route::get('/author', [App\Http\Controllers\AuthorController::class, 'restore']);
     Route::delete('/{author}', [App\Http\Controllers\AuthorController::class, 'destroy']);
 });
+
+// member
+Route::get('/api/members', [App\Http\Controllers\MemberController::class, 'api']);
+Route::get('/api/members/trash', [App\Http\Controllers\MemberController::class, 'apiTrash']);
 Route::group(['prefix' => 'members'], function() {
     Route::get('/', [App\Http\Controllers\MemberController::class, 'index'])->name('members.index');
+    Route::post('/', [App\Http\Controllers\MemberController::class, 'store'])->name('members.store');
+    Route::post('/{member}/update', [App\Http\Controllers\MemberController::class, 'update'])->name('members.update');
+    Route::delete('/delete/{member}', [App\Http\Controllers\MemberController::class, 'destroy'])->name('publisher.destroy');
+    Route::get('/trash', [App\Http\Controllers\MemberController::class, 'trash'])->name('publisher.trash');
+    Route::get('/restore', [App\Http\Controllers\MemberController::class, 'restore']);
+    Route::get('/restoreAll', [App\Http\Controllers\MemberController::class, 'restoreAll']);
+    Route::get('/force-delete', [App\Http\Controllers\MemberController::class, 'delete']);
+    Route::get('/force-deleteAll', [App\Http\Controllers\MemberController::class, 'deleteAll']);
 });
