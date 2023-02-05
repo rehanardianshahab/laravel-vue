@@ -7,6 +7,27 @@ use Illuminate\Http\Request;
 
 class PublisherController extends Controller
 {
+    public function api()
+    {
+        $publisher = Publisher::all();
+        $datatable = datatables()->of($publisher)->addIndexColumn();
+
+        return  $datatable->make(true);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function apiTrash()
+    {
+        $publisher = Publisher::onlyTrashed();
+        $datatable = datatables()->of($publisher)->addIndexColumn();
+
+        return  $datatable->make(true);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +36,9 @@ class PublisherController extends Controller
     public function index()
     {
         
-        $publisher = Publisher::with('books')->get();
-        return view('.admin.publisher.index', compact('publisher'));
+        // $publisher = Publisher::with('books')->get();
+        // return view('.admin.publisher.index', compact('publisher'));
+        return view('.admin.publisher.index');
     }
 
     /**
@@ -57,6 +79,7 @@ class PublisherController extends Controller
 
         $publisher->save();
         // redirect
+        redirect('publishers')->with('success', 'Data berhasil ditambahkan');
         return redirect('publishers')->with('success', 'Data berhasil ditambahkan');
     }
 
@@ -125,7 +148,7 @@ class PublisherController extends Controller
     public function destroy(Publisher $publisher)
     {
         $publisher->delete();
-        return redirect('publishers')->with('success', 'Data berhasil dihapus');
+        // return redirect('publishers')->with('success', 'Data berhasil dihapus');
     }
 
     /**
@@ -135,9 +158,7 @@ class PublisherController extends Controller
      */
     public function trash()
     {
-        $publisher = Publisher::onlyTrashed()->get();
-        $trash = true;
-        return view('.admin.publisher.index', compact('publisher', 'trash'));
+        return view('.admin.publisher.trash');
     }
 
     /**
@@ -145,12 +166,14 @@ class PublisherController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function restore()
+    public function restore(Publisher $publisher)
     {
-        // return $_GET;
         $restore = Publisher::onlyTrashed()->where('id', $_GET['id'])->restore();
-        // return $restore;
-        return redirect('publishers/trash')->with('success', 'Data berhasil dimutakhirkan');
+    }
+
+    public function restoreAll()
+    {
+        Publisher::onlyTrashed()->restore();
     }
 
     /**
@@ -175,7 +198,16 @@ class PublisherController extends Controller
     public function delete()
     {
         Publisher::onlyTrashed()->where('id', $_GET['id'])->firstOrFail()->forceDelete();
-        return redirect('publishers/trash')->with('success', 'Data berhasil dihapus permanen');
     }
     
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Publisher  $publisher
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteAll()
+    {
+        Publisher::onlyTrashed()->forceDelete();
+    }
 }

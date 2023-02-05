@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class AuthorController extends Controller
 {
+    public function api()
+    {
+        $author = Author::all();
+        $datatable = datatables()->of($author)->addIndexColumn();
+
+        return  $datatable->make(true);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +21,9 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        $author = Author::with('books')->get();
-        return view('admin.author.index', compact('author'));
+        // $author = Author::with('books')->get();
+        // return view('admin.author.index', compact('author'));
+        return view('admin.author.index');
     }
 
     /**
@@ -175,17 +183,5 @@ class AuthorController extends Controller
     {
         Author::onlyTrashed()->where('id', $_GET['id'])->firstOrFail()->forceDelete();
         return redirect('authors/trash')->with('success', 'Data berhasil dihapus permanen');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Publisher  $publisher
-     * @return \Illuminate\Http\Response
-     */
-    public function deleteAll()
-    {
-        Author::onlyTrashed()->forceDelete();
-        return redirect('authors/trash')->with('success', 'Semua data berhasil dihapus permanen');
     }
 }
