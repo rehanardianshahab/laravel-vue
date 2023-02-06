@@ -105,8 +105,8 @@
 
 @section('js')
 <script type="text/javascript">
-	var actionUrl = '{{ url('books')}}';
-	var apiUrl = '{{ url('api/books') }}';
+	var actionUrl = '{{ url("books") }}';
+	var apiUrl = '{{ url("api/books") }}';
 
 	var app = new Vue({
 		el: '#controller',

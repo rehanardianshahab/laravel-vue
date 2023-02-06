@@ -8,7 +8,6 @@
 			<div class="card-header">
 				<h3 class="card-title">Create New Catalog</h3>
 			</div>
-
 			<form action="{{ url('catalogs') }}" method="post">
 				@csrf
 				<div class="card-body">
@@ -20,13 +19,11 @@
 								{{ $message }}
 							</div>
 						@enderror
-					</div>
-					
+					</div>					
 				</div>
-
-					<div class="card-footer">
-						<button type="submit" class="btn btn-primary">Submit</button>
-					</div>
+				<div class="card-footer">
+					<button type="submit" class="btn btn-primary">Submit</button>
+				</div>
 			</form>
 		</div>
 	</div>

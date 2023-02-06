@@ -16,21 +16,24 @@ class MemberController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         return view ('admin.member');
     }
 
-    public function api()
+    public function api(Request $request)
     {
-        $members = Member::all();
-        // $datatables = datatables()->of($members)->addIndexColumn();
+        if ($request->gender) {
+            $members = Member::where('gender', $request->gender)->get();
+        } else {
+            $members = Member::all();
+        }
 
         $datatables = datatables()->of($members)
                                 ->addColumn('date', function($member) {
                                     return convert_date ($member->created_at);
                                 })->addIndexColumn();
-
+ 
         return $datatables->make(true);
     }
 

@@ -19,8 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index']);
-Route::get('/transactions', [App\Http\Controllers\TransactionController::class, 'index']);
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'dashboard']);
 Route::get('/transactionDetails', [App\Http\Controllers\TransactionDetailController::class, 'index']);
 
 // Route::get('/catalogs', [App\Http\Controllers\CatalogController::class, 'index']);
@@ -42,10 +41,19 @@ Route::resource('/publishers', App\Http\Controllers\PublisherController::class);
 Route::resource('/authors', App\Http\Controllers\AuthorController::class);
 Route::resource('/members', App\Http\Controllers\MemberController::class);
 Route::resource('/books', App\Http\Controllers\BookController::class);
+Route::get('/admins', [App\Http\Controllers\AdminController::class, 'dashboard']);
+
+Route::get('/transactions', [App\Http\Controllers\TransactionController::class, 'index']);
+Route::get('/transactions/create', [App\Http\Controllers\TransactionController::class, 'create']);
+Route::post('/transactions', [App\Http\Controllers\TransactionController::class, 'store']);
+Route::get('/transactions/{id}/edit', [App\Http\Controllers\TransactionController::class, 'edit']);
+Route::put('/transactions/{id}', [App\Http\Controllers\TransactionController::class, 'update']);
+Route::get('/transactions/{id}', [App\Http\Controllers\TransactionController::class, 'show']);
+Route::delete('/transactions/{id}', [App\Http\Controllers\TransactionController::class, 'destroy']);
 
 Route::get('/api/authors', [App\Http\Controllers\AuthorController::class, 'api']); 
 Route::get('/api/publishers', [App\Http\Controllers\PublisherController::class, 'api']);
 Route::get('/api/members', [App\Http\Controllers\MemberController::class, 'api']);
 Route::get('/api/books', [App\Http\Controllers\BookController::class, 'api']);
+Route::get('/api/transactions', [App\Http\Controllers\TransactionController::class, 'api']);
 
-Route::get('/admins', [App\Http\Controllers\AdminController::class, 'dashboard']);

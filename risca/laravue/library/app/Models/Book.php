@@ -25,6 +25,11 @@ class Book extends Model
     {
     	return $this->belongsTo('App\Models\Catalog', 'catalog_id');
     }
+
+    public function tranDetails()
+    {
+    	return $this->hasMany('App\Models\TransactionDetail', 'transaction_id');
+    }
 }
 
 

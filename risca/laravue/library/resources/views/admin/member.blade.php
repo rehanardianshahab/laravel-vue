@@ -10,30 +10,38 @@
 
 @section('content')
 <div id="controller">
-	<div class="row">
-		<div class="col-12">
-			<div class="card">
-				<div class="card-header">
+	<div class="card">
+		<div class="card-header">
+			<div class="row">
+				<div class="col-md-10">
 					<a href="#" @click="addData()" class="btn btn-sm btn-primary pull-right">Create New Member</a>
-				</div>			 
-				<div class="card-body">
-					<table id="datatable" class="table table-bordered table-striped">
-						<thead>
-							<tr>
-								<th>No</th>
-								<th>Name</th>
-								<th>Gender</th>
-								<th>Phone Number</th>								
-								<th>Address</th>
-								<th>Email</th>	
-								<th>Role</th>	
-								<th>Created At</th>					
-								<th class="text-right">Action</th>
-							</tr>
-						</thead>
-					</table>
+				</div>	
+				<div class="col-md-2">
+					<select class="form-control" name="gender">
+						<option value="0">All Genders</option>
+						<option value="male">Male</option>
+						<option value="female">Female</option>
+					</select>
 				</div>
-			</div>			
+			</div>
+		</div>
+
+		<div class="card-body">
+			<table id="datatable" class="table table-bordered table-striped">
+				<thead>
+					<tr>
+						<th>No</th>
+						<th>Name</th>
+						<th>Gender</th>
+						<th>Phone Number</th>								
+						<th>Address</th>
+						<th>Email</th>	
+						<th>Role</th>	
+						<th>Created At</th>					
+						<th class="text-right">Action</th>
+					</tr>
+				</thead>
+			</table>
 		</div>
 	</div>
 
@@ -111,8 +119,8 @@
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 <script type="text/javascript">
-	var actionUrl = '{{ url('members') }}';
-	var apiUrl = '{{ url('api/members') }}';
+	var actionUrl = '{{ url("members") }}';
+	var apiUrl = '{{ url("api/members") }}';
 	var columns = [
 		{data: 'DT_RowIndex', class: 'text-center', orderable: true},
 		{data: 'name', class: 'text-center', orderable: true},
@@ -131,4 +139,15 @@
 
 </script>
 <script src="{{ asset('js/data.js') }}"></script>
+<script type="text/javascript">
+	$('select[name=gender]').on('change', function() {
+		gender = $('select[name=gender]').val();
+
+		if (gender == 0) {
+			controller.table.ajax.url(apiUrl).load();
+		} else {
+			controller.table.ajax.url(apiUrl+'?gender='+gender).load();
+		}
+	});	 
+</script>
 @endsection

@@ -22,7 +22,7 @@
 				<th>Hasil</th>
 			</tr>				
 
-			    <?php  for($a=0; $a < count($data); $a++) { ?>
+			    <?php  for($a=0; $a<count($data); $a++) { ?>
 			    <?php 
 					$tahun_lahir = date('Y', strtotime($data[$a]['tanggal_lahir']));
 					$tahun_sekarang = date('Y');
