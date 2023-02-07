@@ -65,8 +65,17 @@
           <span class="badge badge-warning navbar-badge">15</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
+          {{-- <span class="dropdown-item dropdown-header">{{ $counts[0]->status_count }}</span> --}}
+          {{-- @foreach($contents as $content)
+              @if($content->status == 0 && limit_days($content->date > 0))
+              <div class="dropdown-divider"></div>
+              <a href="#" class="dropdown-item text-wrap">
+                <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i> {{ $content->name }} exceeds time limit ( {{ limit_days($content->date_end) }} days )
+              </a>
+              @endif
+            @endforeach --}}
+            
+          {{-- <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
             <i class="fas fa-envelope mr-2"></i> 4 new messages
             <span class="float-right text-muted text-sm">3 mins</span>
@@ -82,7 +91,7 @@
             <span class="float-right text-muted text-sm">2 days</span>
           </a>
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> --}}
         </div>
       </li>
       <li class="nav-item">
@@ -145,14 +154,6 @@
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Home
-              </p>
-            </a> 
-          </li>
-          <li class="nav-item">
-            <a href="{{url('admins')}}" class="nav-link {{ request()->is('admins') ? 'active' : ''}}">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Dashboard
               </p>
             </a> 
           </li>

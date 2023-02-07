@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use DB;
+
 use App\Models\Book;
 use App\Models\Catalog;
 use App\Models\Member;
@@ -10,6 +10,7 @@ use App\Models\Publisher;
 use App\Models\Author;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
