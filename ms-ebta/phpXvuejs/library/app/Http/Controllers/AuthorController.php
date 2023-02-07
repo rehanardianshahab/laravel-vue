@@ -7,6 +7,14 @@ use Illuminate\Http\Request;
 
 class AuthorController extends Controller
 {
+    public function api()
+    {
+        $author = Author::all();
+        $datatable = datatables()->of($author)->addIndexColumn();
+
+        return  $datatable->make(true);
+    }
+    
     /**
      * Create a new controller instance.
      *
