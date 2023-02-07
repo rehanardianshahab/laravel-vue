@@ -156,10 +156,12 @@
                     </tbody>
                   </table>
                   <div>
+                    @if (isset($trash))
                     <div class="text-center">
                       <a href="/authors/restore-all" class="btn btn-primary btn-sm m-1" onclick="return confirm('Apakah anda yakin mau merestore semua data?')">Restore Semua</a>
                       <a href="/authors/delete-all" class="btn btn-secondary btn-sm m-1" onclick="return confirm('Apakah anda yakin mau menghapus permanen semua data}?')">Hapus Semua</a>
                     </div>
+                    @endif
                   </div>
                 </div><!-- /.card-body -->
               </div><!-- class row -->

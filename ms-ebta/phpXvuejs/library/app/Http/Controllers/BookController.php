@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Publisher;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -24,7 +25,20 @@ class BookController extends Controller
      */
     public function index()
     {
+        // $publisher = Publisher::select('name', 'id')->get();
+        // return view('admin/book/index', compact('publisher'));
         return view('admin/book/index');
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function api()
+    {
+        $book = Book::all();
+        return json_encode($book);
     }
 
     /**
@@ -45,7 +59,16 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'isbn' => ['required','unique:books'],
+            'title' => ['required','unique:books'],
+            'year' => ['required'],
+            'publisher_id' => ['required'],
+            'author_id' => ['required'],
+            'catalog_id' => ['required'],
+        ]);
+        Book::create($request->all());
+        return redirect('books')->with('success', 'Data berhasil ditambahkan');
     }
 
     /**
@@ -79,7 +102,27 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
+        // return $request->isbn;
+        // validasi required laravel
+        if ($request->isbn != $book->isbn) {
+            $this->validate($request, [
+                'isbn' => ['required','unique:books'],
+            ]);
+        }
+        if ($request->title != $book->title) {
+            $this->validate($request, [
+                'title' => ['required','unique:books'],
+            ]);
+        }
+        $this->validate($request, [
+            'year' => ['required'],
+            'publisher_id' => ['required'],
+            'author_id' => ['required'],
+            'catalog_id' => ['required'],
+        ]);
+
+        // update data
+        $book->update($request->all()); // perlu menambahkan fillable atau guarded di model
     }
 
     /**
@@ -90,6 +133,6 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
     }
 }

@@ -7,6 +7,13 @@ use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
+    public function api()
+    {
+        $member = Catalog::all();
+        $datatable = datatables()->of($member)->addIndexColumn();
+
+        return  $datatable->make(true);
+    }
     /**
      * Create a new controller instance.
      *

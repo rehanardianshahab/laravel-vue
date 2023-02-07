@@ -79,11 +79,18 @@ Route::group(['prefix' => 'publishers'], function() {
 Route::group(['prefix' => 'home'], function() {
     Route::get('/', [HomeController::class, 'index'])->name('home.index');
 });
+
+// halaman books
+Route::get('/api/books', [BookController::class, 'api'])->name('books.api');
 Route::group(['prefix' => 'books'], function() {
     Route::get('/', [BookController::class, 'index'])->name('books.index');
+    Route::post('/', [BookController::class, 'store'])->name('books.store');
+    Route::post('/{book}/update', [BookController::class, 'update'])->name('books.update');
+    Route::delete('/delete/{book}', [BookController::class, 'destroy'])->name('publisher.destroy');
 });
 
 // halaman catalogs
+Route::get('/api/catalogs', [CatalogController::class, 'api']);
 Route::group(['prefix' => 'catalogs'], function() {
     Route::get('/force-delete', [CatalogController::class, 'delete']);
     Route::get('/trash', [CatalogController::class, 'trash'])->name('catalogs.trash');
@@ -99,7 +106,7 @@ Route::group(['prefix' => 'catalogs'], function() {
 });
 
 // halaman autors
-// Route::get('/api/authors', [AuthorController::class, 'api']);
+Route::get('/api/authors', [AuthorController::class, 'api']);
 Route::group(['prefix' => 'authors'], function() {
     Route::get('/force-delete', [AuthorController::class, 'delete']);
     Route::get('/trash', [AuthorController::class, 'trash'])->name('authors.trash');

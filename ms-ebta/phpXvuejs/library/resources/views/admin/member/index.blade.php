@@ -115,12 +115,6 @@
 
                               </tbody>
                               </table>
-                              {{-- @if (isset($trash))
-                              <div>
-                                <div class="text-center"><a href="/publishers/restore-all">Restore All</a></div>
-                              </div>
-                              @else
-                              @endif --}}
                           </div>
                           <!-- /.card-body -->
                         </div>
