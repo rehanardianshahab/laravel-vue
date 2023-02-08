@@ -48,7 +48,7 @@
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td class="text-center">{{ count($item->books) }}</td>
-                                <td class="text-center">{{ date('H:i:s - d/M/Y', strtotime($item->created_at)) }}</td>
+                                <td class="text-center">{{ tanggal($item->created_at) }}</td>
                                 <td class="text-center">
                                   @if (isset($trash))
                                   <td class="text-center">

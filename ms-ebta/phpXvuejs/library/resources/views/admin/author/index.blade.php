@@ -115,6 +115,7 @@
                         <th class="text-center">Telp.</th>
                         <th class="text-center">Alamat</th>
                         <th class="text-center">Email</th>
+                        <th class="text-center">Dibuat pada</th>
                         <th class="text-center">Aksi</th>
                       </tr>
                     </thead>
@@ -126,6 +127,7 @@
                           <td class="text-center">{{ $item->phone_number }}</td>
                           <td class="text-center">{{ $item->address }}</td>
                           <td class="text-center">{{ $item->email }}</td>
+                          <td class="text-center">{{ tanggal($item->created_at) }}</td>
                           @if (isset($trash))
                           <td class="text-center">
                             <form action="/authors/author" method="get">
@@ -235,53 +237,6 @@
     });
   </script>
 
-  {{-- script untuk datatable yajrabox --}}
-  {{-- <script>
-    let actionUrl = '{{ url('authors') }}';
-    let apiUrl = '{{ url('api/authors') }}';
-
-    let columns = [
-      {data: 'DT_RowIndex', class: 'text-center', orderable:true},
-      {data: 'name', class: 'text-center', orderable:true},
-      {data: 'phone_number', class: 'text-center', orderable:true},
-      {data: 'address', class: 'text-center', orderable:true},
-      {data: 'email', class: 'text-center', orderable:true},
-      {render: function (index, row, data, meta) {
-        return `
-          <a href="#" class="btn btn-warning btn-sm" onclick="controller.editData(event, ${meta.row})" data-toggle="modal" data-target="#modal-lg">Edit</a>
-          <a href="#" class="btn btn-danger btn-sm" onclick="controller.deletData(event, ${data.id})">Delete</a>`;
-      }, orderable: false, width: '200px', class: 'text-center'},
-    ];
-
-    let controllerVue = new Vue({
-      el: '#controllerForVue',
-      data: {
-        datas: [],// menampung data author
-        data: {},// untuk crud
-        actionUrl,//dipakai dengan crud
-        apiUrl,//dipakai dengan ajax
-        editStatus: false,
-      },
-      mounted: function () {
-        this.datatable();
-      },
-      methods: {
-        datatable() {
-          const _this = this;
-          _this.table = $('#datatable').DataTable({
-            ajax: {
-              url: _this.apiUrl,
-              type: 'GET',
-            },//memanggil data dari data api dengan ajax, disimpan di DataTable
-            columns: columns
-          }).on('xhr', function () {
-            _this.datas = _this.table.ajax.json().data;
-          });
-        },
-      }
-    });
-  </script> --}}
-  <!-- Page specific script -->
   <script>
     $(function () {
       $("#datatable").DataTable({

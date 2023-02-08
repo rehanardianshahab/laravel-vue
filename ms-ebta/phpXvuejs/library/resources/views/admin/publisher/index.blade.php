@@ -109,6 +109,7 @@
                                   <th class="text-center" scope="col">Telp.</th>
                                   <th class="text-center" scope="col">Alamat</th>
                                   <th class="text-center" scope="col">Email</th>
+                                  <th class="text-center" scope="col">Dibuat pada</th>
                                   <th class="text-center" scope="col">Aksi</th>
                                 </tr>
                               </thead>
@@ -221,6 +222,7 @@
       {data: 'phone_number', class: 'text-center', orderable:true},
       {data: 'address', class: 'text-center', orderable:true},
       {data: 'email', class: 'text-center', orderable:true},
+      {data: 'dibuat', class: 'text-center', orderable:true},
       {render: function (index, row, data, meta) {
         return `
           <a href="#" class="btn btn-warning btn-sm" onclick="controllerVue.editData(event, ${meta.row})" data-toggle="modal" data-target="#modal-default">Edit</a>
