@@ -23,6 +23,20 @@
     <link rel="stylesheet" href="/assetAdminLte/plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="/assetAdminLte/dist/css/adminlte.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Tempusdominus Bootstrap 4 -->
+    <link rel="stylesheet" href="/assetAdminLte/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="/assetAdminLte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <!-- JQVMap -->
+    <link rel="stylesheet" href="/assetAdminLte/plugins/jqvmap/jqvmap.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="/assetAdminLte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="/assetAdminLte/plugins/daterangepicker/daterangepicker.css">
+    <!-- summernote -->
+    <link rel="stylesheet" href="/assetAdminLte/plugins/summernote/summernote-bs4.min.css">
 {{-- end --}}
 
     @yield('css')
@@ -235,11 +249,15 @@
 
 {{-- from admin lte --}}
     <!-- jQuery -->
-    <script src="/assetAdminLte/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <script src="/assetAdminLte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- AdminLTE App -->
-    <script src="/assetAdminLte/dist/js/adminlte.min.js"></script>
+        <script src="/assetAdminLte/plugins/jquery/jquery.min.js"></script>
+        <!-- Bootstrap 4 -->
+        <script src="/assetAdminLte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- ChartJS -->
+        <script src="/assetAdminLte/plugins/chart.js/Chart.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="/assetAdminLte/dist/js/adminlte.min.js"></script>
+        <!-- AdminLTE for demo purposes -->
+        <script src="/assetAdminLte/dist/js/demo.js"></script>
 {{-- end --}}
     @yield('scriptLink')
     @yield('js')
