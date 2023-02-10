@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-// use App\Models\User;
+use App\Models\User;
 use App\Models\Member;
 use App\Models\Transaction;
 // use App\Models\TransactionDetail;
-// use App\Models\Publisher;
+use App\Models\Publisher;
 use App\Models\Catalog;
-// use App\Models\Author;
+use App\Models\Author;
 use App\Models\Book;
 
 use Illuminate\Http\Request;
+use DB;
 
 class HomeController extends Controller
 {
@@ -166,6 +167,119 @@ class HomeController extends Controller
         //         ->get();
 
         // return $data;
-        return view('home');
+            $members = Member::count();
+            $books = Book::count();
+            $publishers = Publisher::count();
+            $authors = Author::count();
+            $transactions = Transaction::count();
+
+            // donut chart
+            $data_donut = [$members, $authors, $publishers];
+            $label_donut = ["Pembaca", "Penulis", "Penerbit"];
+
+            // area chart
+            $label_area = ['peminjaman', 'pengembalian'];
+            $data_area = [];
+
+            foreach($label_area as $key =>$value) {
+                $data_area[$key]['label'] = $label_area[$key];
+                $data_area[$key]['backgroundColor'] = $key == 0 ? 'rgba(60,141,188,0.9)' : 'rgba(210, 214, 222, 1)';
+                $data_area[$key]['borderColor'] = $key == 0 ? 'rgba(60,141,188,0.8)' : 'rgba(210, 214, 222, 1)';
+                $data_month = [];
+                
+                foreach(range(1,12) as $month) {
+                    if($key == 0) {
+                        $data_month[] = Transaction::select(DB::raw("COUNT(*) as total"))
+                                    ->whereMonth('date_start', $month)->first()->total;
+                    } else {
+                        $data_month[] = Transaction::select(DB::raw("COUNT(*) as total"))
+                                    ->whereMonth('date_end', $month)->first()->total;
+                    }
+                }
+
+                $data_area[$key]['data'] = $data_month;
+            }
+
+            // bar chart
+            // $allData_bar = Author::select('authors.id', 'name', 'author_id')
+            //             ->Leftjoin('books', 'books.author_id', '=', 'authors.id')
+            //             ->orderBy('authors.id')->get();
+            $countData_bar = Author::select('authors.id', 'name', 'author_id')
+                        ->Leftjoin('books', 'books.author_id', '=', 'authors.id')
+                        ->select('books.author_id', DB::raw('count(*) as total'), 'authors.name')
+                        ->groupBy('books.author_id', 'authors.id')
+                        ->orderBy('authors.name')->get();
+                foreach($countData_bar as $value) {
+                    if($value->author_id == null) {
+                        $value->total = 0;
+                    }
+                }
+            $label_bar = Author::select('authors.name')->orderBy('authors.name')->get();;
+            $labels_bar = [];
+            $backgroundBar = [];
+            $data_count = [];
+            $data_bar = [];
+            // return $label_bar;
+            // return $allData_bar;
+            // return $countData_bar;
+
+            foreach($label_bar as $key => $value) {
+                array_push($labels_bar, $value->name);
+            }
+            // return $labels_bar;
+
+            foreach($countData_bar as $key =>$value) {
+                array_push($backgroundBar, "rgb(".rand(0,255).",".rand(0,255).",".rand(0,255).")");
+                array_push($data_count, $value->total);
+            }
+            $data_bar['labels_bar'] = $labels_bar;
+            $data_bar['backgroundColor'] = $backgroundBar;
+            $data_bar['data'] = $data_count;
+            // return $data_bar;
+
+        // return $data_bar;
+
+        // db_publishers
+        $countData_publisher = Publisher::select('publishers.id', 'name', 'publisher_id')
+                        ->Leftjoin('books', 'books.publisher_id', '=', 'publishers.id')
+                        ->select('books.publisher_id', DB::raw('count(*) as total'), 'publishers.name')
+                        ->groupBy('books.publisher_id', 'publishers.id')
+                        ->orderBy('publishers.name')->get();
+                foreach($countData_publisher as $value) {
+                    if($value->publisher_id == null) {
+                        $value->total = 0;
+                    }
+                }
+        // return $countData_publisher;
+        $labels_publisher = [];
+            foreach($countData_publisher as $key => $value) {
+                array_push($labels_publisher, $value->name);
+            }
+        // return $labels_publisher;
+        $backgroundPublisher = [];
+        $data_count = [];
+        $data_publisher = [];
+
+        foreach($countData_publisher as $key =>$value) {
+            array_push($backgroundPublisher, "rgb(".rand(0,255).",".rand(0,255).",".rand(0,255).")");
+            array_push($data_count, $value->total);
+        }
+        $data_publisher['labels_publisher'] = $labels_publisher;
+        $data_publisher['backgroundColor'] = $backgroundPublisher;
+        $data_publisher['data'] = $data_count;
+
+        // return $data_publisher;
+            
+        return view('home', compact(
+            "members", "books", "publishers", "authors", "transactions",
+            // donut chart
+            "data_donut", "label_donut",
+            // area chart
+            "data_area",
+            // bar chart
+            "data_bar",
+            // par publisher
+            "data_publisher",
+        ));
     }
 }
