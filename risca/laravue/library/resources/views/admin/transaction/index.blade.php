@@ -26,9 +26,18 @@
 				<div class="col-md-3">
 					<select class="form-control" name="date_start" id="date_start" >
 						<option value="">Loan Date Filter</option>
-						@foreach($transactions as $transaction)
-							<option value="{{ $transaction->date_start }}">{{ $transaction->date_start }}</option>
-						@endforeach
+						<option value="01">January</option>	
+						<option value="02">February</option>	
+						<option value="03">March</option>	
+						<option value="04">April</option>	
+						<option value="05">May</option>	
+						<option value="06">June</option>	
+						<option value="07">July</option>	
+						<option value="08">August</option>	
+						<option value="09">September</option>	
+						<option value="10">October</option>	
+						<option value="11">November</option>	
+						<option value="12">December</option>	
 					</select>
 				</div>
 			</div>			
@@ -68,10 +77,9 @@
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
-
 <script type="text/javascript">
-	var actionUrl = '{{ url("transactions") }}';
-	var apiUrl = '{{ url("api/transactions") }}';
+	var actionUrl = '{{ url('transactions') }}';
+	var apiUrl = '{{ url('api/transactions') }}';
 	var columns = [
 		{data: 'DT_RowIndex', class: 'text-center', orderable: true},
 		{data: 'date_start', class: 'text-center', orderable: true},
@@ -83,9 +91,13 @@
 		{data: 'status', class: 'text-center', orderable: true},
 		{render: function (index, row, data, meta) {
 			return `
-			<a href="{{ url('transactions/${data.id}') }}" class="btn btn-info btn-sm">Detail</a>
-			<a href="{{ url('transactions/${data.id}/edit') }}" class="btn btn-warning btn-sm">Edit</a>
-			<a href="#" class="btn btn-danger btn-sm" onclick="controller.deleteData(event, ${data.id})">Delete</a>`;
+			<a href="{{ url('/transactions/${data.id}') }}" class="btn btn-info btn-sm">Detail</a>
+			<a href="{{ url('/transactions/${data.id}/edit') }}" class="btn btn-warning btn-sm">Edit</a>
+			<form action="{{ url('/transactions/${data.id}') }}" method="post" class="d-inline">
+				@csrf
+				@method('delete')
+				<button class="btn btn-danger btn-sm" type="submit" onsubmit="return confirm('Are you sure?')">Delete</button>
+			</form>`;
 		}, orderable: false, width: '200px', class: 'text-center'},
 	];
 </script>

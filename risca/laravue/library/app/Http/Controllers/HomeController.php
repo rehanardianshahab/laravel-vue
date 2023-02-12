@@ -167,10 +167,9 @@ class HomeController extends Controller
     public function dashboard()
     {
         $total_anggota = Member::count();
-        $total_buku = Book::count();
-        $total_peminjaman = Transaction::whereMonth('date_start', date('m'))->count();
+        $total_buku = Book::count();     
         $total_penerbit = Publisher::count();
-
+        $total_peminjaman = Transaction::whereMonth('date_start', date('m'))->count();
         $data_donut = Book::select(DB::raw("COUNT(publisher_id) as total"))
         				->groupBy('publisher_id')
         				->orderBy('publisher_id', 'asc')

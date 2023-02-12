@@ -58,11 +58,9 @@
                         <label class="col-sm-3 col-form-label">Book</label>
                         <div class="col-sm-9">
                             <select id="select2" class="form-control @error('book_id') is-invalid @enderror" multiple="multiple" data-placeholder="Select a Book" id="book_id" name="book_id" style="width: 100%;" required="">
-                                @foreach($tranDetails as $tranDetail)
-                                    @foreach($books as $book)
-                                        <option value="{{ $book->id }}" {{ $book->id == $tranDetail->book_id ? 'selected':'' }}>{{ $book->title }}</option>
-                                    @endforeach
-                                @endforeach
+                                @foreach($books as $book)
+                                    <option value="{{ $book->id }}" @foreach($tranDetails as $tranDetail) { {{ $book->id == $tranDetail->book_id ? 'selected':'' }} } @endforeach>{{ $book->title }} </option>
+                                @endforeach                    
                             </select>
                             @error('book_id')
 							    <div class="invalid-feedback">{{ $message }}</div>
