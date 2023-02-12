@@ -25,9 +25,9 @@
 		
 	}
 	function numberWithSpaces($num) {
-        $number = numberWithSpaces($num, 0, ",", ".");
+        $currency = "Rp. ".number_format($num, 0, ",", ".");
 
-        return $number;
+        return $currency;
     }
 
 ?>

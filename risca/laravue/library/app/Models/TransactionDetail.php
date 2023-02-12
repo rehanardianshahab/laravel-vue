@@ -11,9 +11,9 @@ class TransactionDetail extends Model
 
     protected $fillable = ['transaction_id', 'book_id', 'qty'];
 
-    public function transactions()
+    public function transaction()
     {
-    	return $this->hasMany('App\Models\Transaction', 'id');
+    	return $this->belongsTo('App\Models\Transaction', 'transaction_id');
     }
 
     public function books()
