@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->unsignedBigInteger('member_id')->nullable();
+            $table->unsignedBigInteger('role');
             $table->timestamps();
 
             $table->foreign('member_id')->references('id')->on('members');

@@ -53,6 +53,14 @@
                             </div>
                         </div>
 
+                        {{-- ===================== Give Role To user ======================= --}}
+                        @if (request()->is('register'))
+                            <input type="hidden" value="null" name="role">
+                        @elseif(request()->is('register/adm'))
+                            <input type="hidden" value="1" name="role">
+                        @endif
+                        {{-- =============================================================== --}}
+
                         <div class="row mb-3">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
 
@@ -63,9 +71,18 @@
 
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary d-inline-block">
                                     {{ __('Register') }}
                                 </button>
+                                @if (request()->is('register'))
+                                <a href="{{ url('register/adm') }}" type="submit" class="btn btn-primary d-inline-block">
+                                        {{ __('Register as Administrator') }}
+                                </a>
+                                @elseif(request()->is('register/adm'))
+                                <a href="{{ url('register') }}" type="submit" class="btn btn-primary d-inline-block pe-3">
+                                    {{ __('Register as Default User') }}
+                                </a>
+                                @endif
                             </div>
                         </div>
                     </form>

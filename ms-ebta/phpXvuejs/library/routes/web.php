@@ -158,3 +158,8 @@ Route::get('/notif/api', [App\Http\Controllers\HomeController::class, 'api']);
 Route::group(['prefix' => 'role'], function() {
     Route::get('/test', [App\Http\Controllers\UserRoleController::class, 'roleUser']);
 });
+
+// register admin
+Route::get('/register/adm', function() {
+    return view('auth.register');
+});
