@@ -241,13 +241,14 @@
 @endsection
 
 @section('js')
-<script>
+<script> 
     // compact data
     const label_donut = {!! json_encode($label_donut) !!};
     const data_donut = {!! json_encode($data_donut) !!};
     const data_area = {!! json_encode($data_area) !!};
     const data_bar =  {!! json_encode($data_bar) !!};
     const data_publisher =  {!! json_encode($data_publisher) !!};
+    console.log(data_area);
     $(function () {
       /* ChartJS
        * -------
