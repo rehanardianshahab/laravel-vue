@@ -70,8 +70,9 @@
     <div class="row justify-content-center">
         <div class="col-md-11 col-sm-12">
             <div class="card">
+              @can('mengelola peminjaman')
                 <div class="card-header">{{ __('Data Publiser') }}<span style="float:right;"><a href="#"   @click="addData()" data-toggle="modal" data-target="#modal-default">Tambah data</a></span></div>
-
+              @endcan
                 <div class="card-body">
                     {{-- @if (session('success'))
                         <div class="alert alert-success" role="alert">
@@ -96,9 +97,11 @@
                     <div class="row">
                       <div class="col-12">
                         <div class="card">
+                          @can('mengelola peminjaman')
                           <div class="card-header">
                               <a href="/publishers/trash" class="card-title text-danger text-end d-block"><i class="bi bi-trash3"></i> Data Publishers</a>
                           </div>
+                          @endcan
                           <!-- /.card-header -->
                           <div class="card-body pt-1 px-1 row">
                             <table id="datatable" class="table table-sm col col-12">
@@ -110,7 +113,9 @@
                                   <th class="text-center" scope="col">Alamat</th>
                                   <th class="text-center" scope="col">Email</th>
                                   <th class="text-center" scope="col">Dibuat pada</th>
+                                  @can('mengelola peminjaman')
                                   <th class="text-center" scope="col">Aksi</th>
+                                  @endcan
                                 </tr>
                               </thead>
                               <tbody>

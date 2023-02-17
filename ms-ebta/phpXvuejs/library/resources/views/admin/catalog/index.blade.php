@@ -11,10 +11,13 @@
             <div class="card">
                 <div class="card-header">{{ __('Katalog') }}<span style="float:right;">
                   @if (isset($trash))
-                    <a href="{{ url('/catalogs') }}">Back</a></span></div>
+                    <a href="{{ url('/catalogs') }}">Back</a></span>
                   @else
-                    <a href="{{ url('/catalogs/catalogs-create') }}">Tambah data</a></span></div>
+                  @can('mengelola peminjaman')
+                    <a href="{{ url('/catalogs/catalogs-create') }}">Tambah data</a></span>
+                  @endcan
                   @endif
+                </div>
                 <div class="card-body">
                     @if (session('success'))
                         <div class="alert alert-success" role="alert">
@@ -24,12 +27,14 @@
 
                     
                     <div class="card">
+                      @can('mengelola peminjaman')
                         <div class="card-header">
                           @if (isset($trash))
                           @else
                             <a href="/catalogs/trash" class="card-title text-danger text-end d-block"><i class="bi bi-trash3"></i> Data Catalog</a>
                           @endif
                         </div>
+                      @endcan
                         <!-- /.card-header -->
                         <div class="card-body p-0">
                           <table class="table table-sm">
@@ -39,7 +44,9 @@
                                 <th class="text-center">Nama</th>
                                 <th class="text-center">qty</th>
                                 <th class="text-center">Dibuat Pada</th>
+                                @can('mengelola peminjaman')
                                 <th class="text-center">Aksi</th>
+                                @endcan
                               </tr>
                             </thead>
                             <tbody>
@@ -49,6 +56,7 @@
                                 <td>{{ $item->name }}</td>
                                 <td class="text-center">{{ count($item->books) }}</td>
                                 <td class="text-center">{{ tanggal($item->created_at) }}</td>
+                                @can('mengelola peminjaman')
                                 <td class="text-center">
                                   @if (isset($trash))
                                   <td class="text-center">
@@ -73,6 +81,7 @@
                                   </form>
                                   @endif
                                 </td>
+                                @endcan
                               </tr>
                             @endforeach
                               @if (isset($trash))

@@ -131,9 +131,11 @@
                             <input type="text" class="form-control" autocomplete="off" placeholder="Search by title" v-model="search">
                         </div>
                     </div>
-                    <div class="col-md-3">
-                        <button class="btn btn-primary" data-toggle="modal" data-target="#modal-default" @click="addData()">Creat New Book</button>
-                    </div>
+                    @can('mengelola peminjaman')
+                        <div class="col-md-3">
+                            <button class="btn btn-primary" data-toggle="modal" data-target="#modal-default" @click="addData()">Creat New Book</button>
+                        </div>
+                    @endcan
                 </div>
 
             </div>
@@ -147,8 +149,10 @@
                 </div>
                 <div class="info-box-content col-3">
                     <a type="button" class="btn btn-secondary" data-toggle="modal" data-target="#modal-detil" @click="detilData( book.id)">Detil</a>
-                    <a type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default" @click="editData(book.id)">Edit</a>
-                    <a type="button" class="btn btn-danger" @click="deletData($event, book.id)">Delete</a>
+                    @can('mengelola peminjaman')
+                        <a type="button" class="btn btn-success" data-toggle="modal" data-target="#modal-default" @click="editData(book.id)">Edit</a>
+                        <a type="button" class="btn btn-danger" @click="deletData($event, book.id)">Delete</a>
+                    @endcan
                 </div>
             </div>
         </div>
