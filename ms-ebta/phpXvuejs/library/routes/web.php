@@ -156,5 +156,5 @@ Route::get('/notif/api', [App\Http\Controllers\HomeController::class, 'api']);
 
 // role User
 Route::group(['prefix' => 'role'], function() {
-    Route::get('/test', [App\Http\Controllers\UserRoleController::class, 'index']);
+    Route::get('/test', [App\Http\Controllers\UserRoleController::class, 'roleUser']);
 });
