@@ -24,6 +24,8 @@ class DatabaseSeeder extends Seeder
         // membuat role dan permision============================================
             $role = Role::create(['name' => 'administrator']);
             $permission = Permission::create(['name' => 'mengelola peminjaman']);
+            $role->givePermissionTo($permission);
+            $permission->assignRole($role);
         // 
         // kode diatas akan membuat sebuat data role baru (administrator) di tabel
         // role. jika sudah terbuat silahkan di comment. dan membuat permission di

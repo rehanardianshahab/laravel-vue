@@ -59,7 +59,9 @@ class PublisherController extends Controller
         
         // $publisher = Publisher::with('books')->get();
         // return view('.admin.publisher.index', compact('publisher'));
-        return view('.admin.publisher.index');
+        $user = auth()->user();
+        // return $user;
+        return view('.admin.publisher.index', compact('user'));
     }
 
     /**
