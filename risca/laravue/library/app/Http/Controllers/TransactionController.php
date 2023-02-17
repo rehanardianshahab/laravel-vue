@@ -79,6 +79,13 @@ class TransactionController extends Controller
                                  ->addColumn('total_bayar', function($transaction) {
                                     return numberWithSpaces($transaction->total_bayar);
                                 })
+                                ->addColumn('date_start', function($transaction) {
+                                    return convert_date($transaction->date_start);
+                                })
+                                ->addColumn('date_end', function($transaction) {
+                                    return convert_date($transaction->date_end);
+                                })
+
                                 ->addIndexColumn();
         
         return $datatables->make(true);      

@@ -11,6 +11,9 @@ use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class HomeController extends Controller
 {
@@ -219,6 +222,15 @@ class HomeController extends Controller
     public function pengarang()
     {
         return view('admin.author');
+    }
+
+    public function spatie()
+    {
+        $role = Role::create(['name' => 'admin']);
+        $permission = Permission::create(['name' => 'index peminjaman']);
+
+        $role->givePermissionTo($permission);
+        $permission->assignRole($role);
     }
 
 }
