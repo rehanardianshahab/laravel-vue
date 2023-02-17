@@ -59,6 +59,7 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
+      if (auth()->user()->hasrole('administrator')) {
         $this->validate($request, [
             'isbn' => ['required','unique:books'],
             'title' => ['required','unique:books'],
@@ -69,6 +70,9 @@ class BookController extends Controller
         ]);
         Book::create($request->all());
         return redirect('books')->with('success', 'Data berhasil ditambahkan');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -102,6 +106,7 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
+      if (auth()->user()->hasrole('administrator')) {
         // return $request->isbn;
         // validasi required laravel
         if ($request->isbn != $book->isbn) {
@@ -123,6 +128,9 @@ class BookController extends Controller
 
         // update data
         $book->update($request->all()); // perlu menambahkan fillable atau guarded di model
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -133,6 +141,10 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
+      if (auth()->user()->hasrole('administrator')) {
         $book->delete();
+      } else {
+        return abort('403');
+      }
     }
 }

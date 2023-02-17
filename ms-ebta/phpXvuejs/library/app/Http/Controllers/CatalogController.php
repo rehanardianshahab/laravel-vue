@@ -56,6 +56,7 @@ class CatalogController extends Controller
      */
     public function store(Request $request)
     {
+      if (auth()->user()->hasrole('administrator')) {
         // validasi required laravel
         // return $request; // testing data dari  post
         $this->validate($request, [
@@ -73,6 +74,9 @@ class CatalogController extends Controller
 
         // redirect
         return redirect('catalogs')->with('success', 'Data berhasil ditambahkan');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -108,6 +112,7 @@ class CatalogController extends Controller
      */
     public function update(Request $request, Catalog $catalog)
     {
+      if (auth()->user()->hasrole('administrator')) {
         // return $request;
         // validasi required laravel
         $this->validate($request, [
@@ -118,6 +123,9 @@ class CatalogController extends Controller
 
         // redirect
         return redirect('catalogs')->with('success', 'Data berhasil ditambahkan');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -128,8 +136,12 @@ class CatalogController extends Controller
      */
     public function destroy(Catalog $catalog)
     {
+      if (auth()->user()->hasrole('administrator')) {
         $catalog->delete();
         return redirect('catalogs')->with('success', 'Data berhasil dihapuskan');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -139,9 +151,13 @@ class CatalogController extends Controller
      */
     public function trash()
     {
+      if (auth()->user()->hasrole('administrator')) {
         $catalogs = Catalog::onlyTrashed()->get();
         $trash = true;
         return view('.admin.catalog.index', compact('catalogs', 'trash'));
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -151,10 +167,14 @@ class CatalogController extends Controller
      */
     public function restore()
     {
+      if (auth()->user()->hasrole('administrator')) {
         // return $_GET;
         $restore = Catalog::onlyTrashed()->where('id', $_GET['id'])->restore();
         // return $restore;
         return redirect('catalogs/trash')->with('success', 'Data berhasil dimutakhirkan');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -164,10 +184,14 @@ class CatalogController extends Controller
      */
     public function storeAll()
     {
+      if (auth()->user()->hasrole('administrator')) {
         // return $_GET;
         $restore = Catalog::onlyTrashed()->restore();
         // return $restore;
         return redirect('authors/trash')->with('success', 'Seluruh data berhasil dimutakhirkan');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -178,8 +202,12 @@ class CatalogController extends Controller
      */
     public function delete()
     {
+      if (auth()->user()->hasrole('administrator')) {
         Catalog::onlyTrashed()->where('id', $_GET['id'])->firstOrFail()->forceDelete();
         return redirect('catalogs/trash')->with('success', 'Data berhasil dihapus permanen');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -190,7 +218,11 @@ class CatalogController extends Controller
      */
     public function deleteAll()
     {
+      if (auth()->user()->hasrole('administrator')) {
         Catalog::onlyTrashed()->forceDelete();
         return redirect('catalogs/trash')->with('success', 'Semua data berhasil dihapus permanen');
+      } else {
+        return abort('403');
+      }
     }
 }

@@ -260,6 +260,7 @@ class TransactionController extends Controller
      */
     public function createAndEdit()
     {
+        if (auth()->user()->hasrole('administrator')) {
         // data nama dan id member
         // ================ query ini ngga jalan ============================================
         // $buku = DB::table("transaction_details")
@@ -410,6 +411,9 @@ class TransactionController extends Controller
         // return $tanggal[0]->date_start;
 
         return view('.admin.transaction.form', compact('buku', 'member', 'bukuInTrans', 'tanggal'));
+        } else {
+            return abort('403');
+        }
     }
     public function bukupinjaman(Request $request)
     {
@@ -429,6 +433,7 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
+      if (auth()->user()->hasrole('administrator')) {
         $this->validate($request, [
             'name' => ['required'],
             'book' => ['required'],
@@ -456,6 +461,9 @@ class TransactionController extends Controller
         }
 
         return redirect('/transactions')->with('success', 'Data berhasil ditambahkan');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -489,6 +497,7 @@ class TransactionController extends Controller
      */
     public function update(Request $request, Transaction $transaction)
     {
+      if (auth()->user()->hasrole('administrator')) {
         // return $request;
         $this->validate($request, [
             'end_date' => ['required'],
@@ -500,6 +509,9 @@ class TransactionController extends Controller
         $transaction->update($transactiones);
 
         return redirect()->back()->with('success', 'Data berhasil diperbarui');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -510,11 +522,15 @@ class TransactionController extends Controller
      */
     public function destroy(Transaction $transaction)
     {
+      if (auth()->user()->hasrole('administrator')) {
         // return $transaction->id;
         $transactiondetail = TransactionDetail::select('*')->where('transaction_id', '=', $transaction->id)->get();
         $transactiondetail->each->delete(); // cara lain : hapus each dan get()
         $transaction->delete();
         // return 'sukses';
         return redirect()->back()->with('success', 'Data berhasil dihapus');
+      } else {
+        return abort('403');
+      }
     }
 }
