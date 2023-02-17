@@ -15,6 +15,8 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    {{-- bootsrap icons --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" integrity="sha512-Oy+sz5W86PK0ZIkawrG0iv7XwWhYecM3exvUtMKNJMekGFJtVAhibhRPTpmyTj8+lJCkmWfnpxKgT2OopquBHA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 {{-- from admin lte --}}
     <!-- Google Font: Source Sans Pro -->
@@ -64,10 +66,10 @@
               <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+                    {{-- <a class="nav-link" data-widget="navbar-search" href="#" role="button">
                         <i class="fas fa-search"></i>
-                    </a>
-                    <div class="navbar-search-block">
+                    </a> --}}
+                    {{-- <div class="navbar-search-block">
                         <form class="form-inline">
                         <div class="input-group input-group-sm">
                             <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
@@ -81,7 +83,7 @@
                             </div>
                         </div>
                         </form>
-                    </div>
+                    </div> --}}
                 </li>
 
                 <!-- Right Side Of Navbar -->
@@ -126,8 +128,16 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
-                      <i class="fas fa-th-large"></i>
+                    {{-- <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+                        <i class="bi bi-chat-dots-fill h4"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            99+
+                            <span class="visually-hidden">unread messages</span>
+                        </span>
+                    </a> --}}
+                    <a class="position-relative d-inline-block mt-2 me-3" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+                        <i class="bi bi-chat-dots-fill h4"></i>
+                        <div id="jmlNotif"></div>
                     </a>
                 </li>
               </ul>
@@ -210,6 +220,12 @@
                                     <p>member</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="{{ url('transactions') }}" class="nav-link {{ request()->is('transactions') ? 'active' : '' }}">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Pinjaman</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item">
@@ -238,8 +254,10 @@
             <aside class="control-sidebar control-sidebar-dark">
                 <!-- Control sidebar content goes here -->
                 <div class="p-3">
-                <h5>Title</h5>
-                <p>Sidebar content</p>
+                    <h5>Pesan</h5>
+                    <ul id="notifikasi">
+                        
+                    </ul>
                 </div>
             </aside>
             <!-- /.control-sidebar -->
@@ -257,9 +275,55 @@
         <!-- AdminLTE App -->
         <script src="/assetAdminLte/dist/js/adminlte.min.js"></script>
         <!-- AdminLTE for demo purposes -->
-        <script src="/assetAdminLte/dist/js/demo.js"></script>
+        {{-- <script src="/assetAdminLte/dist/js/demo.js"></script> --}}
 {{-- end --}}
     @yield('scriptLink')
     @yield('js')
+
+<script>
+    // get notif lewat ajax
+    let notifikasiKeterlambatan = [];
+
+    $(document).ready(get_notif());
+    function get_notif() {
+        const _this = this;
+        // data books
+        $.ajax({
+            url: '{{ url('notif') }}/api',
+            method: 'GET',
+            success: function (data) {
+                _this.notifikasiKeterlambatan = data;
+                // console.log(_this.notifikasiKeterlambatan);
+
+                // buat pesan notif
+                _this.pesanNotifikasi = '';
+                _this.notifikasiKeterlambatan.forEach(element => {
+                    // console.log('halo');
+                    _this.pesanNotifikasi = _this.pesanNotifikasi+'<li>'+element+'</li>';
+                });
+
+                // jumlah notif
+                // console.log(data.length);
+                if (data.length == 0) {
+                    
+                } else {
+                    $('#jmlNotif').html(
+                        '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"'+'>'+
+                            '<span>'+data.length+'</span>'+
+                            '</span>'
+                    );
+                }
+                
+                // tampilkan notif
+                $('#notifikasi').html(_this.pesanNotifikasi);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+       });
+
+       
+    }
+</script>
 </body>
 </html>

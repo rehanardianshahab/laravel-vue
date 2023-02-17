@@ -135,3 +135,21 @@ Route::group(['prefix' => 'members'], function() {
     Route::get('/force-delete', [App\Http\Controllers\MemberController::class, 'delete']);
     Route::get('/force-deleteAll', [App\Http\Controllers\MemberController::class, 'deleteAll']);
 });
+
+// transactions
+Route::get('/api/transactions', [App\Http\Controllers\TransactionController::class, 'api']);
+Route::get('/api/detil', [App\Http\Controllers\TransactionDetailController::class, 'api']);
+Route::group(['prefix' => 'transactions'], function() {
+    Route::get('/', [App\Http\Controllers\TransactionController::class, 'index']);
+    Route::get('/detil', [App\Http\Controllers\TransactionDetailController::class, 'index']);
+    Route::get('/edit', [App\Http\Controllers\TransactionController::class, 'createAndEdit']);
+    Route::get('/create', [App\Http\Controllers\TransactionController::class, 'createAndEdit']);
+    Route::post('/push', [App\Http\Controllers\TransactionController::class, 'store']);
+    Route::delete('/delete/{transaction}', [App\Http\Controllers\TransactionController::class, 'destroy']);
+    Route::put('/update/{transaction}', [App\Http\Controllers\TransactionController::class, 'update']);
+    Route::put('/kembalikan/{transactionDetail}', [App\Http\Controllers\TransactionDetailController::class, 'update']);
+    Route::get('/apipinjaman', [App\Http\Controllers\TransactionController::class, 'bukupinjaman']);
+});
+
+// notif
+Route::get('/notif/api', [App\Http\Controllers\HomeController::class, 'api']);

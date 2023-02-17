@@ -108,6 +108,7 @@ class CatalogController extends Controller
      */
     public function update(Request $request, Catalog $catalog)
     {
+        // return $request;
         // validasi required laravel
         $this->validate($request, [
             'name' => ['required']

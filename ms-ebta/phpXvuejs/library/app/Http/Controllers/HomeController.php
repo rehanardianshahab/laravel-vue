@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Member;
 use App\Models\Transaction;
-// use App\Models\TransactionDetail;
+use App\Models\TransactionDetail;
 use App\Models\Publisher;
 use App\Models\Catalog;
 use App\Models\Author;
@@ -24,6 +24,34 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+    }
+
+    
+    // api notif
+    public function api()
+    {
+        $dl = Transaction::select('transactions.id', 'name', 'date_end', 'status')
+                ->Join("members", function($join){
+                        $join->on('transactions.member_id', '=', 'members.id');
+                    })
+                ->RightJoin("transaction_details", function($join){
+                        $join->on("transaction_details.transaction_id", "=", "transactions.id");
+                    })
+                ->groupBy('transactions.id')
+                ->where("transaction_details.status", '=', false)
+                ->orderBy('date_end', 'desc')
+                ->get();
+        // return $dl;
+        $dateNow = date('Y-m-d');
+        $notif = [];
+        foreach ($dl as $key => $value) {
+            if ( strtotime($value->date_end) < strtotime($dateNow) ) {
+                $tenggang = strtotime($dateNow)-strtotime($value->date_end);
+                array_push($notif, notif($tenggang, $value->name));
+            }
+        }
+        
+        return $notif;
     }
 
     /**
@@ -192,8 +220,9 @@ class HomeController extends Controller
                         $data_month[] = Transaction::select(DB::raw("COUNT(*) as total"))
                                     ->whereMonth('date_start', $month)->first()->total;
                     } else {
-                        $data_month[] = Transaction::select(DB::raw("COUNT(*) as total"))
-                                    ->whereMonth('date_end', $month)->first()->total;
+                        $data_month[] = TransactionDetail::select(DB::raw("COUNT(*) as total"))
+                                    ->whereNotNull('tgl_kembali')->whereMonth('tgl_kembali', $month)->first()
+                                    ->total;
                     }
                 }
 
