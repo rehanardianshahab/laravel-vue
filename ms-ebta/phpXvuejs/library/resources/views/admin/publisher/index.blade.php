@@ -70,8 +70,9 @@
     <div class="row justify-content-center">
         <div class="col-md-11 col-sm-12">
             <div class="card">
+              @can('mengelola peminjaman')
                 <div class="card-header">{{ __('Data Publiser') }}<span style="float:right;"><a href="#"   @click="addData()" data-toggle="modal" data-target="#modal-default">Tambah data</a></span></div>
-
+              @endcan
                 <div class="card-body">
                     {{-- @if (session('success'))
                         <div class="alert alert-success" role="alert">
@@ -96,9 +97,11 @@
                     <div class="row">
                       <div class="col-12">
                         <div class="card">
+                          @can('mengelola peminjaman')
                           <div class="card-header">
                               <a href="/publishers/trash" class="card-title text-danger text-end d-block"><i class="bi bi-trash3"></i> Data Publishers</a>
                           </div>
+                          @endcan
                           <!-- /.card-header -->
                           <div class="card-body pt-1 px-1 row">
                             <table id="datatable" class="table table-sm col col-12">
@@ -110,13 +113,16 @@
                                   <th class="text-center" scope="col">Alamat</th>
                                   <th class="text-center" scope="col">Email</th>
                                   <th class="text-center" scope="col">Dibuat pada</th>
+                                  @can('mengelola peminjaman')
                                   <th class="text-center" scope="col">Aksi</th>
+                                  @endcan
                                 </tr>
                               </thead>
                               <tbody>
 
                               </tbody>
                             </table>
+                            <input type="hidden" id="role" value="{{ $user->role == 1 ? $user->role : null }}">
                           </div>
                           <!-- /.card-body -->
                         </div>
@@ -212,32 +218,46 @@
   </script> --}}
   {{-- script untuk datatable yajrabox --}}
   <script>
+    let role = $('#role').val();
+    let columns;
+    if (role == 1) {
+      columns = [
+        {data: 'DT_RowIndex', class: 'text-center', orderable:true},
+        {data: 'name', class: 'text-center', orderable:true},
+        {data: 'phone_number', class: 'text-center', orderable:true},
+        {data: 'address', class: 'text-center', orderable:true},
+        {data: 'email', class: 'text-center', orderable:true},
+        {data: 'dibuat', class: 'text-center', orderable:true},
+        {render: function (index, row, data, meta) {
+          return `
+            <a href="#" class="btn btn-warning btn-sm" onclick="controllerVue.editData(event, ${meta.row})" data-toggle="modal" data-target="#modal-default">Edit</a>
+            <a href="#" class="btn btn-danger btn-sm" onclick="controllerVue.deletData(event, ${data.id})">Delet</a>
+            <!--<a href="/publishers/${data.id}/delete" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin mau menghapus publiser ${data.id}?'); controllerVue.deletData(event, ${data.id})">Delete</a>-->
+            <!--<form action="{{ url('publishers') }}/${data.id}/delete" method="post" @submit="controllerVue.deletData(event, ${data.id})">-->
+              <!--<button type="submit" class="btn btn-danger btn-sm" onclick="controllerVue.deletData(event, ${data.id})">Delete</buttton>-->
+              <!--<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin mau menghapus publiser ${data.id}?'); controllerVue.deletData(event, ${data.id}, ${meta.row})">Delete</buttton>-->
+              <!--<button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+              @method('delete')
+              @csrf
+            </form>-->
+            `;
+        }, orderable: false, width: '200px', class: 'text-center'},
+      ];
+    } else {
+      // console.log("duh");
+      columns = [
+        {data: 'DT_RowIndex', class: 'text-center', orderable:true},
+        {data: 'name', class: 'text-center', orderable:true},
+        {data: 'phone_number', class: 'text-center', orderable:true},
+        {data: 'address', class: 'text-center', orderable:true},
+        {data: 'email', class: 'text-center', orderable:true},
+        {data: 'dibuat', class: 'text-center', orderable:true},
+      ];
+    }
     let actionUrl = '{{ url('publishers') }}';
     let apiUrl = '{{ url('api/publishers') }}';
     let theMethod = 'controllerVue.getData()';
 
-    let columns = [
-      {data: 'DT_RowIndex', class: 'text-center', orderable:true},
-      {data: 'name', class: 'text-center', orderable:true},
-      {data: 'phone_number', class: 'text-center', orderable:true},
-      {data: 'address', class: 'text-center', orderable:true},
-      {data: 'email', class: 'text-center', orderable:true},
-      {data: 'dibuat', class: 'text-center', orderable:true},
-      {render: function (index, row, data, meta) {
-        return `
-          <a href="#" class="btn btn-warning btn-sm" onclick="controllerVue.editData(event, ${meta.row})" data-toggle="modal" data-target="#modal-default">Edit</a>
-          <a href="#" class="btn btn-danger btn-sm" onclick="controllerVue.deletData(event, ${data.id})">Delet</a>
-          <!--<a href="/publishers/${data.id}/delete" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin mau menghapus publiser ${data.id}?'); controllerVue.deletData(event, ${data.id})">Delete</a>-->
-          <!--<form action="{{ url('publishers') }}/${data.id}/delete" method="post" @submit="controllerVue.deletData(event, ${data.id})">-->
-            <!--<button type="submit" class="btn btn-danger btn-sm" onclick="controllerVue.deletData(event, ${data.id})">Delete</buttton>-->
-            <!--<button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin mau menghapus publiser ${data.id}?'); controllerVue.deletData(event, ${data.id}, ${meta.row})">Delete</buttton>-->
-            <!--<button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-            @method('delete')
-            @csrf
-          </form>-->
-          `;
-      }, orderable: false, width: '200px', class: 'text-center'},
-    ];
 
     let controllerVue = new Vue({
       el: '#controllerForVue',

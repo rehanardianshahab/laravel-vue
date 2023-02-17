@@ -52,7 +52,8 @@ class MemberController extends Controller
      */
     public function index()
     {
-        return view('admin/member/index');
+        $user = auth()->user();
+        return view('admin/member/index', compact('user'));
     }
 
     /**
@@ -73,6 +74,7 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
+      if (auth()->user()->hasrole('administrator')) {
         $this->validate($request, [
             'name' => ['required','min:5','max:20'],
             'phone_number' => ['required','numeric'],
@@ -93,6 +95,9 @@ class MemberController extends Controller
         // redirect
         // redirect('members')->with('success', 'Data berhasil ditambahkan');
         // return redirect('members')->with('success', 'Data berhasil ditambahkan');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -126,6 +131,7 @@ class MemberController extends Controller
      */
     public function update(Request $request, Member $member)
     {
+      if (auth()->user()->hasrole('administrator')) {
         // validasi required laravel
         if ($request->email === $member->email) {
             $this->validate($request, [
@@ -144,6 +150,9 @@ class MemberController extends Controller
 
         // update data
         $member->update($request->all()); // perlu menambahkan fillable atau guarded di model
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -158,14 +167,22 @@ class MemberController extends Controller
 
     public function restore()
     {
+      if (auth()->user()->hasrole('administrator')) {
         Member::onlyTrashed()
         ->where('id', $_GET['id'])
         ->restore();
+      } else {
+        return abort('403');
+      }
     }
 
     public function restoreAll()
     {
+      if (auth()->user()->hasrole('administrator')) {
         Member::onlyTrashed()->restore();
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -176,7 +193,11 @@ class MemberController extends Controller
      */
     public function destroy(Member $member)
     {
+      if (auth()->user()->hasrole('administrator')) {
         $member->delete();
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -187,7 +208,11 @@ class MemberController extends Controller
      */
     public function delete()
     {
+      if (auth()->user()->hasrole('administrator')) {
         Member::onlyTrashed()->where('id', $_GET['id'])->firstOrFail()->forceDelete();
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -198,6 +223,10 @@ class MemberController extends Controller
      */
     public function deleteAll()
     {
+      if (auth()->user()->hasrole('administrator')) {
         Member::onlyTrashed()->forceDelete();
+      } else {
+        return abort('403');
+      }
     }
 }

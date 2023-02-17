@@ -71,12 +71,14 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">{{ __('Authors') }}<span style="float:right;">
+          @can('mengelola peminjaman')
           @if (isset($trash))
-            <a href="{{ url('/authors') }}">Back</a></span></div>
+            <a href="{{ url('/authors') }}">Back</a></span>
           @else
-            <a href="#" @click="addData()" data-toggle="modal" data-target="#modal-lg">Tambah data</a></span></div>
+            <a href="#" @click="addData()" data-toggle="modal" data-target="#modal-lg">Tambah data</a></span>
           @endif
-
+          @endcan
+        </div>
           <div class="card-body">
             @if (session('success'))
               <div class="alert alert-success" role="alert">
@@ -99,12 +101,15 @@
               <div class="row">
                 <div class="col-12">
                   <div class="card">
-                    <div class="card-header">
+
+                  @can('mengelola peminjaman')
+                  <div class="card-header">
                     @if (isset($trash))
                     @else
                       <a href="/authors/trash" class="card-title text-danger text-end d-block"><i class="bi bi-trash3"></i> Data Penulis</a>
                     @endif
-                </div><!-- /.card-header -->
+                  </div><!-- /.card-header -->
+                  @endcan
 
                 <div class="card-body px-1 p-0 pt-1">
                   <table id="datatable" class="table table-sm">
@@ -116,7 +121,9 @@
                         <th class="text-center">Alamat</th>
                         <th class="text-center">Email</th>
                         <th class="text-center">Dibuat pada</th>
+                        @can('mengelola peminjaman')
                         <th class="text-center">Aksi</th>
+                        @endcan
                       </tr>
                     </thead>
                     <tbody>
@@ -128,6 +135,7 @@
                           <td class="text-center">{{ $item->address }}</td>
                           <td class="text-center">{{ $item->email }}</td>
                           <td class="text-center">{{ tanggal($item->created_at) }}</td>
+                          @can('mengelola peminjaman')
                           @if (isset($trash))
                           <td class="text-center">
                             <form action="/authors/author" method="get">
@@ -153,6 +161,7 @@
                             </form>
                           </td>
                           @endif
+                          @endcan
                         </tr>
                       @endforeach
                     </tbody>

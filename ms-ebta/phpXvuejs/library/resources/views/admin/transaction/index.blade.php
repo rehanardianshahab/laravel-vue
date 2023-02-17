@@ -75,15 +75,19 @@
                 </div>
 
                 <div class="card-body">
+                  @can('mengelola peminjaman')
                     {{ __('Filter your data transaction!') }}
+                  @endcan
                     <div class="justify-content-center row  mt-3  mb-2">
                         <div class="col-md-6 row">
+                          @can('mengelola peminjaman')
                           <div class="form-group col-md-9">
                               <a href="{{ url('transactions') }}/create" class="input-group-prepend">
                                 <span class="input-group-text px-5 bg-primary"><i class="bi bi-screwdriver"></i></span>
                                 <button type="text" class="form-control bg-body">Make New Transaction</button>
                               </a>
                           </div>
+                          @endcan
                         </div>
                         <div class="form-group col-md-3">
                             <div class="input-group-prepend">
@@ -130,6 +134,7 @@
 
                     </tbody>
                   </table>
+                  <input type="hidden" id="role" value="{{ $user->role == 1 ? $user->role : null }}">
                 </div>
                 <!-- /.card-body -->
               </div>
@@ -164,32 +169,53 @@
 
 @section('js')
   <script>
+    
     // $('#reservationtime').daterangepicker()
 
     let actionUrl = '{{ url('transactions') }}';
     let apiUrl = '{{ url('api/transactions') }}';
 
-    let columns = [
-      {data: 'DT_RowIndex', class: 'text-center', orderable:true},
-      {data: 'name', class: 'text-center', orderable:true},
-      {data: 'date_start', class: 'text-center', orderable:true},
-      {data: 'date_end', class: 'text-center', orderable:true},
-      {data: 'durasi', class: 'text-center', orderable:true},
-      {data: 'total', class: 'text-center', orderable:true},
-      {data: 'harga', class: 'text-center', orderable:true},
-      {data: 'stat', class: 'text-center', orderable:true},
-      {render: function (index, row, data, meta) {
-        return `
-          <a href="{{ url('transactions/edit') }}?trans_id=${data.id}&status=${data.status}" class="btn btn-warning btn-sm">Edit</a>
-          <a href="{{ url('transactions/detil') }}?trans_id=${data.id}" class="btn btn-secondary btn-sm">Detil</a>
-          <form action="{{ url('transactions/delete') }}/${data.id}" method="post" class="d-inline">
-            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin mau menghapus transaksi ini?')">Hapus</button>
-            @method('delete')
-            @csrf
-          </form>
-          `;
-      }, orderable: false, width: '200px', class: 'text-center'},
-    ];
+    let role = $('#role').val();
+    let columns;
+    if (role == 1) {
+      columns = [
+        {data: 'DT_RowIndex', class: 'text-center', orderable:true},
+        {data: 'name', class: 'text-center', orderable:true},
+        {data: 'date_start', class: 'text-center', orderable:true},
+        {data: 'date_end', class: 'text-center', orderable:true},
+        {data: 'durasi', class: 'text-center', orderable:true},
+        {data: 'total', class: 'text-center', orderable:true},
+        {data: 'harga', class: 'text-center', orderable:true},
+        {data: 'stat', class: 'text-center', orderable:true},
+        {render: function (index, row, data, meta) {
+          return `
+            <a href="{{ url('transactions/edit') }}?trans_id=${data.id}&status=${data.status}" class="btn btn-warning btn-sm">Edit</a>
+            <a href="{{ url('transactions/detil') }}?trans_id=${data.id}" class="btn btn-secondary btn-sm">Detil</a>
+            <form action="{{ url('transactions/delete') }}/${data.id}" method="post" class="d-inline">
+              <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah anda yakin mau menghapus transaksi ini?')">Hapus</button>
+              @method('delete')
+              @csrf
+            </form>
+            `;
+        }, orderable: false, width: '200px', class: 'text-center'},
+      ];
+    } else {
+      columns = [
+        {data: 'DT_RowIndex', class: 'text-center', orderable:true},
+        {data: 'name', class: 'text-center', orderable:true},
+        {data: 'date_start', class: 'text-center', orderable:true},
+        {data: 'date_end', class: 'text-center', orderable:true},
+        {data: 'durasi', class: 'text-center', orderable:true},
+        {data: 'total', class: 'text-center', orderable:true},
+        {data: 'harga', class: 'text-center', orderable:true},
+        {data: 'stat', class: 'text-center', orderable:true},
+        {render: function (index, row, data, meta) {
+          return `
+            <a href="{{ url('transactions/detil') }}?trans_id=${data.id}" class="btn btn-secondary btn-sm">Detil</a>
+            `;
+        }, orderable: false, width: '200px', class: 'text-center'},
+      ]
+    }
 
     let controllerVue = new Vue({
       el: '#controllerForVue',

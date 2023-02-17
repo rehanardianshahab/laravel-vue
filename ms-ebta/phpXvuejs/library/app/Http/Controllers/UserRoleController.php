@@ -28,7 +28,7 @@ class UserRoleController extends Controller
         // check user ===========================================================
         // $user = auth()->user(); // mengecek user yang sedang digunakan
         // $user = User::get(); // menampilkan semua user 
-        $user = User::with('roles')->get(); // menampilkan semua user dengan roles yang dia miliki
+           $user = User::with('roles')->get(); // menampilkan semua user dengan roles yang dia miliki
         // $user = auth()->user()->get(); // menampilkan semua yang sedang login
         // $user = auth()->user()->with('roles')->get(); // menampilkan semua yang sedang login beserta role yan dimiliki
         // return $user;
@@ -68,6 +68,7 @@ class UserRoleController extends Controller
         // https://spatie.be/docs/laravel-permission/v5/
         // 
         // =====================================================================
+        
         return $user;
     }
 }

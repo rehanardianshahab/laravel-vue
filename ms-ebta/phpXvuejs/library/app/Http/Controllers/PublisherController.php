@@ -59,7 +59,9 @@ class PublisherController extends Controller
         
         // $publisher = Publisher::with('books')->get();
         // return view('.admin.publisher.index', compact('publisher'));
-        return view('.admin.publisher.index');
+        $user = auth()->user();
+        // return $user;
+        return view('.admin.publisher.index', compact('user'));
     }
 
     /**
@@ -84,6 +86,7 @@ class PublisherController extends Controller
      */
     public function store(Request $request)
     {
+      if (auth()->user()->hasrole('administrator')) {
         $this->validate($request, [
             'name' => ['required','min:5','max:20'],
             'phone_number' => ['required','numeric'],
@@ -102,6 +105,9 @@ class PublisherController extends Controller
         // redirect
         redirect('publishers')->with('success', 'Data berhasil ditambahkan');
         return redirect('publishers')->with('success', 'Data berhasil ditambahkan');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -137,6 +143,7 @@ class PublisherController extends Controller
      */
     public function update(Request $request, Publisher $publisher)
     {
+      if (auth()->user()->hasrole('administrator')) {
         // validasi required laravel
         if ($request->email === $publisher->email) {
             $this->validate($request, [
@@ -158,6 +165,9 @@ class PublisherController extends Controller
 
         // redirect
         return redirect('publishers')->with('success', 'Data berhasil diedit');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -168,8 +178,12 @@ class PublisherController extends Controller
      */
     public function destroy(Publisher $publisher)
     {
+      if (auth()->user()->hasrole('administrator')) {
         $publisher->delete();
         // return redirect('publishers')->with('success', 'Data berhasil dihapus');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -179,7 +193,11 @@ class PublisherController extends Controller
      */
     public function trash()
     {
+      if (auth()->user()->hasrole('administrator')) {
         return view('.admin.publisher.trash');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -189,12 +207,20 @@ class PublisherController extends Controller
      */
     public function restore(Publisher $publisher)
     {
+      if (auth()->user()->hasrole('administrator')) {
         $restore = Publisher::onlyTrashed()->where('id', $_GET['id'])->restore();
+      } else {
+        return abort('403');
+      }
     }
 
     public function restoreAll()
     {
+      if (auth()->user()->hasrole('administrator')) {
         Publisher::onlyTrashed()->restore();
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -204,10 +230,14 @@ class PublisherController extends Controller
      */
     public function storeAll()
     {
+      if (auth()->user()->hasrole('administrator')) {
         // return $_GET;
         $restore = Publisher::onlyTrashed()->restore();
         // return $restore;
         return redirect('publishers/trash')->with('success', 'Seluruh data berhasil dimutakhirkan');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -218,7 +248,11 @@ class PublisherController extends Controller
      */
     public function delete()
     {
+      if (auth()->user()->hasrole('administrator')) {
         Publisher::onlyTrashed()->where('id', $_GET['id'])->firstOrFail()->forceDelete();
+      } else {
+        return abort('403');
+      }
     }
     
     /**
@@ -229,6 +263,10 @@ class PublisherController extends Controller
      */
     public function deleteAll()
     {
+      if (auth()->user()->hasrole('administrator')) {
         Publisher::onlyTrashed()->forceDelete();
+      } else {
+        return abort('403');
+      }
     }
 }

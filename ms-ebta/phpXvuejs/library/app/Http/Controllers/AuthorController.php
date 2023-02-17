@@ -57,6 +57,7 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
+      if (auth()->user()->hasrole('administrator')) {
         // return $request;
         // validasi
         $this->validate($request, [
@@ -74,6 +75,9 @@ class AuthorController extends Controller
         $author->save();
         // redirect
         return redirect('authors')->with('success', 'Postingan berhasil ditambahkan');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -107,6 +111,7 @@ class AuthorController extends Controller
      */
     public function update(Request $request, Author $author)
     {
+      if (auth()->user()->hasrole('administrator')) {
         // $author = Author::with('books')->where('id', $author)->get();
         if ($request->email === $author->email) {
             $this->validate($request, [
@@ -130,6 +135,9 @@ class AuthorController extends Controller
         $author->update($request->all()); // perlu menambahkan fillable atau guarded di model
         
         return redirect('/authors')->with('success', 'Postingan berhasil diedit');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -140,9 +148,13 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
+      if (auth()->user()->hasrole('administrator')) {
         // return $author;
         $author->delete();
-        return redirect('authors')->with('success', 'Postingan berhasil dihapus');;
+        return redirect('authors')->with('success', 'Postingan berhasil dihapus');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -152,9 +164,13 @@ class AuthorController extends Controller
      */
     public function trash()
     {
+      if (auth()->user()->hasrole('administrator')) {
         $author = Author::onlyTrashed()->get();
         $trash = true;
         return view('.admin.author.index', compact('author', 'trash'));
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -164,10 +180,14 @@ class AuthorController extends Controller
      */
     public function restore()
     {
+      if (auth()->user()->hasrole('administrator')) {
         // return $_GET;
         $restore = Author::onlyTrashed()->where('id', $_GET['id'])->restore();
         // return $restore;
         return redirect('authors/trash')->with('success', 'Data berhasil dimutakhirkan');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -177,10 +197,14 @@ class AuthorController extends Controller
      */
     public function storeAll()
     {
+      if (auth()->user()->hasrole('administrator')) {
         // return $_GET;
         $restore = Author::onlyTrashed()->restore();
         // return $restore;
         return redirect('authors/trash')->with('success', 'Seluruh data berhasil dimutakhirkan');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -191,8 +215,12 @@ class AuthorController extends Controller
      */
     public function delete()
     {
+      if (auth()->user()->hasrole('administrator')) {
         Author::onlyTrashed()->where('id', $_GET['id'])->firstOrFail()->forceDelete();
         return redirect('authors/trash')->with('success', 'Data berhasil dihapus permanen');
+      } else {
+        return abort('403');
+      }
     }
 
     /**
@@ -203,7 +231,11 @@ class AuthorController extends Controller
      */
     public function deleteAll()
     {
+      if (auth()->user()->hasrole('administrator')) {
         Author::onlyTrashed()->forceDelete();
         return redirect('authors/trash')->with('success', 'Semua data berhasil dihapus permanen');
+      } else {
+        return abort('403');
+      }
     }
 }

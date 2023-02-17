@@ -80,7 +80,8 @@
     <div class="row justify-content-center">
         <div class="col-md-11 col-sm-12">
             <div class="card">
-                <div class="card-header">{{ __('Data Member') }}<span style="float:right;"><a href="#"   @click="addData()" data-toggle="modal" data-target="#modal-default">Tambah data</a></span></div>
+              
+                <div class="card-header">{{ __('Data Member') }}@can('mengelola peminjaman')<span style="float:right;"><a href="#"   @click="addData()" data-toggle="modal" data-target="#modal-default">Tambah data</a></span>@endcan</div>
 
                 <div class="card-body">
                     {{-- @if (session('success'))
@@ -96,10 +97,12 @@
                       <div class="col-12">
                         <div class="card">
                           <div class="card-header">
+                            @can('mengelola peminjaman')
                             @if (isset($trash))
                             @else
                               <a href="{{ url('/members/trash') }}" class="card-title text-danger text-end d-block"><i class="bi bi-trash3"></i> Data Member</a>
                             @endif
+                            @endcan
                           </div>
                           <!-- /.card-header -->
                           <div class="card-body pt-1 px-1 row">
@@ -113,13 +116,16 @@
                                   <th class="text-center" scope="col">Alamat</th>
                                   <th class="text-center" scope="col">Email</th>
                                   <th class="text-center" scope="col">Dibuat pada</th>
+                                  @can('mengelola peminjaman')
                                   <th class="text-center" scope="col">Aksi</th>
+                                  @endcan
                                 </tr>
                               </thead>
                               <tbody>
 
                               </tbody>
                               </table>
+                            <input type="hidden" id="role" value="{{ $user->role == 1 ? $user->role : null }}">
                           </div>
                           <!-- /.card-body -->
                         </div>
@@ -161,22 +167,35 @@
 <script>
     let actionUrl = '{{ url('members') }}';
     let apiUrl = '{{ url('api/members') }}';
-
-    let columns = [
-      {data: 'DT_RowIndex', class: 'text-center', orderable:true},
-      {data: 'name', class: 'text-center', orderable:true},
-      {data: 'gender', class: 'text-center', orderable:true},
-      {data: 'phone_number', class: 'text-center', orderable:true},
-      {data: 'address', class: 'text-center', orderable:true},
-      {data: 'email', class: 'text-center', orderable:true},
-      {data: 'dibuat', class: 'text-center', orderable:true},
-      {render: function (index, row, data, meta) {
-        return `
-          <a href="#" class="btn btn-warning btn-sm" onclick="controllerVue.editData(event, ${meta.row})" data-toggle="modal" data-target="#modal-default">Edit</a>
-          <a href="#" class="btn btn-danger btn-sm" onclick="controllerVue.deletData(event, ${data.id})">Delet</a>
-          `;
-      }, orderable: false, width: '200px', class: 'text-center'},
-    ];
+    let role = $('#role').val();
+    let columns;
+    if (role == 1) {
+      columns = [
+        {data: 'DT_RowIndex', class: 'text-center', orderable:true},
+        {data: 'name', class: 'text-center', orderable:true},
+        {data: 'gender', class: 'text-center', orderable:true},
+        {data: 'phone_number', class: 'text-center', orderable:true},
+        {data: 'address', class: 'text-center', orderable:true},
+        {data: 'email', class: 'text-center', orderable:true},
+        {data: 'dibuat', class: 'text-center', orderable:true},
+        {render: function (index, row, data, meta) {
+          return `
+            <a href="#" class="btn btn-warning btn-sm" onclick="controllerVue.editData(event, ${meta.row})" data-toggle="modal" data-target="#modal-default">Edit</a>
+            <a href="#" class="btn btn-danger btn-sm" onclick="controllerVue.deletData(event, ${data.id})">Delet</a>
+            `;
+        }, orderable: false, width: '200px', class: 'text-center'},
+      ];
+      } else {
+        columns = [
+          {data: 'DT_RowIndex', class: 'text-center', orderable:true},
+          {data: 'name', class: 'text-center', orderable:true},
+          {data: 'gender', class: 'text-center', orderable:true},
+          {data: 'phone_number', class: 'text-center', orderable:true},
+          {data: 'address', class: 'text-center', orderable:true},
+          {data: 'email', class: 'text-center', orderable:true},
+          {data: 'dibuat', class: 'text-center', orderable:true}
+        ]
+      }
 
     let controllerVue = new Vue({
       el: '#controllerForVue',

@@ -64,10 +64,25 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        // return 
+        User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'role' => $data['role'], // secara default role tidak ada
         ]);
+
+        // menentukan role user ==========================================================
+        $user = User::select('*')->orderBy('id', 'DESC')->first();
+        if($user == null) {
+            $user = User::select('*')->where('role', '=', 0)->orderBy('id', 'DESC')->first();
+        } elseif ($user->role == 0) {
+            $user = User::select('*')->where('role', '=', 0)->orderBy('id', 'DESC')->first();
+        } elseif ($user->role == 1) {
+            $user->assignRole('administrator');
+        }
+
+        return $user;
+        // ===============================================================================
     }
 }
