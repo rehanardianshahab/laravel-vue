@@ -19,8 +19,8 @@
 				<div class="col-md-2">
 					<select class="form-control" name="status" id="status">
 						<option value="">State Filter</option>
-						<option value="1">Returned</option>
-						<option value="0">Unreturned</option>
+						<option value="1">Borrowed</option>
+						<option value="0">Returned</option>
 					</select>
 				</div>
 				<div class="col-md-3">

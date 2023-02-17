@@ -37,7 +37,7 @@
                     <div class="form-group row">
                         <label for="date_start" class="col-sm-3 col-form-label">Date of Loan</label>
                         <div class="col-sm-4">
-                            <input type="date" id="date_start" class="form-control @error('date_start') is-invalid @enderror" name="date_start" required="">
+                            <input type="date" id="date_start" class="form-control @error('date_start') is-invalid @enderror" name="date_start" value="{{ date('Y-m-d') }}" required="">
                             @error('date_start')
 							    <div class="invalid-feedback">{{ $message }}</div>
 						    @enderror                          
@@ -55,9 +55,11 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Book</label>
                         <div class="col-sm-9">
-                            <select id="select2" class="form-control @error('book_id') is-invalid @enderror" multiple="multiple" data-placeholder="Select a Book" id="book_id" name="book_id" style="width: 100%;" required="">                           
+                            <select id="select2" class="form-control @error('book_id') is-invalid @enderror" multiple="multiple" data-placeholder="Select a Book" id="book_id[]" name="book_id[]" style="width: 100%;" required="">                           
                                 @foreach($books as $book)
-                                    <option value="{{ $book->id }}">{{ $book->title }}</option>                                 
+                                    @if($book->qty > 0)
+                                    <option value="{{ $book->id }}">{{ $book->title }}</option> 
+                                    @endif                                
                                 @endforeach
                             </select>
                             @error('book_id')
@@ -70,11 +72,11 @@
                         <div class="col-sm-9">
                             <div class="form-check">
                                 <input class="form-check-input @error('status') is-invalid @enderror" type="radio" id="status" name="status"  value="1">
-                                <label class="form-check-label">Returned</label>
+                                <label class="form-check-label">Borrowed</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input @error('status') is-invalid @enderror" type="radio" id="status" name="status" value="0">
-                                <label class="form-check-label">Unreturned</label>
+                                <label class="form-check-label">Returned</label>
                             </div> 
                             @error('status')
 							<div class="invalid-feedback">{{ $message }}</div>

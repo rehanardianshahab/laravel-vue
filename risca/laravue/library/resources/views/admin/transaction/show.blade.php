@@ -40,7 +40,7 @@
                 </div>										
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Status</label>
-                    {{ $transaction->status == 1 ? 'Returned' : 'Unreturned' }}
+                    {{ $transaction->status == 1 ? 'Borrowed' : 'Returned' }}
                 </div>
                 <div class="card-footer">
                     <a href="{{ url("transactions") }}" class="btn btn-sm btn-primary float-right">Back to Transaction</a>                   

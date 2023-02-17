@@ -62,43 +62,25 @@
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+          <span class="badge badge-warning navbar-badge">{{ $notif_days[0]->time_limit }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          {{-- <span class="dropdown-item dropdown-header">{{ $counts[0]->status_count }}</span> --}}
-          {{-- @foreach($contents as $content)
-              @if($content->status == 0 && limit_days($content->date > 0))
+          <span class="dropdown-item dropdown-header">  {{ $notif_days[0]->time_limit }} Notifications</span>       
+          @foreach($notif_name as $notif)
+              @if($notif->status == 1)
               <div class="dropdown-divider"></div>
               <a href="#" class="dropdown-item text-wrap">
-                <i class="fa fa-exclamation-circle mr-2" aria-hidden="true"></i> {{ $content->name }} exceeds time limit ( {{ limit_days($content->date_end) }} days )
+                <i class="fa fa-envelope mr-2" aria-hidden="true"></i> {{ $notif->name }} exceeded the time limit of ( {{ amount_days($notif->date_end) }} days )
               </a>
               @endif
-            @endforeach --}}
+            @endforeach
             
-          {{-- <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> --}}
-        </div>
-      </li>
+      
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
-      </li>
+      </li> 
       <li class="nav-item">
         <a class="nav-link" href="{{ route('logout') }}"
           onclick="event.preventDefault();
@@ -151,7 +133,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <li class="nav-item">
             <a href="{{url('home')}}" class="nav-link {{ request()->is('home') ? 'active' : ''}}">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <i class="nav-icon fas fa-home"></i>
               <p>
                 Home
               </p>
@@ -159,7 +141,7 @@
           </li>
           <li class="nav-item">
             <a href="{{url('catalogs')}}" class="nav-link {{ request()->is('catalogs') ? 'active' : ''}}">
-              <i class="nav-icon fas fa-edit"></i>
+              <i class="nav-icon fas fa-thumbtack"></i>
               <p>
                 Catalog
               </p>
@@ -167,7 +149,7 @@
           </li>
           <li class="nav-item">
             <a href="{{url('authors')}}" class="nav-link {{ request()->is('authors') ? 'active' : ''}}">
-              <i class="nav-icon fas fa-thumbtack"></i>
+              <i class="nav-icon fas fa-edit"></i>
               <p>
                 Author
               </p>

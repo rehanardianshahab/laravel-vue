@@ -24,42 +24,51 @@ class TransactionController extends Controller
     {
         $transactions = Transaction::with('tranDetails')->get();
 
+        $transactions = Transaction::selectRaw('sum(transaction_details.book_id) as total_buku, transaction_details.qty*books.price as total_bayar,transactions.status,members.name,transactions.date_start,transactions.date_end,transactions.status, members.name')
+                ->join('transaction_details','transaction_details.transaction_id','=','transactions.id')
+                ->join('members','members.id','=','transactions.member_id')
+                ->join('books', 'books.id','=','transaction_details.book_id')
+                ->groupBy('transaction_details.transaction_id')
+                ->get();
+
         // $transaction = Transaction::withTrashed()->get();            //menampilkan seluruh data termasuk deleted at
 
-        // return $transactions;
-
-        return view ('admin.transaction.index', compact('transactions'));     
-    
+        return view ('admin.transaction.index', compact('transactions'));       
         
     }
 
     public function api(Request $request)
     {
         if ($request->status == '1' || $request->status == '0') {
-                      
-            $transactions = Transaction::selectRaw('transactions.*, members.name, transaction_details.qty as total_buku, transaction_details.qty*books.price as total_bayar')
-                ->join('transaction_details','transactions.id','=','transaction_details.transaction_id')
+            
+            $transactions = Transaction::selectRaw('sum(transaction_details.qty) as total_buku, sum(transaction_details.qty*books.price) as total_bayar,
+            transactions.*, members.name')
+                ->join('transaction_details','transaction_details.transaction_id','=','transactions.id')
                 ->join('members','members.id','=','transactions.member_id')
                 ->join('books', 'books.id','=','transaction_details.book_id')
+                ->groupBy('transaction_details.transaction_id')
                 ->where('status', $request->status)
                 ->get();
-                
+              
         } elseif ($request->date_start ) {
-           $transactions = Transaction::selectRaw('transactions.*, members.name, transaction_details.qty as total_buku, transaction_details.qty*books.price as total_bayar')
-                ->join('transaction_details','transactions.id','=','transaction_details.transaction_id')
+            $transactions = Transaction::selectRaw('sum(transaction_details.qty) as total_buku, sum(transaction_details.qty*books.price) as total_bayar,
+            transactions.*, members.name')
+                ->join('transaction_details','transaction_details.transaction_id','=','transactions.id')
                 ->join('members','members.id','=','transactions.member_id')
                 ->join('books', 'books.id','=','transaction_details.book_id')
+                ->groupBy('transaction_details.transaction_id')
                 ->whereMonth('date_start', $request->date_start)
                 ->get();
         } else {
-            $transactions = Transaction::selectRaw('transactions.*, members.name, transaction_details.qty as total_buku, transaction_details.qty*books.price as total_bayar')
-                ->join('transaction_details','transactions.id','=','transaction_details.transaction_id')
+            $transactions = Transaction::selectRaw('sum(transaction_details.qty) as total_buku, sum(transaction_details.qty*books.price) as total_bayar,
+            transactions.*, members.name')
+                ->join('transaction_details','transaction_details.transaction_id','=','transactions.id')
                 ->join('members','members.id','=','transactions.member_id')
                 ->join('books', 'books.id','=','transaction_details.book_id')
+                ->groupBy('transaction_details.transaction_id')
                 ->get();
         }
-        // print_r($transactions);
-
+ 
         $datatables = datatables()->of($transactions)
                                 ->addColumn('durasi', function($transaction) {
                                 return lama_pinjam($transaction->date_start, $transaction->date_end);
@@ -74,7 +83,6 @@ class TransactionController extends Controller
         
         return $datatables->make(true);      
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -99,7 +107,7 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        
+       
         $this->validate($request, [
             'member_id' => 'required',
             'date_start' => 'required|date', 
@@ -112,19 +120,20 @@ class TransactionController extends Controller
             'member_id' => $request->member_id,
             'date_start' => $request->date_start, 
             'date_end' => $request->date_end,
-            'status' => $request->status, 
+            'status' => $request->status
         ]);
 
-          
-        $tranDetail = TransactionDetail::create([
+        foreach($request->book_id as $row => $val){
+            TransactionDetail::create([
                 'transaction_id' => $transaction->id,
-                'book_id' => $request->book_id,
-                'qty' => 1,              
+                'book_id' => $request->book_id[$row],
+                'qty' => 1              
             ]);  
-        
-    //  return $tranDetail;
-
-        return redirect('transactions');
+       
+             $stok = DB::table('books')->where('id', '=', $val)->decrement('qty', 1);
+        }
+       
+        return redirect('transactions')->with('stok', $stok);
         
     }
 
@@ -140,8 +149,6 @@ class TransactionController extends Controller
         $members = Member::all();
         $tranDetails = TransactionDetail::select('*')->where('transaction_id', $id)->get();
         $books = Book::all();
-
-        // return $tranDetails;
         
         return view ('admin.transaction.show')
                     ->with('transaction', $transaction)
@@ -188,6 +195,9 @@ class TransactionController extends Controller
             'status' => 'required',
         ]);
 
+        $transactionDetail = TransactionDetail::select('*')->where('transaction_id', $id)->get();
+        $tranDetID = $request->transaction_id; 
+
         $transaction = DB::table('transactions')
                         ->where('id', $id)
                         ->update([
@@ -195,17 +205,21 @@ class TransactionController extends Controller
                             'date_start' => $request->date_start, 
                             'date_end' => $request->date_end,
                             'status' => $request->status,
-                        ]);    
-          
-                       
-        $tranDetails = DB::table('transaction_details')
-                        ->update([
-                            'book_id' => $request->book_id,
-                            'transaction_id' => $id,
-                            'qty'=> 1,
-                        ]);     
+                        ]);           
+
+        $detDelete = TransactionDetail::where('transaction_id', $id)->delete();     
+
+        foreach($request->book_id as $row => $val){
+            $tranDetails = TransactionDetail::create([
+                'transaction_id' => $id,
+                'book_id' => $request->book_id[$row],
+                'qty' => 1,              
+            ]);
         
-        // dd($request);
+            if($request->status == 0){
+                DB::table('books')->where('id', '=', $val)->increment('qty', 1);
+            } 
+        }
 
         return redirect('transactions');
     }
@@ -216,11 +230,10 @@ class TransactionController extends Controller
      * @param  \App\Models\Transaction  $transaction
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Transaction $transaction)
+    public function destroy($id, Transaction $transaction)
     {
+        $transaction = Transaction::find($id);
         $transaction->delete();
-
-        // $transaction->forceDelete();        //hapus permanen dg softdelete
 
         return redirect('transactions');
     }

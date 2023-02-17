@@ -57,9 +57,11 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Book</label>
                         <div class="col-sm-9">
-                            <select id="select2" class="form-control @error('book_id') is-invalid @enderror" multiple="multiple" data-placeholder="Select a Book" id="book_id" name="book_id" style="width: 100%;" required="">
-                                @foreach($books as $book)
-                                    <option value="{{ $book->id }}" @foreach($tranDetails as $tranDetail) { {{ $book->id == $tranDetail->book_id ? 'selected':'' }} } @endforeach>{{ $book->title }} </option>
+                            <select id="select2" class="form-control @error('book_id') is-invalid @enderror" multiple="multiple" data-placeholder="Select a Book" id="book_id[]" name="book_id[]" style="width: 100%;" required="">
+                                @foreach($books as $key => $book)
+                                    <option value="{{ $book->id }}" 
+                                        @foreach($tranDetails as $tranDetail) { {{ $book->id == $tranDetail->book_id ? 'selected':'' }} } 
+                                        @endforeach>{{ $book->title }} </option>
                                 @endforeach                    
                             </select>
                             @error('book_id')
@@ -72,11 +74,11 @@
                         <div class="col-sm-9">
                             <div class="form-check">
                                 <input class="form-check-input @error('status') is-invalid @enderror" type="radio" id="status" name="status"  value="1" {{ $transaction->status == 1 ? 'checked':'' }}>
-                                <label class="form-check-label">Returned</label>
+                                <label class="form-check-label">Borrowed</label>
                             </div>
                             <div class="form-check">
                                 <input class="form-check-input @error('status') is-invalid @enderror" type="radio" id="status" name="status" value="0" {{ $transaction->status == 0 ? 'checked':'' }}>
-                                <label class="form-check-label">Unreturned</label>
+                                <label class="form-check-label">Returned</label>
                             </div> 
                             @error('status')
 							<div class="invalid-feedback">{{ $message }}</div>
