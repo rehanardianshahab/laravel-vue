@@ -52,7 +52,8 @@ class MemberController extends Controller
      */
     public function index()
     {
-        return view('admin/member/index');
+        $user = auth()->user();
+        return view('admin/member/index', compact('user'));
     }
 
     /**

@@ -249,8 +249,8 @@ class TransactionController extends Controller
      */
     public function index()
     {
-
-        return view('.admin.transaction.index');
+        $user = auth()->user();
+        return view('.admin.transaction.index', compact('user'));
     }
 
     /**
