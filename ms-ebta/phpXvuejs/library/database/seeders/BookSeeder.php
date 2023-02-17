@@ -30,6 +30,7 @@ class BookSeeder extends Seeder
             $buku->catalog_id = rand(1, 20);
             $buku->qty = rand(1, 40);
             $buku->price = rand(10000, 50000);
+            // $buku->status = rand(true, false);
 
             $buku->save();
         }

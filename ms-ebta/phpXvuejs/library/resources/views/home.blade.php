@@ -1,8 +1,6 @@
 @extends('layouts.app3')
 
 @section('css')
-  {{-- bootsrap icons --}}
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" integrity="sha512-Oy+sz5W86PK0ZIkawrG0iv7XwWhYecM3exvUtMKNJMekGFJtVAhibhRPTpmyTj8+lJCkmWfnpxKgT2OopquBHA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 @endsection
 
 @section('content')
@@ -47,7 +45,7 @@
                     <div class="icon">
                     <i class="ion ion-bag"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ url('books') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
                 </div>
                 <!-- ./col -->
@@ -62,7 +60,7 @@
                     <div class="icon">
                     <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ url('members') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
                 </div>
                 <!-- ./col -->
@@ -77,7 +75,7 @@
                     <div class="icon">
                     <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ url('publishers') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
                 </div>
                 <!-- ./col -->
@@ -92,7 +90,7 @@
                     <div class="icon">
                     <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ url('authors') }}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
                 </div>
                 <!-- ./col -->
@@ -243,13 +241,14 @@
 @endsection
 
 @section('js')
-<script>
+<script> 
     // compact data
     const label_donut = {!! json_encode($label_donut) !!};
     const data_donut = {!! json_encode($data_donut) !!};
     const data_area = {!! json_encode($data_area) !!};
     const data_bar =  {!! json_encode($data_bar) !!};
     const data_publisher =  {!! json_encode($data_publisher) !!};
+    console.log(data_area);
     $(function () {
       /* ChartJS
        * -------

@@ -35,9 +35,13 @@
                 </div>
                 <div class="form-group row">
                   <label for="inputGenderMember" class="col-sm-2 col-form-label">Gender</label>
-                  <select v-model="selected" class="form-select col-sm-10" id="inputGenderMember" name="gender" aria-label="Default select example">
-                    <option v-for="gender in genders" v-bind:value="gender.id">@{{ gender.name }}</option>
-                  </select>
+                  <div class="col-sm-10">
+                    <select class='form-control' id="inputGenderMember" name="gender">
+                      <option value="">Pilih</option>
+                      <option v-for="gender in genders" v-bind:value="gender.id" v-if="gender.id == dataPenulis.gender" selected>@{{ gender.name }}</option>
+                      <option v-for="gender in genders" v-bind:value="gender.id" v-if="gender.id != dataPenulis.gender" >@{{ gender.name }}</option>
+                    </select>
+                  </div>
                 </div>
                 <div class="form-group row">
                   <label for="inputNomorMember" class="col-sm-2 col-form-label">Nomor Telphone</label>
@@ -194,7 +198,7 @@
         // selected input
         selected: null,
         genders: [
-          {id: null, name: 'Pilih Gender'},
+          // {id: null, name: 'Pilih Gender'},
           {id: 'L', name: 'Pria'},
           {id: 'P', name: 'Wanita'},
         ],
