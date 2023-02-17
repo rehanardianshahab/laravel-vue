@@ -121,12 +121,12 @@
                   <div>
                     <div class="form-group">
                       <label for="buku">Buku</label>
-                      <select class="select2" id="buku" multiple="multiple" data-placeholder="Isbn: Judul buku" style="width: 100%;" name="book[]">
-                      {{-- @if ($data == null)
+                      {{-- <select class="select2" id="buku" multiple="multiple" data-placeholder="Isbn: Judul buku" style="width: 100%;" name="book[]"> --}}
+                      @if ($data == null)
                       <select class="select2" id="buku" multiple="multiple" data-placeholder="Isbn: Judul buku" style="width: 100%;" name="book[]">
                       @else
                       <select class="select2" id="buku" multiple="multiple" data-placeholder="Isbn: Judul buku" style="width: 100%;" name="book[]" disabled>
-                      @endif --}}
+                      @endif
                         @foreach ($buku as $item)
                           @if ($data == null)
                             <option value="{{ $item['id'] }}" {{ (collect(old('book'))->contains($item['id'])) ? 'selected':'' }}>{{ $item['isbn']." : ".$item['title'] }}</option>
