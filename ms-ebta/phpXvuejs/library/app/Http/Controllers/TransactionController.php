@@ -266,6 +266,7 @@ class TransactionController extends Controller
                     ->Leftjoin('transactions', 'transactions.member_id', '=', 'members.id')
                     ->orderBy('name')->get();
         // return $member;
+        $allMember = Member::select('*')->orderBy('name')->get();
         // ====================== jumlah buku ==================================
         $buku = Book::select('id', 'isbn', 'title', 'qty', 'price')->get();
 
@@ -398,11 +399,11 @@ class TransactionController extends Controller
             $bukuInTrans = TransactionDetail::select('transaction_details.id','transaction_id', 'book_id', 'title', 'qty_pinjam', 'books.price', 'status', 'tgl_kembali')
                             ->join('books', 'books.id', '=', 'book_id')
                             ->where('transaction_id', '=', $_GET['trans_id'])->get();
-            $tanggal = Transaction::select('date_start', 'date_end')
+            $tanggal = Transaction::select('*')
                         ->where('id', '=', $_GET['trans_id'])->get();
         }
 
-        return view('.admin.transaction.form', compact('buku', 'member', 'bukuInTrans', 'tanggal'));
+        return view('.admin.transaction.form', compact('buku', 'member', 'allMember', 'bukuInTrans', 'tanggal'));
         } else {
             return abort('403');
         }
