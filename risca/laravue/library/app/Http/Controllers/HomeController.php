@@ -11,6 +11,9 @@ use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class HomeController extends Controller
 {
@@ -219,6 +222,31 @@ class HomeController extends Controller
     public function pengarang()
     {
         return view('admin.author');
+    }
+
+    public function spatie()
+    {
+        // $role = Role::create(['name' => 'admin']);                                                      //create admin di table role
+        // $permission = Permission::create(['name' => 'index transaction']);                              //create index transaction di table permission
+
+        // $role->givePermissionTo($permission);
+        // $permission->assignRole($role);
+
+        // $user = auth()->user();                          //user yang sedang login
+        // $user->assignRole('admin');                      //memberikan user role
+        // return $user;
+
+        // $user = User::where('id', 2)->first();                     
+        // $user->assignRole('admin');
+
+        $user = User::with('roles')->get();
+        return $user;
+
+        // $user = auth()->user();      
+        // $user->removeRole('admin');                      //menghapus role
+
+        // $user = User::where('id', 2)->first(); 
+        // $user->removeRole('admin');
     }
 
 }

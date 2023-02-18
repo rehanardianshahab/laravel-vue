@@ -24,11 +24,11 @@
                 </div>
                 <div class="form-group row">
                     <label for="date_start" class="col-sm-3 col-form-label">Date of Loan</label>
-                    {{ $transaction->date_start }}
+                    {{ convert_date($transaction->date_start) }}
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Date of Return</label>
-                    {{ $transaction->date_end }}
+                    {{ convert_date($transaction->date_end) }}
                 </div>
                 <div class="form-group row">
                     <label class="col-sm-3 col-form-label">Book</label>

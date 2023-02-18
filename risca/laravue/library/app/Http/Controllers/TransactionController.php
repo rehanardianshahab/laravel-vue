@@ -22,16 +22,13 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::with('tranDetails')->get();
+        if(auth()->user()->role('admin')){
 
-        $transactions = Transaction::selectRaw('sum(transaction_details.book_id) as total_buku, transaction_details.qty*books.price as total_bayar,transactions.status,members.name,transactions.date_start,transactions.date_end,transactions.status, members.name')
-                ->join('transaction_details','transaction_details.transaction_id','=','transactions.id')
-                ->join('members','members.id','=','transactions.member_id')
-                ->join('books', 'books.id','=','transaction_details.book_id')
-                ->groupBy('transaction_details.transaction_id')
-                ->get();
+         $transactions = Transaction::with('tranDetails')->get();
 
-        // $transaction = Transaction::withTrashed()->get();            //menampilkan seluruh data termasuk deleted at
+        } else {
+            return abort('403');
+        }
 
         return view ('admin.transaction.index', compact('transactions'));       
         
@@ -79,6 +76,13 @@ class TransactionController extends Controller
                                  ->addColumn('total_bayar', function($transaction) {
                                     return numberWithSpaces($transaction->total_bayar);
                                 })
+                                ->addColumn('date_start', function($transaction) {
+                                    return convert_date($transaction->date_start);
+                                })
+                                ->addColumn('date_end', function($transaction) {
+                                    return convert_date($transaction->date_end);
+                                })
+
                                 ->addIndexColumn();
         
         return $datatables->make(true);      

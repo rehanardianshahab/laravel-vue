@@ -55,7 +55,7 @@
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">Book</label>
                         <div class="col-sm-9">
-                            <select id="select2" class="form-control @error('book_id') is-invalid @enderror" multiple="multiple" data-placeholder="Select a Book" id="book_id[]" name="book_id[]" style="width: 100%;" required="">                           
+                            <select id="select2" class="form-control @error('book_id') is-invalid @enderror" multiple="multiple" data-placeholder="Select a Book" id="book_id" name="book_id[]" style="width: 100%;" required="">                           
                                 @foreach($books as $book)
                                     @if($book->qty > 0)
                                     <option value="{{ $book->id }}">{{ $book->title }}</option> 

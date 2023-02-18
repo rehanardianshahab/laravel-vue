@@ -20,6 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'dashboard']);
+Route::get('/spatie', [App\Http\Controllers\HomeController::class, 'spatie']);
 Route::get('/transactionDetails', [App\Http\Controllers\TransactionDetailController::class, 'index']);
 
 // Route::get('/catalogs', [App\Http\Controllers\CatalogController::class, 'index']);

@@ -5,7 +5,7 @@ use App\Models\Member;
 use Illuminate\Support\Facades\DB;
 
 	function convert_date($value) {
-		return date('H:i:s - d M Y', strtotime($value));
+		return date('d-m-Y', strtotime($value));
 	}
 
 	function status($status) {
