@@ -11,7 +11,8 @@
 
 <?php
  if (isset($_GET['trans_id'])) {
-    $data = findObjectInArray($_GET['trans_id'], 'id', $member);
+    // echo "halo";
+    $data = findObjectInArray($_GET['trans_id'], 'id_trans', $member);
     $date = $tanggal[0];
     $DaftarBuku = [];
     $DataBuku = [];
@@ -40,7 +41,7 @@
  } else {
   $data = null;
  }
-
+// var_dump($data);
 ?>
 
 @section('content')
@@ -106,17 +107,17 @@
                         @endif
                         <option value="">Masukkan Nama Member</option>
                         @foreach ($member as $item)
-                          @if ($data == null)
-                            <option value="{{ $item->id }}" {{ old('name') == $item->id ? "selected" : "" }}>{{ $item->name }}</option>
-                          @else
-                            <option value="{{ $item->id }}" {{ old('name', $data['id']) == $item->id ? "selected" : "" }}>{{ $item->name }}</option>
-                          @endif
+                        @if ($data == null)
+                        <option value="{{ $item->id }}" {{ old('name') == $item->id ? "selected" : "" }}>{{ $item->name }}</option>
+                        @else
+                        <option value="{{ $item->id }}" {{ old('name', $data['id']) == $item->id ? "selected" : "" }}>{{ $item->name }}</option>
+                        @endif
                         @endforeach
+                        <!-- /.col -->
                       </select>
                     </div>
                     <!-- /.form-group -->
                   </div>
-                  <!-- /.col -->
 
                   <div>
                     <div class="form-group">
@@ -290,10 +291,17 @@
                 });
                 // console.log(_this.books);
               } else {
-                data.forEach(element => {
-                  _this.books.push(element);
-                });
-                // console.log(_this.books);
+                $.ajax({
+                    url: '{{ url('api') }}/books',
+                    method: 'GET',
+                    success: function (data) {
+                        _this.books = JSON.parse(data);
+                        // console.log(_this.books);
+                        },
+                        error: function (error) {
+                            // console.log(error);
+                        }
+                    });
               }
             },
             error: function (error) {
@@ -307,7 +315,7 @@
         price(id) {
           harga = 0;
           id.forEach((element, index) => {
-            // console.log(index, element);
+            console.log(this.books);
             saveral = this.books.find(obj => {
               // Returns the object where
               // the given property has some value 
@@ -374,8 +382,4 @@
     })
   </script>
 
-  {{-- get id --}}
-  {{-- <script>
-    function 
-  </script> --}}
 @endsection
