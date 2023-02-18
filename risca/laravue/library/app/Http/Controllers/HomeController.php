@@ -226,11 +226,27 @@ class HomeController extends Controller
 
     public function spatie()
     {
-        $role = Role::create(['name' => 'admin']);
-        $permission = Permission::create(['name' => 'index peminjaman']);
+        // $role = Role::create(['name' => 'admin']);                                                      //create admin di table role
+        // $permission = Permission::create(['name' => 'index transaction']);                              //create index transaction di table permission
 
-        $role->givePermissionTo($permission);
-        $permission->assignRole($role);
+        // $role->givePermissionTo($permission);
+        // $permission->assignRole($role);
+
+        // $user = auth()->user();                          //user yang sedang login
+        // $user->assignRole('admin');                      //memberikan user role
+        // return $user;
+
+        // $user = User::where('id', 2)->first();                     
+        // $user->assignRole('admin');
+
+        $user = User::with('roles')->get();
+        return $user;
+
+        // $user = auth()->user();      
+        // $user->removeRole('admin');                      //menghapus role
+
+        // $user = User::where('id', 2)->first(); 
+        // $user->removeRole('admin');
     }
 
 }

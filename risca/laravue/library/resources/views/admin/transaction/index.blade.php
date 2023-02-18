@@ -9,6 +9,7 @@
 @endsection
 
 @section('content')
+@role('admin')                       
 <div id="controller">
 	<div class="card">
 		<div class="card-header">
@@ -61,6 +62,7 @@
 		</div>
 	</div>	
 </div>
+@endrole
 @endsection
 
 @section('js')

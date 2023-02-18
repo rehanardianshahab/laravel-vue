@@ -22,16 +22,13 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        $transactions = Transaction::with('tranDetails')->get();
+        if(auth()->user()->role('admin')){
 
-        $transactions = Transaction::selectRaw('sum(transaction_details.book_id) as total_buku, transaction_details.qty*books.price as total_bayar,transactions.status,members.name,transactions.date_start,transactions.date_end,transactions.status, members.name')
-                ->join('transaction_details','transaction_details.transaction_id','=','transactions.id')
-                ->join('members','members.id','=','transactions.member_id')
-                ->join('books', 'books.id','=','transaction_details.book_id')
-                ->groupBy('transaction_details.transaction_id')
-                ->get();
+         $transactions = Transaction::with('tranDetails')->get();
 
-        // $transaction = Transaction::withTrashed()->get();            //menampilkan seluruh data termasuk deleted at
+        } else {
+            return abort('403');
+        }
 
         return view ('admin.transaction.index', compact('transactions'));       
         
