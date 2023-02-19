@@ -260,135 +260,123 @@ class TransactionController extends Controller
      */
     public function createAndEdit()
     {
-      if (auth()->user()->hasrole('administrator')) {
-        // ====================== data nama member dan id transaksi ======================
-        $member = Member::select('members.*', 'transactions.id as id_trans')
-                    ->Leftjoin('transactions', 'transactions.member_id', '=', 'members.id')
-                    ->orderBy('name')->get();
-        // return $member;
-        $allMember = Member::select('*')->orderBy('name')->get();
-        // ====================== jumlah buku ==================================
+        if (auth()->user()->hasrole('administrator')) {
+        // data nama dan id member
+        $member = Member::all();
+        // |||||||||||||||||| jumlah buku ||||||||||||||||||||||||||||||||||
         $buku = Book::select('id', 'isbn', 'title', 'qty', 'price')->get();
+        // return $buku;
 
-        // ================== buku dalam data dipinjam =========================
+        // ||||||||||||||||||| buku yang dipinjam ||||||||||||||||||||||||||
         $dipinjam = TransactionDetail::select('book_id', 'id', 'qty_pinjam', 'status')
                     ->where('status', '=', 0)
                     ->orderBy('book_id')
                     ->get();
         // return $dipinjam;
-        // =================== menentukan buku yang dipinjam ===================
-        $sementara1 = [];
-        $sementara2 = [];
-
+        // |||||||||||||| menentukan buku yang dipinjam ||||||||||||||||||||
+        $sementara = [];
         foreach ($dipinjam as $key => $value) {
             // alat pengecekan
-            array_push($sementara1, array($value));
+            $date = array($value);
             $ind = $key-1;
-            
+        
             // pengecekan
             if ($ind == -1) { // apakah dia data pertama?
-                // tentukan keunikan data pertama
                 $book_id = $value->book_id;
-                $id = $value->id;
                 $qty_pinjam = $value->qty_pinjam;
                 $status = $value->status;
-
-                if( $key == count($dipinjam)-1 ) { // apakah dia data pertama dan terakhir
-                    // push sebagai data tunggal
-                    array_push($sementara2, [
-                        'book_id' => $value->book_id,
-                        'id' => $value->id,
-                        'qty_pinjam' => $value->qty_pinjam,
-                        'status' => $value->status,
-                    ]);
-                }
-            } elseif( $key == count($dipinjam)-1 ) { // apakah dia data terakhir
-                if( $sementara1[$ind][0]['book_id'] == $value->book_id ) { // apakah dia data terakhir yg sama seperti data sebelumnya
-                    // kalkulasi dengan data sebelumnya lalu push
+            } else { // jika dia tidak data pertama
+                // return $date[$ind]->book_id;
+                if ($value->book_id == $date[$ind]->book_id) { // apakah dia sama seperti buku sebelumnya
+                    
                     $qty_pinjam = $qty_pinjam + $value->qty_pinjam;
-                    array_push($sementara2, [
+                    
+                    if ( $key == count($dipinjam)-1 ) { // jika sama seperti buku sebelumnya, cek aakah dia data terakhir
+                        array_push($sementara, [
+                            // 'key' => $key,
+                            'book_id' => $book_id,
+                            'qty_pinjam' => $qty_pinjam,
+                            'status' => $status,
+                        ]);
+                    }
+                } else { // jika dia bukan data pertama dan tidak sama seperti buku sebelumnya
+                    // return $value->book_id;
+                    array_push($sementara, [
+                        // 'key' => $key,
                         'book_id' => $book_id,
-                        'id' => $id,
                         'qty_pinjam' => $qty_pinjam,
                         'status' => $status,
                     ]);
-                } else { // dia data terakhir yang unix
-                    // push data sebelumnya
-                    array_push($sementara2, [
-                        'book_id' => $book_id,
-                        'id' => $id,
-                        'qty_pinjam' => $qty_pinjam,
-                        'status' => $status,
-                    ]);
-                    // push data yang ini sebagai data unix terakhir
-                    array_push($sementara2, [
-                        'book_id' => $value->book_id,
-                        'id' => $value->id,
-                        'qty_pinjam' => $value->qty_pinjam,
-                        'status' => $value->status,
-                    ]);
-                }
-            } else { // dia adalah data tengah
-                if( $sementara1[$ind][0]['book_id'] == $value->book_id ) { // apakah dia data tengah yg sama seperti data sebelumnya
-                    // kalkulasi data sebelumnya dengan data ini
-                    $qty_pinjam = $qty_pinjam + $value->qty_pinjam;
-                } else { // dia adalah data tengah yang unik
-                    // push data sebelumnya
-                    array_push($sementara2, [
-                        'book_id' => $book_id,
-                        'id' => $id,
-                        'qty_pinjam' => $qty_pinjam,
-                        'status' => $status,
-                    ]);
-                    // tentukan data ini menjadi data unix baru
+                    
                     $book_id = $value->book_id;
-                    $id = $value->id;
                     $qty_pinjam = $value->qty_pinjam;
                     $status = $value->status;
-                }
+                    
+                    if ( $key == count($dipinjam)-1 ) { // jika dia bukan data pertama dan tidak sama seperti buku sebelumnya, cek apakah dia data terakhir
+                        array_push($sementara, [
+                            // 'key' => $key,
+                            'book_id' => $book_id,
+                            'qty_pinjam' => $qty_pinjam,
+                            'status' => $status,
+                        ]);
+                        // return $key;
+                    }
+                } // jika dia bukan data pertama dan tidak sama seperti buku sebelumnya, dan dia bukan data terakhir, lanjut ke data berikutnya
             }
         }
-
         // jika selesai semua kembalikan ke variable awal
-        $dipinjam = $sementara2;
-        $sementara1 = [];
-        $sementara2 = [];
+        $dipinjam = $sementara;
+        $sementara = [];
         // return $buku;
 
-        // =========================== buku yang tersedia ===============================
+        // ||||||||||||||||||||||||| buku yang tersedia ||||||||||||||||||||||||||||||||
         foreach ($buku as $key => $value) {
+            // $yangdipinjam = '-';
+            $data = array($value);
+            $ind = $key-1;
+            // return $value['id'];
             foreach ($dipinjam as $key => $pjm) {
                 // return $pjm['book_id'];
                 if ($pjm['book_id'] == $value['id']) {
-                    // $yangdipinjam = $pjm['qty_pinjam'];
-                    // $available = $value['qty'] - $yangdipinjam;
-                    // $bookid = $pjm['book_id'];
-                    array_push($sementara1, [
-                        'id' => $pjm['book_id'],
-                        "isbn" => $value['isbn'],
-                        "qty" => $value['qty'],
-                        "title" => $value['title'],
-                        'yang_dipinjam' => $pjm['qty_pinjam'],
-                        'tersedia' => $value['qty'] - $pjm['qty_pinjam']
-                    ]);
+                    $yangdipinjam = $pjm['qty_pinjam'];
+                    $available = $value['qty'] - $yangdipinjam;
+                    $bookid = $pjm['book_id'];
+                }
+
+                // cek apakah sama seperti sebelumnya
+                if ( $ind != -1 ) {
+                    // var_dump($sementara[$ind]['book_id']);
+                    if ($bookid == $sementara[$ind]['book_id'] ) {
+                        $yangdipinjam = '-';
+                        $available = $value['qty'];
+                        $bookid = '-';
+                    }
                 }
             }
-        }
-        $buku = $sementara1;
-        $sementara1 = [];
 
-        // ========================= data akhir/ buku yang vailable =====================
+            // push
+            array_push($sementara, [
+                'id' => $value['id'],
+                "isbn" => $value['isbn'],
+                "qty" => $value['qty'],
+                "title" => $value['title'],
+                'book_id' => $bookid,
+                'yang_dipinjam' => $yangdipinjam,
+                'tersedia' => $available
+            ]);
+        }
+        $buku = $sementara;
+        $sementara = [];
+
+        // |||||||||||||||||||||||||| data akhir/ buku yang vailable ||||||||||||||||||
         // cek apakah sisa bukunya masih ada
         foreach ($buku as $key => $value) {
-            // jika ada sisa bukunya
-            if (($value['tersedia'] > 0) > 0) {
-                array_push($sementara1, $value);
-            } else {
-                $sementara1 = [];
+            if ($value['tersedia'] > 0) {
+                array_push($sementara, $value);
             }
         }
-        $buku = $sementara1;
-        $sementara1 = [];
+        $buku = $sementara;
+        $sementara = [];
 
 
         // ==============================Buku yang dipinjam By Id=============================
@@ -399,11 +387,14 @@ class TransactionController extends Controller
             $bukuInTrans = TransactionDetail::select('transaction_details.id','transaction_id', 'book_id', 'title', 'qty_pinjam', 'books.price', 'status', 'tgl_kembali')
                             ->join('books', 'books.id', '=', 'book_id')
                             ->where('transaction_id', '=', $_GET['trans_id'])->get();
-            $tanggal = Transaction::select('*')
+            $tanggal = Transaction::select('date_start', 'date_end')
                         ->where('id', '=', $_GET['trans_id'])->get();
         }
+        // return $bukuInTrans;
+        // return $buku;
+        // return $tanggal[0]->date_start;
 
-        return view('.admin.transaction.form', compact('buku', 'member', 'allMember', 'bukuInTrans', 'tanggal'));
+        return view('.admin.transaction.form', compact('buku', 'member', 'bukuInTrans', 'tanggal'));
         } else {
             return abort('403');
         }

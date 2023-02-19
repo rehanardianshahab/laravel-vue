@@ -106,11 +106,11 @@
                         <select class="form-control select2" style="width: 100%;" name="name" disabled>
                         @endif
                         <option value="">Masukkan Nama Member</option>
-                        @foreach ($member as $item)
+                        @foreach ($allMember as $item)
                         @if ($data == null)
                         <option value="{{ $item->id }}" {{ old('name') == $item->id ? "selected" : "" }}>{{ $item->name }}</option>
                         @else
-                        <option value="{{ $item->id }}" {{ old('name', $data['id']) == $item->id ? "selected" : "" }}>{{ $item->name }}</option>
+                        <option value="{{ $item->id }}" {{ old('name', $tanggal[0]->id) == $item->id ? "selected" : "" }}>{{ $item->name }}</option>
                         @endif
                         @endforeach
                         <!-- /.col -->
