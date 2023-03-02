@@ -1,3 +1,32 @@
+/** setup vued rouuter */
+import * as VueRouter from 'vue-router'; // alternative ways of importing
+import Dashboar from './components/Dashboar.vue';
+import ExampleComponent from './components/ExampleComponent.vue';
+import ApaIni from './components/ApaIni.vue';
+
+let routes = [
+    {
+        path: '/dashboard',
+        name: 'dashboard',
+        component: Dashboar,
+    },
+    {
+        path: '/sample',
+        name: 'sample',
+        component: ExampleComponent,
+    },
+    {
+        path: '/apaini',
+        name: 'apaini',
+        component: ApaIni,
+    }
+];
+
+const router = VueRouter.createRouter({
+    // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
+    history: VueRouter.createWebHashHistory(),
+    routes, // short for `routes: routes`
+});
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -14,10 +43,9 @@ import { createApp } from 'vue';
  */
 
 const app = createApp({});
+app.use(router);
 
-import ExampleComponent from './components/ExampleComponent.vue';
-import ApaIni from './components/ApaIni.vue';
-import Dashboar from './components/Dashboar.vue';
+// import Dashboar from './components/Dashboar.vue';
 app.component('example-component', ExampleComponent);
 app.component('apa-ini', ApaIni);
 app.component('laman-dashboard', Dashboar);

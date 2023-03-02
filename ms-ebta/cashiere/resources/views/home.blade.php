@@ -15,6 +15,12 @@
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
+    <style>
+        .router-link-active {
+            color: black;
+        }
+    </style>
 </head>
 <body>
     <div id="app">
@@ -33,17 +39,14 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav me-auto">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Active</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link" href="#">Link</a>
-                          </li>
-                          <li class="nav-item">
-                            <a class="nav-link disabled">Disabled</a>
-                          </li>
+                            <router-link to="/dashboard" class="nav-link" aria-current="page">Dashboard</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link to="/sample" class="nav-link" aria-current="page">Sample</router-link>
+                        </li>
+                        <li class="nav-item">
+                            <router-link to="/apaini" class="nav-link" aria-current="page">Apa Ini</router-link>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -86,11 +89,8 @@
         </nav>
 
         <main class="py-4">
-            {{-- <example-component></example-component>
-            <apa-ini></apa-ini> --}}
-            <laman-dashboard></laman-dashboard>
+            <router-view></router-view>
         </main>
     </div>
 </body>
 </html>
-
