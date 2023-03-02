@@ -13,6 +13,24 @@ export default {
 
 <template>
   <section class="content">
+    <div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="FormModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="FormModalLabel">Modal title</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            ...
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="container-fluid pb-5">
 
       <div class="row">
@@ -30,7 +48,8 @@ export default {
           <div class="card">
             <!-- card-header -->
             <div class="card-header">
-              <button class="btn btn-success xs btn-flat rounded" onclick="addForm('{{ route('category.store') }}')"><!--<img :src="imagePlus" width="20" />--><i class="bi bi-patch-plus"></i> Add</button>
+              <!-- Button trigger modal -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#FormModal"><!--<img :src="imagePlus" width="20" />--><i class="bi bi-patch-plus"></i> Add</button>
             </div>
             <!-- /.card-header -->
 
