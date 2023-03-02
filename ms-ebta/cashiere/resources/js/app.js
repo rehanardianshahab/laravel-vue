@@ -17,8 +17,10 @@ const app = createApp({});
 
 import ExampleComponent from './components/ExampleComponent.vue';
 import ApaIni from './components/ApaIni.vue';
+import Dashboar from './components/Dashboar.vue';
 app.component('example-component', ExampleComponent);
 app.component('apa-ini', ApaIni);
+app.component('laman-dashboard', Dashboar);
 
 /**
  * The following block of code may be used to automatically register your

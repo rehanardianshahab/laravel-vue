@@ -14,12 +14,12 @@
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
     <!-- Scripts -->
-    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+    @vite(['resources/sass/app.scss'/*, 'resources/js/app.js'*/])
 </head>
 <body>
     <div id="app">
-        <example-component></example-component>
-        <apa-ini></apa-ini>
+        {{-- <example-component></example-component>
+        <apa-ini></apa-ini> --}}
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
                 <a class="navbar-brand" href="{{ url('/') }}">
