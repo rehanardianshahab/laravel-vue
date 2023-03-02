@@ -1,3 +1,16 @@
+<script>
+import imagePlus from "./assets/circle-plus-solid.svg"
+
+
+export default {
+    data: function () {
+        return {
+            imagePlus
+        }
+    }
+}
+</script>
+
 <template>
   <section class="content">
     <div class="container-fluid pb-5">
@@ -17,7 +30,7 @@
           <div class="card">
             <!-- card-header -->
             <div class="card-header">
-              <button class="btn btn-success xs btn-flat rounded" onclick="addForm('{{ route('category.store') }}')"><i class="fa fa-plus-circle"> Add</i></button>
+              <button class="btn btn-success xs btn-flat rounded" onclick="addForm('{{ route('category.store') }}')"><!--<img :src="imagePlus" width="20" />--><i class="bi bi-patch-plus"></i> Add</button>
             </div>
             <!-- /.card-header -->
 
@@ -27,7 +40,7 @@
                     <thead>
                         <th width="5%">No</th>
                         <th>Category</th>
-                        <th width="15%"><i class="fa fa-cog"></i></th>
+                        <th width="15%"><i class="bi bi-gear-wide-connected"></i></th>
                     </thead>
                     <tbody>
 

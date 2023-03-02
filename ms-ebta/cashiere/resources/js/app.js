@@ -74,4 +74,11 @@ app.use(router);
  * scaffolding. Otherwise, you will need to add an element yourself.
  */
 
+// font awsome
+// import { library } from '@fortawesome/fontawesome-svg-core';
+// import { fas } from '@fortawesome/free-solid-svg-icons';
+// library.add(fas);
+// app.component('fa', FontAwesomeIcon);
+
+
 app.mount('#app');
