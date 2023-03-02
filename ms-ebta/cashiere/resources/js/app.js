@@ -2,6 +2,7 @@
 import * as VueRouter from 'vue-router'; // alternative ways of importing
 import Dashboar from './components/Dashboar.vue';
 import ExampleComponent from './components/ExampleComponent.vue';
+import Category from './components/Category.vue';
 import ApaIni from './components/ApaIni.vue';
 
 let routes = [
@@ -14,6 +15,11 @@ let routes = [
         path: '/sample',
         name: 'sample',
         component: ExampleComponent,
+    },
+    {
+        path: '/category',
+        name: 'category',
+        component: Category,
     },
     {
         path: '/apaini',
@@ -46,9 +52,9 @@ const app = createApp({});
 app.use(router);
 
 // import Dashboar from './components/Dashboar.vue';
-app.component('example-component', ExampleComponent);
-app.component('apa-ini', ApaIni);
-app.component('laman-dashboard', Dashboar);
+// app.component('example-component', ExampleComponent);
+// app.component('apa-ini', ApaIni);
+// app.component('laman-dashboard', Dashboar);
 
 /**
  * The following block of code may be used to automatically register your

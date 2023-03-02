@@ -42,6 +42,9 @@
                             <router-link to="/dashboard" class="nav-link" aria-current="page">Dashboard</router-link>
                         </li>
                         <li class="nav-item">
+                            <router-link to="/category" class="nav-link" aria-current="page">category</router-link>
+                        </li>
+                        <li class="nav-item">
                             <router-link to="/sample" class="nav-link" aria-current="page">Sample</router-link>
                         </li>
                         <li class="nav-item">
