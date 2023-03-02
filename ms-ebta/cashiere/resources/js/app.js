@@ -16,7 +16,9 @@ import { createApp } from 'vue';
 const app = createApp({});
 
 import ExampleComponent from './components/ExampleComponent.vue';
+import ApaIni from './components/ApaIni.vue';
 app.component('example-component', ExampleComponent);
+app.component('apa-ini', ApaIni);
 
 /**
  * The following block of code may be used to automatically register your
