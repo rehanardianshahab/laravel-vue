@@ -2,9 +2,18 @@
 export default {
   data() {
     return {
+      // for datatables
+        columns: [
+                {data: 'DT_RowIndex', searchable: false, sortable: true},
+                {data: 'name'},
+                {data: 'action', searchable: false, sortable: false}
+        ],
+      // for api url
         url: import.meta.env.VITE_APP_URL,
+        getApi: import.meta.env.VITE_APP_URL+'/api/category',
+      // for post sata
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-      }
+    }
   },
   methods: {
     addForm(laman) {
@@ -30,17 +39,45 @@ export default {
     resetForm () {
       // reset form
       $('#FormModal form')[0].reset();
-    }
+    },
+    datatable() {
+      $('#table').DataTable({
+        ajax: {
+          url: this.getApi,
+          type: 'GET',
+        },//memanggil data dari data api dengan ajax, disimpan di DataTable
+        columns: this.columns,
+        dom: 'Bfrtip',
+        buttons: [
+            'pageLength',
+            'colvis',
+            'spacer',
+            'copyHtml5',
+            'pdfHtml5',
+            'print',
+            'csvHtml5',
+            {
+              extend: 'excel',
+              text: 'exel',
+              exportOptions: {
+                  modifier: {
+                    page: 'current'
+                  }
+              }
+            },
+        ]
+      });
+    },
   },
   mounted() {
-    console.log("my env variable:");
-    console.log(this.url);
+    this.datatable();
   }
 }
 </script>
 
 <template>
   <section class="content">
+    <!-- alert box for form -->
     <div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="FormModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <form action="" method="post" class="form-horizontal">
@@ -79,6 +116,7 @@ export default {
       </div>
     </div>
 
+    <!-- main page -->
     <div class="container-fluid pb-5">
 
       <div class="row">
@@ -104,14 +142,16 @@ export default {
             <div class="card-body table-responsive">
                 <!-- <table class="table table-stiped table-bordered"> -->
                 <table id="table" class="table table-bordered table-striped">
-                    <thead>
-                        <th width="5%">No</th>
-                        <th>Category</th>
-                        <th width="15%"><i class="bi bi-gear-wide-connected"></i></th>
-                    </thead>
-                    <tbody>
+                  <thead>
+                    <tr role="row">
+                    <th width="5%">No</th>
+                    <th>Category</th>
+                    <th width="15%"><i class="bi bi-gear-wide-connected"></i></th>
+                    </tr>
+                  </thead>
+                  <tbody>
 
-                    </tbody>
+                  </tbody>
                 </table>
             </div>
             <!-- ./card-body -->
