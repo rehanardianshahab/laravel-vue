@@ -100,40 +100,41 @@ class CategoryController extends Controller
      */
     public function update(Request $request,  Category $category)
     {
-        return $category;
-        //set validation
-        $validator = Validator::make($request->all(), [
-            'name'   => ['required','unique:categories'/*, 'min:5'*/],
-        ]);
-        
-        //response error validation
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+        //find post by ID
+        $category = Category::findOrFail($category->id);
+
+        if ($request->name == $category->name) {
+            
+        } else {
+            //set validation
+            $validator = Validator::make($request->all(), [
+                'name'   => ['required','unique:categories'/*, 'min:5'*/],
+            ]);
+            //response error validation
+            if ($validator->fails()) {
+                return response()->json($validator->errors(), 400);
+            }
         }
 
-        //find post by ID
-        $post = Post::findOrFail($post->id);
+        if($category) {
 
-        if($post) {
-
-            //update post
-            $post->update([
-                'title'     => $request->title,
-                'content'   => $request->content
+            //update $category
+            $category->update([
+                'name'     => $request->name
             ]);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Post Updated',
-                'data'    => $post  
+                'message' => 'Category Updated',
+                'data'    => $category  
             ], 200);
 
         }
 
-        //data post not found
+        //data $category not found
         return response()->json([
             'success' => false,
-            'message' => 'Post Not Found',
+            'message' => 'Category Not Found',
         ], 404);
     }
 

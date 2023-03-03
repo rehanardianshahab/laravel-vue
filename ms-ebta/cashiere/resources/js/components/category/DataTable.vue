@@ -1,7 +1,4 @@
 <script>
-function triggerModal(params) {
-  console.log(params);
-}
 export default {
   data() {
     return {
@@ -54,7 +51,7 @@ export default {
         $('#FormModal form').attr('action', this.url+"/api/category/"+id);
 
         // // method form
-        $('#FormModal [name=_method]').val('post');
+        $('#FormModal [name=_method]').val('put');
 
         // // input form
         $('#FormModal [name=name]').focus();
@@ -62,8 +59,8 @@ export default {
         $.get(this.url+"/api/category/"+id)
             .done((response) => {
                 $('#FormModal [name=name]').val(response.data[0].name);
-                console.log('yey');
-                console.log(response.data[0].name);
+                // console.log('yey');
+                // console.log(response.data[0].name);
             })
             .fail((error) => {
                 // set alert dan munculkan alert
@@ -142,7 +139,6 @@ export default {
             $('#notif .text').html( pesanErr );
             return;
         });
-      // });
     },
   },
   mounted() {
@@ -157,7 +153,6 @@ export default {
     $('tbody', this.$refs.table).on( 'click', '.editData', function(){
         let theid = $(this).attr('data-idedit');
         edit(theid);
-        console.log(theid);
     });
   }
 }
