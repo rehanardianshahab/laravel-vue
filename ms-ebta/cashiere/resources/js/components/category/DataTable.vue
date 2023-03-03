@@ -1,13 +1,36 @@
 <script>
-import imagePlus from "./assets/circle-plus-solid.svg"
-
-
 export default {
-    data: function () {
-        return {
-            imagePlus
-        }
+  data() {
+    return {
+        csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      }
+  },
+  methods: {
+    addForm(url) {
+        $('#FormModal').modal('show');
+        $('#FormModal .modal-title').text('Add New Kategory');
+
+        // // reset alert
+        // if ($( "#notif" ).hasClass('d-none')) {
+
+        // } else {
+        //     $( "#notif" ).addClass( 'd-none');
+        // }
+
+        // // action
+        // $('#FormModal form').attr('action', url)
+
+        // // method form
+        $('[name=_method]').val('put');
+
+        // // input form
+        $('#FormModal [name=name]').focus();
+    },
+    resetForm () {
+      // reset form
+      $('#FormModal form')[0].reset();
     }
+  }
 }
 </script>
 
@@ -15,19 +38,39 @@ export default {
   <section class="content">
     <div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="FormModalLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="FormModalLabel">Modal title</h1>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <form action="" method="post" class="form-horizontal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="FormModalLabel">Modal title</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Alert -->
+            <div class="d-none" id="notif" role="alert">
+                <span class="text">This</span>
+                <button type="button" class="close">
+                <span onclick="closeNotif()">&times;</span>
+                </button>
+            </div>
+            <!-- /.alert -->
+            <div class="modal-body">
+              <!-- csrf token dan method -->
+              <input type="hidden" name="_token" :value="csrf">
+              <input type="hidden" name="_method" value="post">
+              <!-- end csrf token dan method -->
+              <div class="form-group row">
+                <label for="name" class="col-md-4 control-label">Category Name</label>
+                <div class="col-md-8">
+                    <input type="text" name="name" id="name" class="form-control" required autocomplete="off">
+                    <span class="help-block with-errors"></span>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Save</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="resetForm()">Cancel</button>
+            </div>
           </div>
-          <div class="modal-body">
-            ...
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
-          </div>
-        </div>
+        </form>
       </div>
     </div>
 
@@ -49,7 +92,7 @@ export default {
             <!-- card-header -->
             <div class="card-header">
               <!-- Button trigger modal -->
-              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#FormModal"><!--<img :src="imagePlus" width="20" />--><i class="bi bi-patch-plus"></i> Add</button>
+              <button type="button" class="btn btn-primary" @click="addForm(url)"><i class="bi bi-patch-plus"></i> Add</button>
             </div>
             <!-- /.card-header -->
 
