@@ -49,7 +49,7 @@ class CategoryController extends Controller
 
         //set validation
         $validator = Validator::make($request->all(), [
-            'name'   => ['required','unique:categories'],
+        'name'   => ['required','unique:categories'/*, 'min:5'*/],
         ]);
         
         // $category = new Category();

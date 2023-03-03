@@ -16,22 +16,29 @@ export default {
     }
   },
   methods: {
-    addForm(laman) {
-        $('#FormModal').modal('show');
-        $('#FormModal .modal-title').text('Add New Kategory');
-
-        // // reset alert
+    closeNotif() {
+        // reset alert
         if ($( "#notif" ).hasClass('d-none')) {
 
         } else {
             $( "#notif" ).addClass( 'd-none');
         }
+        // reset alert
+        if ($( "#notif-utama" ).hasClass('d-none')) {
+
+        } else {
+            $( "#notif-utama" ).addClass( 'd-none');
+        }
+    },
+    addForm(laman) {
+        $('#FormModal').modal('show');
+        $('#FormModal .modal-title').text('Add New Kategory');
 
         // // action
         $('#FormModal form').attr('action', this.url+laman)
 
         // // method form
-        $('[name=_method]').val('put');
+        $('#FormModal [name=_method]').val('post');
 
         // // input form
         $('#FormModal [name=name]').focus();
@@ -39,6 +46,7 @@ export default {
     resetForm () {
       // reset form
       $('#FormModal form')[0].reset();
+      this.closeNotif();
     },
     datatable() {
       $('#table').DataTable({
@@ -68,19 +76,57 @@ export default {
         ]
       });
     },
+    submitForm() {
+        $.ajax({
+            url: $('#FormModal form').attr('action'),
+            type: $('#FormModal [name=_method]').val(),
+            data: $('#FormModal form').serialize()
+        }).done((response) => {
+            // hilangkan modal
+            $('#FormModal').modal('hide');
+            // reload table
+            $('#table').DataTable().ajax.reload();
+            // set alert dan munculkan alert
+            $("#notif-utama").attr('class', '');
+            $( "#notif-utama" ).addClass( 'alert alert-success alert-dismissible mb-3 show');
+            // reset form
+            $('#FormModal form')[0].reset();
+            // isi tulisan
+            if ( $('[name=_method]').val() == 'put' ) {
+                $('#notif-utama .text').text("Updated data success");
+            } else if ( $('[name=_method]').val() == 'post' ) {
+                $('#notif-utama .text').text("Add new data success");
+            }
+        }).fail((error) => {
+            // membuat pesan error
+            const pesan = error.responseJSON.name;
+            let pesanErr = '';
+            pesan.forEach(element => {
+              pesanErr = pesanErr+element+'<br>';
+            });
+            // membuat notif
+            $("#notif").attr('class', '');
+            $( "#notif" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+            // isi tulisan
+            $('#notif .text').html( pesanErr );
+            return;
+        });
+      // });
+    }
   },
   mounted() {
     this.datatable();
+    // this.submitForm();
   }
 }
 </script>
 
 <template>
   <section class="content">
-    <!-- alert box for form -->
+    <!-- modal box for form -->
     <div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="FormModalLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <form action="" method="post" class="form-horizontal">
+        <form action="" method="post" class="form-horizontal" @submit.prevent="submitForm()">
           <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="FormModalLabel">Modal title</h5>
@@ -89,9 +135,7 @@ export default {
             <!-- Alert -->
             <div class="d-none" id="notif" role="alert">
                 <span class="text">This</span>
-                <button type="button" class="close">
-                <span onclick="closeNotif()">&times;</span>
-                </button>
+                <button type="button" class="btn-close" @click="closeNotif()"></button>
             </div>
             <!-- /.alert -->
             <div class="modal-body">
@@ -102,7 +146,7 @@ export default {
               <div class="form-group row">
                 <label for="name" class="col-md-4 control-label">Category Name</label>
                 <div class="col-md-8">
-                    <input type="text" name="name" id="name" class="form-control" required autocomplete="off">
+                    <input type="text" name="name" id="name" class="form-control" autocomplete="off">
                     <span class="help-block with-errors"></span>
                 </div>
               </div>
@@ -125,9 +169,7 @@ export default {
             <!-- Alert -->
             <div class="d-none" id="notif-utama" role="alert">
                 <span class="text"></span>
-                <button type="button" class="close">
-                    <span onclick="closeNotif()">&times;</span>
-                </button>
+                <button type="button" class="btn-close" @click="closeNotif()"></button>
             </div>
             <!-- /.alert -->
 
@@ -135,7 +177,7 @@ export default {
             <!-- card-header -->
             <div class="card-header">
               <!-- Button trigger modal -->
-              <button type="button" class="btn btn-primary" @click="addForm('/api')"><i class="bi bi-patch-plus"></i> Add</button>
+              <button type="button" class="btn btn-primary" @click="addForm('/api/category')"><i class="bi bi-patch-plus"></i> Add</button>
             </div>
             <!-- /.card-header -->
 
