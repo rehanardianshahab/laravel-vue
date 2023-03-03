@@ -14,8 +14,19 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
+                <div class="row">
+                  <div class="col-md-10">
                 <a href="#" @click="addData()" class="btn btn-primary pull-right">Create New Member</a>
               </div>
+              <div class="col-md-2">
+                <select class="form-control" name="gender">
+                  <option value="0">Semua Jenis Kelamin</option>
+                  <option value="female">Perempuan</option>
+                  <option value="male">Laki Laki</option>
+                </select>
+              </div>
+                </div>
+                </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="datatable" class="table table-striped table-bordered">
@@ -134,4 +145,15 @@
 </script>
 
 <script src="{{ asset('js/data.js') }}"></script>
+<script type="text/javascript">
+  $('select[name=gender]').on('change', function() {
+    gender = $('select[name=gender]').val();
+
+    if (gender == 0) {
+      controller.table.ajax.url(apiUrl).load();
+    } else {
+      controller.table.ajax.url(apiUrl+'?gender='+gender).load();
+    }
+  });
+</script>
 @endsection
