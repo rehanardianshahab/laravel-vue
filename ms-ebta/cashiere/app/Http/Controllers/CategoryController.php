@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Yajra\DataTables\Facades\DataTables;
+
+use App\Models\Category;
 
 class CategoryController extends Controller
 {
@@ -11,10 +14,11 @@ class CategoryController extends Controller
      */
     public function index()
     {
+        // return "hallo";
         $category = Category::orderBy('id', 'desc')->get();
 
-        return datatables()
-                ->of($category)
+        return datatables::
+                of($category)
                 ->addIndexColumn()
                 ->addColumn('action', function ($category)
                 {
