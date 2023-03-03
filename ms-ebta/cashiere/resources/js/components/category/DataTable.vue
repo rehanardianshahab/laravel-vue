@@ -1,4 +1,7 @@
 <script>
+function triggerModal(params) {
+  console.log(params);
+}
 export default {
   data() {
     return {
@@ -6,7 +9,7 @@ export default {
         columns: [
                 {data: 'DT_RowIndex', searchable: false, sortable: true},
                 {data: 'name'},
-                {data: 'action', searchable: false, sortable: false}
+                {data: 'action', searchable: false, sortable: false},
         ],
       // for api url
         url: import.meta.env.VITE_APP_URL,
@@ -42,6 +45,34 @@ export default {
 
         // // input form
         $('#FormModal [name=name]').focus();
+    },
+    editForm(id) {
+        $('#FormModal').modal('show');
+        $('#FormModal .modal-title').text('Edit Kategory');
+
+        // // action
+        $('#FormModal form').attr('action', this.url+"/api/category/"+id);
+
+        // // method form
+        $('#FormModal [name=_method]').val('post');
+
+        // // input form
+        $('#FormModal [name=name]').focus();
+
+        $.get(this.url+"/api/category/"+id)
+            .done((response) => {
+                $('#FormModal [name=name]').val(response.data[0].name);
+                console.log('yey');
+                console.log(response.data[0].name);
+            })
+            .fail((error) => {
+                // set alert dan munculkan alert
+                $("#notif").attr('class', '');
+                $( "#notif" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+                // isi tulisan
+                $('#notif .text').html( error.responseJSON.message );
+                return;
+            })
     },
     resetForm () {
       // reset form
@@ -112,11 +143,22 @@ export default {
             return;
         });
       // });
-    }
+    },
   },
   mounted() {
     this.datatable();
-    // this.submitForm();
+    // const table = $(this.$refs.table).dataTable({
+    //   ajax: this.getApi,
+    //   columns: this.columns
+    // });
+    let edit = this.editForm;
+
+    // const self = this
+    $('tbody', this.$refs.table).on( 'click', '.editData', function(){
+        let theid = $(this).attr('data-idedit');
+        edit(theid);
+        console.log(theid);
+    });
   }
 }
 </script>
@@ -133,7 +175,7 @@ export default {
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <!-- Alert -->
-            <div class="d-none" id="notif" role="alert">
+            <div class="d-none" id="notif" data-not="1" role="alert">
                 <span class="text">This</span>
                 <button type="button" class="btn-close" @click="closeNotif()"></button>
             </div>

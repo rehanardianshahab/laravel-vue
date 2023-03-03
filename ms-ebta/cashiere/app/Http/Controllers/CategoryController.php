@@ -23,8 +23,8 @@ class CategoryController extends Controller
                 {
                     return 
                     '<div class="btn-group d-flex justify-content-around rounded" role="group" aria-label="Basic example">'.
-                        '<button onclick="editForm(`'.$category->id.'`)" class="btn btn-xs btn-info btn-flat"><i class="bi bi-pencil-square"></i></button>'
-                        .'<button onclick="deleteData(`'.$category->id.'`)" class="btn btn-xs btn-danger btn-flat"><i class="bi bi-trash"></i></button>'
+                        '<button id="a" data-idedit="'.$category->id.'" class="editData btn btn-xs btn-info btn-flat"><i class="bi bi-pencil-square"></i></button>'
+                        .'<button data-iddelete="'.$category->id.'" class="deleteData btn btn-xs btn-danger btn-flat"><i class="bi bi-trash"></i></button>'
                     .'</div>';
                 })->rawColumns(['action'])
                 ->make(true);
@@ -43,18 +43,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        // $this->validate($request, [
-        //     'name' => ['required','unique:categories'],
-        // ]);
-
         //set validation
         $validator = Validator::make($request->all(), [
-        'name'   => ['required','unique:categories'/*, 'min:5'*/],
+            'name'   => ['required','unique:categories'/*, 'min:5'*/],
         ]);
-        
-        // $category = new Category();
-        // $category->name = $request->name;
-        // $category->save();
 
         //response error validation
         if ($validator->fails()) {
@@ -91,7 +83,8 @@ class CategoryController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $category = Category::select('*')->where('id', $id)->get();
+        return datatables::of($category)->make(true);
     }
 
     /**
@@ -105,9 +98,43 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request,  Category $category)
     {
-        //
+        return $category;
+        //set validation
+        $validator = Validator::make($request->all(), [
+            'name'   => ['required','unique:categories'/*, 'min:5'*/],
+        ]);
+        
+        //response error validation
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 400);
+        }
+
+        //find post by ID
+        $post = Post::findOrFail($post->id);
+
+        if($post) {
+
+            //update post
+            $post->update([
+                'title'     => $request->title,
+                'content'   => $request->content
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Post Updated',
+                'data'    => $post  
+            ], 200);
+
+        }
+
+        //data post not found
+        return response()->json([
+            'success' => false,
+            'message' => 'Post Not Found',
+        ], 404);
     }
 
     /**
