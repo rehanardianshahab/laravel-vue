@@ -2,23 +2,24 @@
 export default {
   data() {
     return {
+        url: import.meta.env.VITE_APP_URL,
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
       }
   },
   methods: {
-    addForm(url) {
+    addForm(laman) {
         $('#FormModal').modal('show');
         $('#FormModal .modal-title').text('Add New Kategory');
 
         // // reset alert
-        // if ($( "#notif" ).hasClass('d-none')) {
+        if ($( "#notif" ).hasClass('d-none')) {
 
-        // } else {
-        //     $( "#notif" ).addClass( 'd-none');
-        // }
+        } else {
+            $( "#notif" ).addClass( 'd-none');
+        }
 
         // // action
-        // $('#FormModal form').attr('action', url)
+        $('#FormModal form').attr('action', this.url+laman)
 
         // // method form
         $('[name=_method]').val('put');
@@ -30,6 +31,10 @@ export default {
       // reset form
       $('#FormModal form')[0].reset();
     }
+  },
+  mounted() {
+    console.log("my env variable:");
+    console.log(this.url);
   }
 }
 </script>
@@ -92,7 +97,7 @@ export default {
             <!-- card-header -->
             <div class="card-header">
               <!-- Button trigger modal -->
-              <button type="button" class="btn btn-primary" @click="addForm(url)"><i class="bi bi-patch-plus"></i> Add</button>
+              <button type="button" class="btn btn-primary" @click="addForm('/api')"><i class="bi bi-patch-plus"></i> Add</button>
             </div>
             <!-- /.card-header -->
 

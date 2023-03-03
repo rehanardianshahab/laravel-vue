@@ -11,7 +11,20 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        $category = Category::orderBy('id', 'desc')->get();
+
+        return datatables()
+                ->of($category)
+                ->addIndexColumn()
+                ->addColumn('action', function ($category)
+                {
+                    return 
+                    '<div class="btn-group d-flex justify-content-around rounded" role="group" aria-label="Basic example">'.
+                        '<button onclick="editForm(`'.route('category.update', $category->id).'`)" class="btn btn-xs btn-info btn-flat"><i class="fa fa-edit"></i></button>'
+                        .'<button onclick="deleteData(`'.route('category.destroy', $category->id).'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>'
+                    .'</div>';
+                })->rawColumns(['action'])
+                ->make(true);
     }
 
     /**
