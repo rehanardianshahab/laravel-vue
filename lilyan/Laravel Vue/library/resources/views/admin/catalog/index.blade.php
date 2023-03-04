@@ -34,14 +34,16 @@
                       <td class="text-center">{{ count($catalog->books) }}</td>
                       <td class="text-center">{{ convert_date($catalog->created_at) }}</td>
                       <td class="text-center">
-                        <a href="{{ url('catalogs/'.$catalog->id.'/edit') }}" class="btn btn-warning btn-sm">Edit</a>
-                        
-                        <form action="{{ url('catalogs', ['id' => $catalog->id]) }}" method="post">
-                          <input class="btn btn-danger btn-sm" type="submit" value="Delete" 
-                          onclick="return confirm('Are you sure?')">
-                          @method('delete')
-                          @csrf
-                        </form>
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                          <a href="{{ url('catalogs/'.$catalog->id.'/edit') }}" class="btn btn-warning btn-sm">Edit</a>
+                          
+                          <form action="{{ url('catalogs', ['id' => $catalog->id]) }}" method="post">
+                            <input class="btn btn-danger btn-sm ml-1" type="submit" value="Delete" 
+                            onclick="return confirm('Are you sure?')">
+                            @method('delete')
+                            @csrf
+                          </form>
+                        </div>
                       </td>
                     </tr>
                     @endforeach

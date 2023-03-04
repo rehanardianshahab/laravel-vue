@@ -58,33 +58,24 @@
         </div>
       </li>
 
-      <!-- Notifications Dropdown Menu -->
+      <!-- Notification Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">15</span>
+          <span class="badge badge-warning navbar-badge">{{ $notif_days[0]->jml_status }}</span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          <span class="dropdown-item dropdown-header">15 Notifications</span>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-envelope mr-2"></i> 4 new messages
-            <span class="float-right text-muted text-sm">3 mins</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-users mr-2"></i> 8 friend requests
-            <span class="float-right text-muted text-sm">12 hours</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item">
-            <i class="fas fa-file mr-2"></i> 3 new reports
-            <span class="float-right text-muted text-sm">2 days</span>
-          </a>
-          <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-        </div>
+          <span class="dropdown-item dropdown-header">  {{ $notif_days[0]->jml_status }} Notifications</span>       
+            @foreach($member_name as $notif)
+                @if($notif->status == 0)
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item text-wrap">
+                  <i class="fa fa-envelope mr-2" aria-hidden="true"></i> {{ $notif->name }} melewati batas waktu ( {{ jml_hari($notif->date_end) }} hari )
+                </a>
+                @endif
+            @endforeach
       </li>
+
       <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
@@ -152,6 +143,13 @@
             </a>
           </li>
           <li class="nav-item menu-open">
+            <a href="{{ url('transactions') }}" class="nav-link {{ request()->is('transactions') ? 'active' : '' }}">
+              <i class="nav-icon far fa-plus-square"></i>
+              <p>
+                Transaction
+                {{-- <i class="right fas fa-angle-left"></i> --}}
+              </p>
+            </a>
             <a href="{{ url('members') }}" class="nav-link {{ request()->is('members') ? 'active' : '' }}">
               <i class="nav-icon far fa-plus-square"></i>
               <p>
