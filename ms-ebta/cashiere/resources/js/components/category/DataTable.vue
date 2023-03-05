@@ -173,18 +173,22 @@ export default {
             /// isi tulisan
             $('#notif-utama .text').text("Data deleted");
         }).fail((error) => {
-            log(error);
+            // munculkan modal
+            $('#modalConfirm').modal('hide');
             // membuat pesan error
-            const pesan = error.responseJSON.name;
-            let pesanErr = '';
-            pesan.forEach(element => {
-              pesanErr = pesanErr+element+'<br>';
-            });
+            const pesan = error.status;
+            // if status 500
+            let pesanErr = "";
+            if (pesan == 500) {
+              pesanErr = "Kategori ini masih memiliki data produk di dalamnya. Kosongkan Produk di dalamnya lalu ulangi proses penghapusan."
+            } else {
+              pesanErr = error.responseJSON.message;
+            }
             // membuat notif
-            $("#notif").attr('class', '');
-            $( "#notif" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+            $("#notif-utama").attr('class', '');
+            $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
             // isi tulisan
-            $('#notif .text').html( pesanErr );
+            $('#notif-utama .text').html( pesanErr );
             return;
         });
     },
