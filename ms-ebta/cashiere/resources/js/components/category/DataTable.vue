@@ -10,7 +10,7 @@ export default {
         ],
       // for api url
         url: import.meta.env.VITE_APP_URL,
-        getApi: import.meta.env.VITE_APP_URL+'/category',
+        getApi: import.meta.env.VITE_APP_API+'/category',
       // for post sata
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       // for confirm box
@@ -32,25 +32,28 @@ export default {
             $( "#notif-utama" ).addClass( 'd-none');
         }
     },
-    addForm(laman) {
+    addForm() {
         $('#FormModal').modal('show');
         $('#FormModal .modal-title').text('Add New Kategory');
 
         // // action
-        $('#FormModal form').attr('action', this.getApi+laman)
+        $('#FormModal form').attr('action', this.getApi)
 
         // // method form
         $('#FormModal [name=_method]').val('post');
 
         // // input form
         $('#FormModal [name=name]').focus();
+
+        // close notif
+        this.closeNotif();
     },
     editForm(id) {
         $('#FormModal').modal('show');
         $('#FormModal .modal-title').text('Edit Kategory');
 
         // // action
-        $('#FormModal form').attr('action', this.getApi+"/category/"+id);
+        $('#FormModal form').attr('action', this.getApi+"/"+id);
 
         // // method form
         $('#FormModal [name=_method]').val('put');
@@ -58,7 +61,7 @@ export default {
         // // input form
         $('#FormModal [name=name]').focus();
 
-        $.get(this.getApi+"/category/"+id)
+        $.get(this.getApi+"/"+id)
             .done((response) => {
                 $('#FormModal [name=name]').val(response.data[0].name);
                 // console.log('yey');
@@ -287,7 +290,7 @@ export default {
             <!-- card-header -->
             <div class="card-header">
               <!-- Button trigger modal -->
-              <button type="button" class="btn btn-primary" @click="addForm('/category')"><i class="bi bi-patch-plus"></i> Add</button>
+              <button type="button" class="btn btn-primary" @click="addForm('/')"><i class="bi bi-patch-plus"></i> Add</button>
             </div>
             <!-- /.card-header -->
 
@@ -296,9 +299,9 @@ export default {
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr role="row">
-                    <th width="5%">No</th>
-                    <th>Category</th>
-                    <th width="15%"><i class="bi bi-gear-wide-connected"></i></th>
+                      <th width="5%">No</th>
+                      <th>Category</th>
+                      <th width="15%" class="fs-4"><i class="bi bi-gear-wide-connected"></i></th>
                     </tr>
                   </thead>
                   <tbody>

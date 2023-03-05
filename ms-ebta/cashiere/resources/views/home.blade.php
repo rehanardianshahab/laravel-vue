@@ -143,7 +143,7 @@
             <div class="shadow"></div>
             <div class="shadow"></div>
             <div class="shadow"></div>
-            <span>Sabar</span>
+            <span>Sabar...</span>
         </div>
     </div>
     {{-- end preloader --}}

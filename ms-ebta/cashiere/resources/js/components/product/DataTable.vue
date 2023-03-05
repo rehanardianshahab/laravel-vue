@@ -1,10 +1,12 @@
 <script>
+// import Product from './Product.vue';
 export default {
+  // components: { Product },
   data() {
     return {
       // for datatables
         columns: [
-          {data: 'select_all', searchable: false, sortable: true},
+          {data: 'select_all', searchable: false, sortable: false},
           {data: 'DT_RowIndex', searchable: false, sortable: true},
           {data: 'code'},
           {data: 'name'},
@@ -16,13 +18,22 @@ export default {
           {data: 'stock'},
           {data: 'action', searchable: false, sortable: false}
         ],
+      // data category
+        category : {
+          'selected' : 'one',
+          'data' : {
+            'name' : "data category",
+            'data':[]
+          }
+        },
       // for api url
         url: import.meta.env.VITE_APP_URL,
-        getApi: import.meta.env.VITE_APP_URL+'/product',
+        getApi: import.meta.env.VITE_APP_API+'/product',
       // for post sata
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       // for confirm box
-        confirm:''
+        confirm:'',
+        pesanErr: ''
     }
   },
   methods: {
@@ -40,37 +51,11 @@ export default {
             $( "#notif-utama" ).addClass( 'd-none');
         }
     },
-    addForm(laman) {
-        $('#FormModal').modal('show');
-        $('#FormModal .modal-title').text('Add New Kategory');
-
-        // // action
-        $('#FormModal form').attr('action', this.url+laman)
-
-        // // method form
-        $('#FormModal [name=_method]').val('post');
-
-        // // input form
-        $('#FormModal [name=name]').focus();
-    },
-    editForm(id) {
-        $('#FormModal').modal('show');
-        $('#FormModal .modal-title').text('Edit Kategory');
-
-        // // action
-        $('#FormModal form').attr('action', this.url+"/api/category/"+id);
-
-        // // method form
-        $('#FormModal [name=_method]').val('put');
-
-        // // input form
-        $('#FormModal [name=name]').focus();
-
-        $.get(this.url+"/api/category/"+id)
+    getCategory() {
+      // get data category
+      $.get(this.url+"api/category")
             .done((response) => {
-                $('#FormModal [name=name]').val(response.data[0].name);
-                // console.log('yey');
-                // console.log(response.data[0].name);
+              this.category.data = response.data;
             })
             .fail((error) => {
                 // set alert dan munculkan alert
@@ -78,6 +63,50 @@ export default {
                 $( "#notif" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
                 // isi tulisan
                 $('#notif .text').html( error.responseJSON.message );
+                return;
+            })
+    },
+    addForm() {
+        $('#FormModal').modal('show');
+        $('#FormModal .modal-title').text('Add New Product');
+
+        // // action
+        $('#FormModal form').attr('action', this.getApi)
+
+        // // method form
+        $('#FormModal [name=_method]').val('post');
+
+        // // input form
+        $('#FormModal [name=name]').focus();
+
+        // close notif
+        this.closeNotif();
+    },
+    editForm(id) {
+        $('#FormModal').modal('show');
+        $('#FormModal .modal-title').text('Edit Kategory');
+
+        // // action
+        $('#FormModal form').attr('action', this.getApi+"/"+id);
+
+        // // method form
+        $('#FormModal [name=_method]').val('put');
+
+        // // input form
+        $('#FormModal [name=name]').focus();
+
+        $.get(this.getApi+"/"+id)
+            .done((response) => {
+                $('#FormModal [name=name]').val(response.data[0].name);
+                // console.log('yey');
+                // console.log(response.data[0].name);
+            })
+            .fail((error) => {
+                // set alert dan munculkan alert
+                $("#notif-utama").attr('class', '');
+                $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+                // membuat pesan error
+                this.pesanErr = error.responseJSON;
                 return;
             })
     },
@@ -97,6 +126,7 @@ export default {
       // reset form
       $('#FormModal form')[0].reset();
       this.closeNotif();
+      this.category.selected = "one";
     },
     datatable() {
       $('#table').DataTable({
@@ -148,17 +178,12 @@ export default {
                 $('#notif-utama .text').text("Add new data success");
             }
         }).fail((error) => {
-            // membuat pesan error
-            const pesan = error.responseJSON.name;
-            let pesanErr = '';
-            pesan.forEach(element => {
-              pesanErr = pesanErr+element+'<br>';
-            });
-            // membuat notif
+            // set alert dan munculkan alert
             $("#notif").attr('class', '');
             $( "#notif" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
-            // isi tulisan
-            $('#notif .text').html( pesanErr );
+            // membuat pesan error
+            this.pesanErr = error.responseJSON;
+            console.log(error.responseJSON.message);
             return;
         });
     },
@@ -178,18 +203,11 @@ export default {
             /// isi tulisan
             $('#notif-utama .text').text("Data deleted");
         }).fail((error) => {
-            log(error);
-            // membuat pesan error
-            const pesan = error.responseJSON.name;
-            let pesanErr = '';
-            pesan.forEach(element => {
-              pesanErr = pesanErr+element+'<br>';
-            });
-            // membuat notif
+            // set alert dan munculkan alert
             $("#notif").attr('class', '');
             $( "#notif" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
-            // isi tulisan
-            $('#notif .text').html( pesanErr );
+            // membuat pesan error
+            this.pesanErr = error.responseJSON;
             return;
         });
     },
@@ -214,6 +232,7 @@ export default {
       let theid = $('#confirm').attr('data-term');
       deleteData(theid);
     });
+    this.getCategory();
   }
 }
 </script>
@@ -231,8 +250,12 @@ export default {
             </div>
             <!-- Alert -->
             <div class="d-none" id="notif" data-not="1" role="alert">
-                <span class="text">This</span>
-                <button type="button" class="btn-close" @click="closeNotif()"></button>
+              <span class="text">
+                <span v-for="(value, key) in pesanErr" class="d-block">
+                  {{ value[0] }}
+                </span>
+              </span>
+              <button type="button" class="btn-close" @click="closeNotif()"></button>
             </div>
             <!-- /.alert -->
             <div class="modal-body">
@@ -241,10 +264,60 @@ export default {
               <input type="hidden" name="_method" value="post">
               <!-- end csrf token dan method -->
               <div class="form-group row">
-                <label for="name" class="col-md-4 control-label">Category Name</label>
+                <label for="name" class="col-md-4 control-label">Product Name</label>
                 <div class="col-md-8">
-                    <input type="text" name="name" id="name" class="form-control" autocomplete="off">
-                    <span class="help-block with-errors"></span>
+                  <input type="text" name="name" id="name" class="form-control" placeholder="add name of product" autocomplete="off">
+                  <span class="help-block with-errors"></span>
+                </div>
+              </div>
+              <div class="form-group row mt-1">
+                <label for="category_id" class="col-md-4 control-label">Category Name</label>
+                <div class="col-md-8">
+                  <select v-model="category.selected" id="category_id" name="category_id" class="form-control">
+                    <option value="one">Pilih data</option>
+                    <option v-bind:value="category.id"  v-for="category in category.data">
+                      {{ category.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row mt-1">
+                <label for="brand" class="col-md-4 control-label">Product brand</label>
+                <div class="col-md-8">
+                  <input type="text" name="brand" id="brand" class="form-control" placeholder="add brand of product" autocomplete="off">
+                  <span class="help-block with-errors"></span>
+                </div>
+              </div>
+              <div class="form-group row mt-1">
+                <label for="buying_price" class="col-md-4 control-label">Harga Beli</label>
+                <div class="col-md-8">
+                  <input type="number" name="buying_price" id="buying_price" class="form-control" placeholder="Harga Pembelian" autocomplete="off">
+                  <span class="help-block with-errors"></span>
+                </div>
+              </div>
+              <div class="form-group row mt-1">
+                <label for="selling_price" class="col-md-4 control-label">Harga Jual</label>
+                <div class="col-md-8">
+                  <div class="input-group">
+                    <span class="input-group-text">Rp</span>
+                    <input type="number" class="form-control" name="selling_price" placeholder="Harga Jual" id="selling_price" value="0">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mt-1">
+                <label for="discount" class="col-md-4 control-label">Diskon</label>
+                <div class="col-md-8">
+                  <div class="input-group">
+                    <input type="number" name="discount" id="discount" class="form-control" placeholder="Diskon" value="0" autocomplete="off">
+                    <span class="input-group-text">%</span>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mt-1">
+                <label for="stock" class="col-md-4 control-label">Stock</label>
+                <div class="col-md-8">
+                  <input type="number" name="stock" id="stock" class="form-control" placeholder="Stock" value="0" autocomplete="off">
+                  <span class="help-block with-errors"></span>
                 </div>
               </div>
             </div>
@@ -292,7 +365,7 @@ export default {
             <!-- card-header -->
             <div class="card-header">
               <!-- Button trigger modal -->
-              <button type="button" class="btn btn-primary" @click="addForm('/api/category')"><i class="bi bi-patch-plus"></i> Add</button>
+              <button type="button" class="btn btn-primary" @click="addForm()"><i class="bi bi-patch-plus"></i> Add</button>
             </div>
             <!-- /.card-header -->
 
@@ -301,7 +374,7 @@ export default {
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr role="row">
-                      <th>
+                      <th class="px-2">
                           <input type="checkbox" name="select_all" id="select_all">
                       </th>
                       <th width="5%">No</th>
@@ -313,7 +386,7 @@ export default {
                       <th>Selling Price</th>
                       <th>Discount</th>
                       <th>Stoct</th>
-                      <th width="15%"><i class="fa fa-cog"></i></th>
+                      <th width="15%" class="fs-4"><i class="bi bi-gear-wide-connected"></i></th>
                     </tr>
                   </thead>
                   <tbody>
