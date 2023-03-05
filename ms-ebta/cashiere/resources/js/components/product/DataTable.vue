@@ -98,8 +98,12 @@ export default {
         $.get(this.getApi+"/"+id)
             .done((response) => {
                 $('#FormModal [name=name]').val(response.data[0].name);
-                // console.log('yey');
-                // console.log(response.data[0].name);
+                $('#FormModal [name=category_id]').val(response.data[0].category_id);
+                $('#FormModal [name=brand]').val(response.data[0].brand);
+                $('#FormModal [name=buying_price]').val(response.data[0].buying_price);
+                $('#FormModal [name=selling_price]').val(response.data[0].selling_price);
+                $('#FormModal [name=discount]').val(response.data[0].discount);
+                $('#FormModal [name=stock]').val(response.data[0].stock);
             })
             .fail((error) => {
                 // set alert dan munculkan alert
@@ -291,8 +295,10 @@ export default {
               <div class="form-group row mt-1">
                 <label for="buying_price" class="col-md-4 control-label">Harga Beli</label>
                 <div class="col-md-8">
-                  <input type="number" name="buying_price" id="buying_price" class="form-control" placeholder="Harga Pembelian" autocomplete="off">
-                  <span class="help-block with-errors"></span>
+                  <div class="input-group">
+                    <span class="input-group-text">Rp</span>
+                    <input type="number" name="buying_price" id="buying_price" class="form-control" placeholder="Harga Pembelian" autocomplete="off">
+                  </div>
                 </div>
               </div>
               <div class="form-group row mt-1">
