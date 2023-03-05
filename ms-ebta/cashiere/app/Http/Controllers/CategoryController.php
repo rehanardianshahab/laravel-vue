@@ -146,6 +146,6 @@ class CategoryController extends Controller
         $category = Category::find($id);
         $category->delete();
 
-        return response()->json('Success updating data', 204);
+        return response()->json('Success deleting data', 204);
     }
 }

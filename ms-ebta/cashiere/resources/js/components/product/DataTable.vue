@@ -14,7 +14,7 @@ export default {
           {data: 'brand'},
           {data: 'buy'},
           {data: 'sale'},
-          {data: 'discount'},
+          {data: 'discountWpres'},
           {data: 'stock'},
           {data: 'action', searchable: false, sortable: false}
         ],
@@ -84,7 +84,7 @@ export default {
     },
     editForm(id) {
         $('#FormModal').modal('show');
-        $('#FormModal .modal-title').text('Edit Kategory');
+        $('#FormModal .modal-title').text('Edit Product');
 
         // // action
         $('#FormModal form').attr('action', this.getApi+"/"+id);
@@ -113,6 +113,9 @@ export default {
                 this.pesanErr = error.responseJSON;
                 return;
             })
+        
+        // close notif
+        this.closeNotif();
     },
     deleteForm (id) {
       // munculkan modal
@@ -380,8 +383,10 @@ export default {
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr role="row">
-                      <th class="px-2">
+                      <th>
+                        <div class="mx-3">
                           <input type="checkbox" name="select_all" id="select_all">
+                        </div>
                       </th>
                       <th width="5%">No</th>
                       <th>Code</th>

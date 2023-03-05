@@ -18,7 +18,7 @@ class ProductController extends Controller
         $product = Product::leftJoin('categories', 'categories.id', 'products.category_id')
         ->select('products.*', 'categories.name as category')
         ->orderBy('id', 'desc')->get();
-        
+
         // return $product;
         return datatables::of($product)
                 ->addIndexColumn()
@@ -41,6 +41,14 @@ class ProductController extends Controller
                 ->addColumn('category', function ($item)
                 {
                     return $item->category;
+                })
+                ->addColumn('discountWpres', function ($item)
+                {
+                    if ($item->discount == 0) {
+                        return $item->discount;
+                    } else {
+                        return $item->discount. " %";
+                    };
                 })
                 ->addColumn('action', function ($product)
                 {
@@ -131,7 +139,6 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        return $request;
         //find post by ID
         $product = Product::findOrFail($id);
 
@@ -153,7 +160,7 @@ class ProductController extends Controller
         if($product) {
 
             //update to database
-            $product = Product::update($request->all());
+            $product->update($request->all());
 
             return response()->json([
                 'success' => true,
@@ -175,6 +182,9 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $product = Product::find($id);
+        $product->delete();
+
+        return response()->json('Success updating data', 204);
     }
 }
