@@ -15,7 +15,10 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = Product::orderBy('id', 'desc')->get();
+        $product = Product::leftJoin('categories', 'categories.id', 'products.category_id')
+        ->select('products.*', 'categories.name as category')
+        ->orderBy('id', 'desc')->get();
+        
         // return $product;
         return datatables::of($product)
                 ->addIndexColumn()
@@ -25,7 +28,7 @@ class ProductController extends Controller
                 })
                 ->addColumn('code', function ($item)
                 {
-                    return '<span class="badge badge-warning">'.$item->code.'</span>';
+                    return '<span class="badge bg-warning text-dark">'.$item->code.'</span>';
                 })
                 ->addColumn('buy', function ($item)
                 {

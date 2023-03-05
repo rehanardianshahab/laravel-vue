@@ -17,7 +17,7 @@ export default {
         </div><!-- /.col -->
         <div class="col-sm-3 d-flex flex-row-reverse">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
+            <li class="breadcrumb-item"><router-link to="/dashboard">Home</router-link></li>
             <li class="breadcrumb-item active">{{ title }}</li>
           </ol>
         </div><!-- /.col -->

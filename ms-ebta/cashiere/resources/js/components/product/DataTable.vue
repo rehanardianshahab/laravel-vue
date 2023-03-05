@@ -4,13 +4,21 @@ export default {
     return {
       // for datatables
         columns: [
-                {data: 'DT_RowIndex', searchable: false, sortable: true},
-                {data: 'name'},
-                {data: 'action', searchable: false, sortable: false},
+          {data: 'select_all', searchable: false, sortable: true},
+          {data: 'DT_RowIndex', searchable: false, sortable: true},
+          {data: 'code'},
+          {data: 'name'},
+          {data: 'category'},
+          {data: 'brand'},
+          {data: 'buy'},
+          {data: 'sale'},
+          {data: 'discount'},
+          {data: 'stock'},
+          {data: 'action', searchable: false, sortable: false}
         ],
       // for api url
         url: import.meta.env.VITE_APP_URL,
-        getApi: import.meta.env.VITE_APP_URL+'/api/category',
+        getApi: import.meta.env.VITE_APP_URL+'/product',
       // for post sata
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       // for confirm box
@@ -188,10 +196,7 @@ export default {
   },
   mounted() {
     this.datatable();
-    // const table = $(this.$refs.table).dataTable({
-    //   ajax: this.getApi,
-    //   columns: this.columns
-    // });
+
     let edit = this.editForm;
     let deleteForm = this.deleteForm;
     let deleteData = this.deleteData;
@@ -296,9 +301,19 @@ export default {
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr role="row">
-                    <th width="5%">No</th>
-                    <th>Category</th>
-                    <th width="15%"><i class="bi bi-gear-wide-connected"></i></th>
+                      <th>
+                          <input type="checkbox" name="select_all" id="select_all">
+                      </th>
+                      <th width="5%">No</th>
+                      <th>Code</th>
+                      <th>Name</th>
+                      <th>Category</th>
+                      <th>Brand</th>
+                      <th>Buying Price</th>
+                      <th>Selling Price</th>
+                      <th>Discount</th>
+                      <th>Stoct</th>
+                      <th width="15%"><i class="fa fa-cog"></i></th>
                     </tr>
                   </thead>
                   <tbody>

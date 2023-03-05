@@ -10,7 +10,7 @@ export default {
         ],
       // for api url
         url: import.meta.env.VITE_APP_URL,
-        getApi: import.meta.env.VITE_APP_URL+'/api/category',
+        getApi: import.meta.env.VITE_APP_URL+'/category',
       // for post sata
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       // for confirm box
@@ -37,7 +37,7 @@ export default {
         $('#FormModal .modal-title').text('Add New Kategory');
 
         // // action
-        $('#FormModal form').attr('action', this.url+laman)
+        $('#FormModal form').attr('action', this.getApi+laman)
 
         // // method form
         $('#FormModal [name=_method]').val('post');
@@ -50,7 +50,7 @@ export default {
         $('#FormModal .modal-title').text('Edit Kategory');
 
         // // action
-        $('#FormModal form').attr('action', this.url+"/api/category/"+id);
+        $('#FormModal form').attr('action', this.getApi+"/category/"+id);
 
         // // method form
         $('#FormModal [name=_method]').val('put');
@@ -58,7 +58,7 @@ export default {
         // // input form
         $('#FormModal [name=name]').focus();
 
-        $.get(this.url+"/api/category/"+id)
+        $.get(this.getApi+"/category/"+id)
             .done((response) => {
                 $('#FormModal [name=name]').val(response.data[0].name);
                 // console.log('yey');
@@ -287,7 +287,7 @@ export default {
             <!-- card-header -->
             <div class="card-header">
               <!-- Button trigger modal -->
-              <button type="button" class="btn btn-primary" @click="addForm('/api/category')"><i class="bi bi-patch-plus"></i> Add</button>
+              <button type="button" class="btn btn-primary" @click="addForm('/category')"><i class="bi bi-patch-plus"></i> Add</button>
             </div>
             <!-- /.card-header -->
 

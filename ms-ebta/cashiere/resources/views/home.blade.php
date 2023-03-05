@@ -176,9 +176,6 @@
                         <li class="nav-item">
                             <router-link to="/sample" class="nav-link" aria-current="page">Sample</router-link>
                         </li>
-                        <li class="nav-item">
-                            <router-link to="/apaini" class="nav-link" aria-current="page">Apa Ini</router-link>
-                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
