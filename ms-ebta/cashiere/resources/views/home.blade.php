@@ -28,7 +28,7 @@
     {{-- preloadder styling --}}
     <style>
         .router-link-active {
-            color: black;
+            color: rgb(137 74 10);
         }
     </style>
     {{-- preloader --}}
@@ -143,7 +143,7 @@
             <div class="shadow"></div>
             <div class="shadow"></div>
             <div class="shadow"></div>
-            <span>Loading</span>
+            <span>Sabar</span>
         </div>
     </div>
     {{-- end preloader --}}
@@ -163,8 +163,15 @@
                         <li class="nav-item">
                             <router-link to="/dashboard" class="nav-link" aria-current="page">Dashboard</router-link>
                         </li>
-                        <li class="nav-item">
-                            <router-link to="/category" class="nav-link" aria-current="page">category</router-link>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Main</a>
+                            <ul class="dropdown-menu">
+                              <li><router-link to="/category" class="dropdown-item" aria-current="page">category</router-link></li>
+                              <li><router-link to="/product" class="dropdown-item" aria-current="page">product</router-link></li>
+                              <li><a class="dropdown-item" href="#">Something else here</a></li>
+                              <li><hr class="dropdown-divider"></li>
+                              <li><a class="dropdown-item" href="#">Separated link</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <router-link to="/sample" class="nav-link" aria-current="page">Sample</router-link>

@@ -3,7 +3,7 @@ import * as VueRouter from 'vue-router'; // alternative ways of importing
 import Dashboar from './components/Dashboar.vue';
 import ExampleComponent from './components/ExampleComponent.vue';
 import Category from './components/Category.vue';
-import ApaIni from './components/ApaIni.vue';
+import Product from './components/Product.vue';
 
 let routes = [
     {
@@ -22,9 +22,9 @@ let routes = [
         component: Category,
     },
     {
-        path: '/apaini',
-        name: 'apaini',
-        component: ApaIni,
+        path: '/product',
+        name: 'product',
+        component: Product,
     }
 ];
 

@@ -1,6 +1,6 @@
 <script>
 // import Body from './category/Body.vue'
-import Header from './category/Header.vue'
+import Header from './Header.vue'
 import DataTable from './category/DataTable.vue'
   
 export default {
