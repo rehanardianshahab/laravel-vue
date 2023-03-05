@@ -75,6 +75,16 @@ class ProductController extends Controller
             return response()->json($validator->errors(), 400);
         }
 
+        // get product data
+        $code = Product::latest()->first();
+
+        if ($code == null) {
+            $code = 0;
+        } else {
+            $code = $code->id;
+        }
+        $request['code'] = 'PDK'.'.'.$request->category_id.'.'.add_nol((int)$code+1, 5);
+        
         //save to database
         $product = Product::create($request->all());
 
