@@ -300,7 +300,7 @@ export default {
                 <div class="col-md-8">
                   <div class="input-group">
                     <span class="input-group-text">Rp</span>
-                    <input type="number" name="buying_price" id="buying_price" class="form-control" placeholder="Harga Pembelian" autocomplete="off">
+                    <input type="number" min="0" name="buying_price" id="buying_price" class="form-control" placeholder="Harga Pembelian" autocomplete="off">
                   </div>
                 </div>
               </div>
@@ -309,7 +309,7 @@ export default {
                 <div class="col-md-8">
                   <div class="input-group">
                     <span class="input-group-text">Rp</span>
-                    <input type="number" class="form-control" name="selling_price" placeholder="Harga Jual" id="selling_price" value="0">
+                    <input type="number" min="0" class="form-control" name="selling_price" placeholder="Harga Jual" id="selling_price" value="0">
                   </div>
                 </div>
               </div>
@@ -317,7 +317,7 @@ export default {
                 <label for="discount" class="col-md-4 control-label">Diskon</label>
                 <div class="col-md-8">
                   <div class="input-group">
-                    <input type="number" name="discount" id="discount" class="form-control" placeholder="Diskon" value="0" autocomplete="off">
+                    <input type="number" min="0" max="100" name="discount" id="discount" class="form-control" placeholder="Diskon" value="0" autocomplete="off">
                     <span class="input-group-text">%</span>
                   </div>
                 </div>
@@ -325,7 +325,7 @@ export default {
               <div class="form-group row mt-1">
                 <label for="stock" class="col-md-4 control-label">Stock</label>
                 <div class="col-md-8">
-                  <input type="number" name="stock" id="stock" class="form-control" placeholder="Stock" value="0" autocomplete="off">
+                  <input type="number" name="stock" min="0" id="stock" class="form-control" placeholder="Stock" value="0" autocomplete="off">
                   <span class="help-block with-errors"></span>
                 </div>
               </div>
