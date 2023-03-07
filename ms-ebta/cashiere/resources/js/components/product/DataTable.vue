@@ -275,13 +275,6 @@ export default {
         let theid = $(this).attr('data-iddelete');
         deleteForm(theid);
     });
-    // open delete form
-    $('tbody', this.$refs.table).on( 'click', '.hah', function(){
-      if ($( "#multipledelete" ).hasClass('d-none')) {
-        $('#multipledelete').removeClass( "d-none" );
-        $('#multipledelete').addClass( "d-block" );
-      }
-    });
     // deleting data
     $('#confirm').on('click', function(){
       let theid = $('#confirm').attr('data-term');
@@ -290,13 +283,39 @@ export default {
     this.getCategory();
     // select all
     $('#select_all').on('click', function () {
+      // check all and un check all
       $(':checkbox').prop('checked', this.checked);
-      if ($( "#multipledelete" ).hasClass('d-none')) {
-        $('#multipledelete').removeClass( "d-none" );
-        $('#multipledelete').addClass( "d-block" );
+
+      // jika ada yang di check
+      if ($('.checking').is(':checked')) {
+        if ($( "#multipledelete" ).hasClass('d-none')) {
+          $('#multipledelete').removeClass( "d-none" );
+          $('#multipledelete').addClass( "d-block" );
+        } else {
+          // none
+        }
       } else {
-        $( "#multipledelete" ).addClass( 'd-block');
-        $( "#multipledelete" ).addClass( 'd-none');
+        if ($( "#multipledelete" ).hasClass('d-none')) {
+          $('#multipledelete').removeClass( "d-none" );
+          $('#multipledelete').addClass( "d-block" );
+        } else {
+          $( "#multipledelete" ).addClass( 'd-block');
+          $( "#multipledelete" ).addClass( 'd-none');
+        }
+        $('#multipledelete').addClass( "d-none" );
+        $(':checkbox').prop('checked', this.checked);
+      }
+    });
+    // show hide button
+    $('tbody', this.$refs.table).on( 'click', '.checking', function(){
+      if ($('.checking').is(':checked')) {
+        if ($( "#multipledelete" ).hasClass('d-none')) {
+          $('#multipledelete').removeClass( "d-none" );
+          $('#multipledelete').addClass( "d-block" );
+        }
+      } else {
+        $('#multipledelete').addClass( "d-none" );
+        $(':checkbox').prop('checked', this.checked);
       }
     });
   }

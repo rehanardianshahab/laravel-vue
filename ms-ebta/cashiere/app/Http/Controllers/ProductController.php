@@ -24,7 +24,7 @@ class ProductController extends Controller
                 ->addIndexColumn()
                 ->addColumn('select_all', function ($item)
                 {
-                    return '<input type="checkbox" name="id_products[]" class="hah" value="'.$item->id.'">';
+                    return '<input type="checkbox" name="id_products[]" class="checking" value="'.$item->id.'">';
                 })
                 ->addColumn('code', function ($item)
                 {
