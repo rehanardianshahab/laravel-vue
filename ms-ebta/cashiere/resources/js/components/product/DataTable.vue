@@ -231,15 +231,21 @@ export default {
         let theid = $(this).attr('data-idedit');
         edit(theid);
     });
+    // open delete form
     $('tbody', this.$refs.table).on( 'click', '.deleteData', function(){
         let theid = $(this).attr('data-iddelete');
         deleteForm(theid);
     });
+    // deleting data
     $('#confirm').on('click', function(){
       let theid = $('#confirm').attr('data-term');
       deleteData(theid);
     });
     this.getCategory();
+    // select all
+    $('#select_all').on('click', function () {
+      $(':checkbox').prop('checked', this.checked)
+    });
   }
 }
 </script>
@@ -379,7 +385,8 @@ export default {
             <!-- /.card-header -->
 
             <div class="card-body table-responsive">
-                <!-- <table class="table table-stiped table-bordered"> -->
+              <form action="" class="form-product">
+                <input type="hidden" name="_token" :value="csrf">
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
                     <tr role="row">
@@ -404,6 +411,7 @@ export default {
 
                   </tbody>
                 </table>
+              </form>
             </div>
             <!-- ./card-body -->
             <div class="card-footer">
