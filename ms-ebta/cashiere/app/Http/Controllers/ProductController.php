@@ -24,7 +24,7 @@ class ProductController extends Controller
                 ->addIndexColumn()
                 ->addColumn('select_all', function ($item)
                 {
-                    return '<input type="checkbox" name="id_products[]" value="'.$item->id.'">';
+                    return '<input type="checkbox" name="id_products[]" class="hah" value="'.$item->id.'">';
                 })
                 ->addColumn('code', function ($item)
                 {
@@ -186,5 +186,15 @@ class ProductController extends Controller
         $product->delete();
 
         return response()->json('Success updating data', 204);
+    }
+
+    public function deleteSelected(Request $request)
+    {
+        foreach ($request->id_products as $id) {
+            $product = Product::find($id);
+            $product->delete();
+        }
+
+        return response()->json('Success deleting data', 204);
     }
 }

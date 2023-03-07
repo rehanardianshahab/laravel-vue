@@ -135,6 +135,7 @@ export default {
       this.closeNotif();
       this.category.selected = "one";
     },
+    // get data in datatable
     datatable() {
       $('#table').DataTable({
         ajax: {
@@ -218,6 +219,44 @@ export default {
             return;
         });
     },
+    deleteSelected(url) {
+      if ($('input:checked').length > 1) {
+        if (confirm('Yakin ingin menghapus data terpilih?')) {
+          // $.post(this.getApi+url, $('.form-product').serialize())
+          $.ajax({
+            url: this.getApi+url,
+            type: 'post',
+            data: $('.form-product').serialize()
+          }).done( (response) => {
+              // reload table
+              $('#table').DataTable().ajax.reload();
+              // set alert dan munculkan alert
+              $("#notif-utama").attr('class', '');
+              $( "#notif-utama" ).addClass( 'alert alert-success alert-dismissible mb-3 show');
+              // isi tulisan
+              $('#notif-utama .text').text("Delete data success");
+              // hide button
+              if ($( "#multipledelete" ).hasClass('d-none')) {
+                $('#multipledelete').removeClass( "d-none" );
+                $('#multipledelete').addClass( "d-block" );
+              } else {
+                $( "#multipledelete" ).addClass( 'd-block');
+                $( "#multipledelete" ).addClass( 'd-none');
+              }
+          }).fail( (error) => {
+            console.log(error);
+            // set alert dan munculkan alert
+            $("#notif-utama").attr('class', '');
+            $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+            // isi tulisan
+            $('#notif-utama .text').html( 'Cannot deleting the data' );
+            return;
+          });
+        }
+      } else {
+        alert('Pilih data yang akan dihapus sehingga lebih dari 1');
+      }
+    },
   },
   mounted() {
     this.datatable();
@@ -236,6 +275,13 @@ export default {
         let theid = $(this).attr('data-iddelete');
         deleteForm(theid);
     });
+    // open delete form
+    $('tbody', this.$refs.table).on( 'click', '.hah', function(){
+      if ($( "#multipledelete" ).hasClass('d-none')) {
+        $('#multipledelete').removeClass( "d-none" );
+        $('#multipledelete').addClass( "d-block" );
+      }
+    });
     // deleting data
     $('#confirm').on('click', function(){
       let theid = $('#confirm').attr('data-term');
@@ -244,7 +290,14 @@ export default {
     this.getCategory();
     // select all
     $('#select_all').on('click', function () {
-      $(':checkbox').prop('checked', this.checked)
+      $(':checkbox').prop('checked', this.checked);
+      if ($( "#multipledelete" ).hasClass('d-none')) {
+        $('#multipledelete').removeClass( "d-none" );
+        $('#multipledelete').addClass( "d-block" );
+      } else {
+        $( "#multipledelete" ).addClass( 'd-block');
+        $( "#multipledelete" ).addClass( 'd-none');
+      }
     });
   }
 }
@@ -379,8 +432,11 @@ export default {
           <div class="card">
             <!-- card-header -->
             <div class="card-header">
-              <!-- Button trigger modal -->
-              <button type="button" class="btn btn-primary" @click="addForm()"><i class="bi bi-patch-plus"></i> Add</button>
+              <div class="btn-group">
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary xs btn-flat rounded" @click="addForm()"><i class="bi bi-patch-plus"></i> Add</button>
+                <button id="multipledelete" class="btn btn-danger xs btn-flat rounded mx-1 d-none" @click="deleteSelected('/delete-selected')"><i class="fa fa-trash"></i> Delete</button>
+              </div>
             </div>
             <!-- /.card-header -->
 

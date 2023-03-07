@@ -32,4 +32,5 @@ Route::group(['prefix' => 'product'], function() {
     Route::get('/{id?}', [ProductController::class, 'show']);
     Route::put('/{id?}', [ProductController::class, 'update']);
     Route::delete('/{id?}', [ProductController::class, 'destroy']);
+    Route::post('/delete-selected', [ProductController::class, 'deleteSelected'])->name('product.deleteSelected');
 });
