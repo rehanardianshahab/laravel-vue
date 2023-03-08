@@ -14,40 +14,47 @@ class TransactionController extends Controller
     
     public function index(Request $request)
     {
-        if ($request->status == '1' || $request->status == '0') {
-            $transactions = Transaction::select('transactions.*', 'transaction_details.qty', 'members.name', 
-                        DB::raw('count(transaction_details.book_id) as total_buku'), 
-                        DB::raw('sum(transaction_details.qty*books.price) as total_harga'))
-                        ->join('members', 'members.id', '=', 'transactions.member_id')
-                        ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
-                        ->join('books', 'books.id', '=', 'transaction_details.book_id')
-                        ->groupBy('transactions.id')
-                        ->where('transactions.status', '=', $request->input('status'))
-                        ->get();
-        } else if ($request->date_start) {
-            $transactions = Transaction::select('transactions.*', 'transaction_details.qty', 'members.name', 
-                        DB::raw('count(transaction_details.book_id) as total_buku'), 
-                        DB::raw('sum(transaction_details.qty*books.price) as total_harga'))
-                        ->join('members', 'members.id', '=', 'transactions.member_id')
-                        ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
-                        ->join('books', 'books.id', '=', 'transaction_details.book_id')
-                        ->groupBy('transactions.id')
-                        ->where('transactions.date_start', '=', $request->input('date_start'))
-                        ->get();
-        } else {
-            $transactions = Transaction::select('transactions.*', 'transaction_details.qty', 'members.name', 
-                        DB::raw('count(transaction_details.book_id) as total_buku'), 
-                        DB::raw('sum(transaction_details.qty*books.price) as total_harga'))
-                        ->join('members', 'members.id', '=', 'transactions.member_id')
-                        ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
-                        ->join('books', 'books.id', '=', 'transaction_details.book_id')
-                        ->groupBy('transactions.id')
-                        ->get();
-        }
-            // return $transactions;
-            // dd($transactions);
+        if(auth()->user()->role('admin')) 
+        {
+
+            if ($request->status == '1' || $request->status == '0') {
+                $transactions = Transaction::select('transactions.*', 'transaction_details.qty', 'members.name', 
+                            DB::raw('count(transaction_details.book_id) as total_buku'), 
+                            DB::raw('sum(transaction_details.qty*books.price) as total_harga'))
+                            ->join('members', 'members.id', '=', 'transactions.member_id')
+                            ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
+                            ->join('books', 'books.id', '=', 'transaction_details.book_id')
+                            ->groupBy('transactions.id')
+                            ->where('transactions.status', '=', $request->input('status'))
+                            ->get();
+            } else if ($request->date_start) {
+                $transactions = Transaction::select('transactions.*', 'transaction_details.qty', 'members.name', 
+                            DB::raw('count(transaction_details.book_id) as total_buku'), 
+                            DB::raw('sum(transaction_details.qty*books.price) as total_harga'))
+                            ->join('members', 'members.id', '=', 'transactions.member_id')
+                            ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
+                            ->join('books', 'books.id', '=', 'transaction_details.book_id')
+                            ->groupBy('transactions.id')
+                            ->where('transactions.date_start', '=', $request->input('date_start'))
+                            ->get();
+            } else {
+                $transactions = Transaction::select('transactions.*', 'transaction_details.qty', 'members.name', 
+                            DB::raw('count(transaction_details.book_id) as total_buku'), 
+                            DB::raw('sum(transaction_details.qty*books.price) as total_harga'))
+                            ->join('members', 'members.id', '=', 'transactions.member_id')
+                            ->join('transaction_details', 'transactions.id', '=', 'transaction_details.transaction_id')
+                            ->join('books', 'books.id', '=', 'transaction_details.book_id')
+                            ->groupBy('transactions.id')
+                            ->get();
+            }
+                // return $transactions;
+                // dd($transactions);
 
             return view('admin.transaction.index', compact('transactions'))->with('requestData',$request->status);
+
+        } else {
+            return abort('403');
+        }
     }
     /**
      * Show the form for creating a new resource.

@@ -9,6 +9,7 @@
 @endsection
 
 @section('content')
+  @role('admin')
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
@@ -83,6 +84,7 @@
                       {{-- Action --}}
                       <td width="10%">
                         <div class="btn-group" role="group" aria-label="Basic example">
+
                         @if ($transaction->status == 1)
                         <a href="{{ url('transactions/'.$transaction->id.'/show') }}" class="btn btn-sm btn-success ml-5">Detail</a>
                         
@@ -96,9 +98,9 @@
                           @csrf
                           <button type="submit" class="btn btn-sm btn-danger ml-1"
                           value="Delete" onclick="return confirm('Are you sure?')">Hapus</button>
-                         
-                          @endif
                         </form>
+                        @endif
+                        
                         </div>
                       </td>
                     </tr>
@@ -110,6 +112,7 @@
           </div>
         </div>
       </div>
+  @endrole
 @endsection
 
 @section('js')

@@ -8,8 +8,11 @@ use App\Models\Catalog;
 use App\Models\Member;
 use App\Models\Publisher;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class HomeController extends Controller
 {
@@ -174,5 +177,32 @@ class HomeController extends Controller
         // return $members;
 
         return view('home');
+    }
+
+    public function spatie()
+    {
+        // $role = Role::create(['name' => 'admin']);
+        // $permission = Permission::create(['name' => 'index transaction']);
+
+        // $role->givePermissionTo($permission);
+        // $permission->assignRole($role);
+
+        $user = auth()->user();
+        $user->assignRole('admin');
+        return $user;
+
+        // $user = User::where('id', 2)->first();
+        // $user->assignRole('admin');
+        // return $user;
+
+        // $user = User::with('roles')->get();
+        // return $user;
+
+        // $user = auth()->user();
+        // $user->removeRole('admin');
+
+        // $user = User::where('id', 2)->first();
+        // $user->removeRole('admin');
+
     }
 }
