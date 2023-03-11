@@ -112,7 +112,7 @@ class TransactionController extends Controller
             'member_id' => $request->member_id,
             'date_start' => $request->date_start,
             'date_end' => $request->date_end,
-            'status' => 0
+            'status' => '0'
         ]);
 
         foreach($books as $key => $value) {
