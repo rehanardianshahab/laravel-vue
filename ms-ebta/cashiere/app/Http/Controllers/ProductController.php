@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 use App\Models\Product;
 
@@ -206,8 +207,8 @@ class ProductController extends Controller
             $dataProduct[] = $product;
         }
         $total = count($dataProduct);
-        return view('print.product', compact('dataProduct', 'total'));
-        $pdf = Pdf::loadView('print.product', compact('dataProduct'));
+        // return view('print.product', compact('dataProduct', 'total'));
+        $pdf = Pdf::loadView('print.product', compact('dataProduct', 'total'));
         $pdf->setPaper('a4', 'potrait');
         // return $pdf->download('invoice.pdf');
         return $pdf->stream('product.pdf');
