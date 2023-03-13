@@ -1,7 +1,7 @@
 <script>
-// import Product from './Product.vue';
+// import member from './member.vue';
 export default {
-  // components: { Product },
+  // components: { member },
   data() {
     return {
       // for datatables
@@ -10,25 +10,21 @@ export default {
           {data: 'DT_RowIndex', searchable: false, sortable: true},
           {data: 'code'},
           {data: 'name'},
-          {data: 'category'},
-          {data: 'brand'},
-          {data: 'buy'},
-          {data: 'sale'},
-          {data: 'discountWpres'},
-          {data: 'stock'},
+          {data: 'address'},
+          {data: 'phone'},
           {data: 'action', searchable: false, sortable: false}
         ],
-      // data category
-        category : {
+      // data member
+        member : {
           'selected' : 'one',
           'data' : {
-            'name' : "data category",
+            'name' : "data member",
             'data':[]
           }
         },
       // for api url
         url: import.meta.env.VITE_APP_URL,
-        getApi: import.meta.env.VITE_APP_API+'/product',
+        getApi: import.meta.env.VITE_APP_API+'/member',
       // for post sata
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       // for confirm box
@@ -37,21 +33,6 @@ export default {
     }
   },
   methods: {
-    cetakBarcode(url) {
-      if ($('input:checked').length < 1) {
-        alert('Pilih data yang akan dicetak');
-        return;
-      } else if ($('input:checked').length < 3) {
-        alert('Pilih minimal 3 data untuk dicetak');
-        return;
-      } else {
-        $('.form-product')
-        .attr('action', this.url+'product/'+url)
-        .attr('target', '_blank')
-        .attr('method', 'post')
-        .submit();
-      }
-    },
     closeNotif() {
         // reset alert
         if ($( "#notif" ).hasClass('d-none')) {
@@ -66,11 +47,11 @@ export default {
             $( "#notif-utama" ).addClass( 'd-none');
         }
     },
-    getCategory() {
-      // get data category
-      $.get(this.url+"api/category")
+    getMember() {
+      // get data member
+      $.get(this.url+"api/member")
             .done((response) => {
-              this.category.data = response.data;
+              this.member.data = response.data;
             })
             .fail((error) => {
                 // set alert dan munculkan alert
@@ -83,7 +64,7 @@ export default {
     },
     addForm() {
         $('#FormModal').modal('show');
-        $('#FormModal .modal-title').text('Add New Product');
+        $('#FormModal .modal-title').text('Add New member');
 
         // // action
         $('#FormModal form').attr('action', this.getApi)
@@ -99,7 +80,7 @@ export default {
     },
     editForm(id) {
         $('#FormModal').modal('show');
-        $('#FormModal .modal-title').text('Edit Product');
+        $('#FormModal .modal-title').text('Edit member');
 
         // // action
         $('#FormModal form').attr('action', this.getApi+"/"+id);
@@ -113,17 +94,13 @@ export default {
         $.get(this.getApi+"/"+id)
             .done((response) => {
                 $('#FormModal [name=name]').val(response.data[0].name);
-                $('#FormModal [name=category_id]').val(response.data[0].category_id);
-                $('#FormModal [name=brand]').val(response.data[0].brand);
-                $('#FormModal [name=buying_price]').val(response.data[0].buying_price);
-                $('#FormModal [name=selling_price]').val(response.data[0].selling_price);
-                $('#FormModal [name=discount]').val(response.data[0].discount);
-                $('#FormModal [name=stock]').val(response.data[0].stock);
+                $('#FormModal [name=phone]').val(response.data[0].telp);
+                $('#FormModal [name=address]').val(response.data[0].address);
             })
             .fail((error) => {
                 // set alert dan munculkan alert
-                $("#notif-utama").attr('class', '');
-                $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+                $("#notif").attr('class', '');
+                $( "#notif" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
                 // membuat pesan error
                 this.pesanErr = error.responseJSON;
                 return;
@@ -148,7 +125,7 @@ export default {
       // reset form
       $('#FormModal form')[0].reset();
       this.closeNotif();
-      this.category.selected = "one";
+      this.member.selected = "one";
     },
     // get data in datatable
     datatable() {
@@ -237,11 +214,11 @@ export default {
     deleteSelected(url) {
       if ($('input:checked').length > 1) {
         if (confirm('Yakin ingin menghapus data terpilih?')) {
-          // $.post(this.getApi+url, $('.form-product').serialize())
+          // $.post(this.getApi+url, $('.form-member').serialize())
           $.ajax({
             url: this.getApi+url,
             type: 'post',
-            data: $('.form-product').serialize()
+            data: $('.form-member').serialize()
           }).done( (response) => {
               // reload table
               $('#table').DataTable().ajax.reload();
@@ -257,13 +234,6 @@ export default {
               } else {
                 $( "#multipledelete" ).addClass( 'd-block');
                 $( "#multipledelete" ).addClass( 'd-none');
-              }
-              if ($( "#cetak" ).hasClass('d-none')) {
-                $('#cetak').removeClass( "d-none" );
-                $('#cetak').addClass( "d-block" );
-              } else {
-                $( "#cetak" ).addClass( 'd-block');
-                $( "#cetak" ).addClass( 'd-none');
               }
           }).fail( (error) => {
             console.log(error);
@@ -302,7 +272,7 @@ export default {
       let theid = $('#confirm').attr('data-term');
       deleteData(theid);
     });
-    this.getCategory();
+    this.getMember();
     // select all
     $('#select_all').on('click', function () {
       // check all and un check all
@@ -316,14 +286,7 @@ export default {
         } else {
           // none
         }
-        if ($( "#cetak" ).hasClass('d-none')) {
-          $('#cetak').removeClass( "d-none" );
-          $('#cetak').addClass( "d-block" );
-        } else {
-          // none
-        }
       } else {
-        // multiple delete
         if ($( "#multipledelete" ).hasClass('d-none')) {
           $('#multipledelete').removeClass( "d-none" );
           $('#multipledelete').addClass( "d-block" );
@@ -332,15 +295,6 @@ export default {
           $( "#multipledelete" ).addClass( 'd-none');
         }
         $('#multipledelete').addClass( "d-none" );
-        // cetak
-        if ($( "#cetak" ).hasClass('d-none')) {
-          $('#cetak').removeClass( "d-none" );
-          $('#cetak').addClass( "d-block" );
-        } else {
-          $( "#cetak" ).addClass( 'd-block');
-          $( "#cetak" ).addClass( 'd-none');
-        }
-        $('#cetak').addClass( "d-none" );
         $(':checkbox').prop('checked', this.checked);
       }
     });
@@ -351,13 +305,8 @@ export default {
           $('#multipledelete').removeClass( "d-none" );
           $('#multipledelete').addClass( "d-block" );
         }
-        if ($( "#cetak" ).hasClass('d-none')) {
-          $('#cetak').removeClass( "d-none" );
-          $('#cetak').addClass( "d-block" );
-        }
       } else {
         $('#multipledelete').addClass( "d-none" );
-        $('#cetak').addClass( "d-none" );
         $(':checkbox').prop('checked', this.checked);
       }
     });
@@ -392,62 +341,26 @@ export default {
               <input type="hidden" name="_method" value="post">
               <!-- end csrf token dan method -->
               <div class="form-group row">
-                <label for="name" class="col-md-4 control-label">Product Name</label>
+                <label for="name" class="col-md-4 control-label">member Name</label>
                 <div class="col-md-8">
-                  <input type="text" name="name" id="name" class="form-control" placeholder="add name of product" autocomplete="off">
+                  <input type="text" name="name" id="name" class="form-control" placeholder="add name of member" autocomplete="off">
                   <span class="help-block with-errors"></span>
                 </div>
               </div>
               <div class="form-group row mt-1">
-                <label for="category_id" class="col-md-4 control-label">Category Name</label>
-                <div class="col-md-8">
-                  <select v-model="category.selected" id="category_id" name="category_id" class="form-control">
-                    <option value="one">Pilih data</option>
-                    <option v-bind:value="category.id"  v-for="category in category.data">
-                      {{ category.name }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group row mt-1">
-                <label for="brand" class="col-md-4 control-label">Product brand</label>
-                <div class="col-md-8">
-                  <input type="text" name="brand" id="brand" class="form-control" placeholder="add brand of product" autocomplete="off">
-                  <span class="help-block with-errors"></span>
-                </div>
-              </div>
-              <div class="form-group row mt-1">
-                <label for="buying_price" class="col-md-4 control-label">Harga Beli</label>
+                <label for="phone" class="col-md-4 control-label">Phone</label>
                 <div class="col-md-8">
                   <div class="input-group">
-                    <span class="input-group-text">Rp</span>
-                    <input type="number" min="0" name="buying_price" id="buying_price" class="form-control" placeholder="Harga Pembelian" autocomplete="off">
+                    <span class="input-group-text">+62</span>
+                    <input type="number" name="phone" id="phone" class="form-control" placeholder="add phone number" required autocomplete="off">
                   </div>
                 </div>
               </div>
               <div class="form-group row mt-1">
-                <label for="selling_price" class="col-md-4 control-label">Harga Jual</label>
+                <label for="address" class="col-md-4 control-label">Address</label>
                 <div class="col-md-8">
-                  <div class="input-group">
-                    <span class="input-group-text">Rp</span>
-                    <input type="number" min="0" class="form-control" name="selling_price" placeholder="Harga Jual" id="selling_price" value="0">
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row mt-1">
-                <label for="discount" class="col-md-4 control-label">Diskon</label>
-                <div class="col-md-8">
-                  <div class="input-group">
-                    <input type="number" min="0" max="100" name="discount" id="discount" class="form-control" placeholder="Diskon" value="0" autocomplete="off">
-                    <span class="input-group-text">%</span>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group row mt-1">
-                <label for="stock" class="col-md-4 control-label">Stock</label>
-                <div class="col-md-8">
-                  <input type="number" name="stock" min="0" id="stock" class="form-control" placeholder="Stock" value="0" autocomplete="off">
-                  <span class="help-block with-errors"></span>
+                    <textarea name="address" id="address" class="form-control" required autocomplete="off" placeholder="Address of Live"></textarea>
+                    <span class="help-block with-errors"></span>
                 </div>
               </div>
             </div>
@@ -498,13 +411,12 @@ export default {
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary xs btn-flat rounded" @click="addForm()"><i class="bi bi-patch-plus"></i> Add</button>
                 <button id="multipledelete" class="btn btn-danger xs btn-flat rounded mx-1 d-none" @click="deleteSelected('/delete-selected')"><i class="fa fa-trash"></i> Delete</button>
-                <button id="cetak" class="btn btn-secondary xs btn-flat rounded mx-1 d-none" @click="cetakBarcode('cetak-barcode')"><i class="fa fa-barcode"></i> Cetak Label Price</button>
               </div>
             </div>
             <!-- /.card-header -->
 
             <div class="card-body table-responsive">
-              <form action="" class="form-product">
+              <form action="" class="form-member">
                 <input type="hidden" name="_token" :value="csrf">
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
@@ -517,12 +429,8 @@ export default {
                       <th width="5%">No</th>
                       <th>Code</th>
                       <th>Name</th>
-                      <th>Category</th>
-                      <th>Brand</th>
-                      <th>Buying Price</th>
-                      <th>Selling Price</th>
-                      <th>Discount</th>
-                      <th>Stoct</th>
+                      <th>Address</th>
+                      <th>Telp</th>
                       <th width="15%" class="fs-4"><i class="bi bi-gear-wide-connected"></i></th>
                     </tr>
                   </thead>

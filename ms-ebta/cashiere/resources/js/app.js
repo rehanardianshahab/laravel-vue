@@ -1,9 +1,9 @@
 /** setup vued rouuter */
 import * as VueRouter from 'vue-router'; // alternative ways of importing
 import Dashboar from './components/Dashboar.vue';
-import ExampleComponent from './components/ExampleComponent.vue';
 import Category from './components/Category.vue';
 import Product from './components/Product.vue';
+import Member from './components/Member.vue';
 
 let routes = [
     {
@@ -12,9 +12,9 @@ let routes = [
         component: Dashboar,
     },
     {
-        path: '/sample',
-        name: 'sample',
-        component: ExampleComponent,
+        path: '/member',
+        name: 'member',
+        component: Member,
     },
     {
         path: '/category',
@@ -30,7 +30,8 @@ let routes = [
 
 const router = VueRouter.createRouter({
     // 4. Provide the history implementation to use. We are using the hash history for simplicity here.
-    history: VueRouter.createWebHashHistory(),
+    // history: VueRouter.createWebHashHistory(),
+    history: VueRouter.createWebHistory(),
     routes, // short for `routes: routes`
 });
 /**

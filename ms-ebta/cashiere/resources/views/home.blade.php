@@ -31,6 +31,9 @@
             color: rgb(137 74 10);
         }
     </style>
+    @if (request('category'))
+        
+    @endif
     {{-- preloader --}}
     <style type="text/css">
         .bgfulwrep {
@@ -168,6 +171,7 @@
                             <ul class="dropdown-menu">
                               <li><router-link to="/category" class="dropdown-item" aria-current="page">category</router-link></li>
                               <li><router-link to="/product" class="dropdown-item" aria-current="page">product</router-link></li>
+                              <li><router-link to="/member" class="dropdown-item" aria-current="page">member</router-link></li>
                               <li><a class="dropdown-item" href="#">Something else here</a></li>
                               <li><hr class="dropdown-divider"></li>
                               <li><a class="dropdown-item" href="#">Separated link</a></li>
@@ -218,6 +222,9 @@
         </nav>
 
         <main class="py-4 mt-5">
+            @if (request('/category'))
+                halo
+            @endif
             <router-view></router-view>
         </main>
     </div>

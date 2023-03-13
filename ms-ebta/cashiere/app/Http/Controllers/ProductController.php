@@ -54,8 +54,8 @@ class ProductController extends Controller
                 {
                     return 
                     '<div class="btn-group d-flex justify-content-around rounded" role="group" aria-label="Basic example">'.
-                        '<button id="a" data-idedit="'.$product->id.'" class="editData btn btn-xs btn-info btn-flat"><i class="bi bi-pencil-square"></i></button>'
-                        .'<button data-iddelete="'.$product->id.'" class="deleteData btn btn-xs btn-danger btn-flat"><i class="bi bi-trash"></i></button>'
+                        '<a href="#" id="a" data-idedit="'.$product->id.'" class="editData btn btn-xs btn-info btn-flat"><i class="bi bi-pencil-square"></i></a>'
+                        .'<a href="#" data-iddelete="'.$product->id.'" class="deleteData btn btn-xs btn-danger btn-flat"><i class="bi bi-trash"></i></a>'
                     .'</div>';
                 })->rawColumns(['action', 'code', 'select_all'])
                 ->make(true);
@@ -185,7 +185,7 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->delete();
 
-        return response()->json('Success updating data', 204);
+        return response()->json('Success delete data', 204);
     }
 
     public function deleteSelected(Request $request)
@@ -196,5 +196,20 @@ class ProductController extends Controller
         }
 
         return response()->json('Success deleting data', 204);
+    }
+
+    public function cetakBarcode(Request $request)
+    {
+        $dataProduct = array();
+        foreach ($request->id_products as $key => $product) {
+            $product = Product::find($product);
+            $dataProduct[] = $product;
+        }
+        $total = count($dataProduct);
+        return view('print.product', compact('dataProduct', 'total'));
+        $pdf = Pdf::loadView('print.product', compact('dataProduct'));
+        $pdf->setPaper('a4', 'potrait');
+        // return $pdf->download('invoice.pdf');
+        return $pdf->stream('product.pdf');
     }
 }
