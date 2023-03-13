@@ -22,7 +22,7 @@ export default {
       //   { id: 2, text: 'Blogging with Vue' },
       //   { id: 3, text: 'Why Vue is so fun' }
       // ], 
-      title: 'Category'
+      title: 'Member'
     }
   }
 }

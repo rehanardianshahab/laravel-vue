@@ -33,6 +33,18 @@ export default {
     }
   },
   methods: {
+    cetakMember(url) {
+      if ($('input:checked').length < 1) {
+        alert('Pilih data yang akan dicetak');
+        return;
+      } else {
+        $('.form-member')
+        .attr('action', this.url+'member/'+url)
+        .attr('target', '_blank')
+        .attr('method', 'post')
+        .submit();
+      }
+    },
     closeNotif() {
         // reset alert
         if ($( "#notif" ).hasClass('d-none')) {
@@ -286,7 +298,14 @@ export default {
         } else {
           // none
         }
+        if ($( "#cetak" ).hasClass('d-none')) {
+          $('#cetak').removeClass( "d-none" );
+          $('#cetak').addClass( "d-block" );
+        } else {
+          // none
+        }
       } else {
+        // multiple delete
         if ($( "#multipledelete" ).hasClass('d-none')) {
           $('#multipledelete').removeClass( "d-none" );
           $('#multipledelete').addClass( "d-block" );
@@ -295,6 +314,15 @@ export default {
           $( "#multipledelete" ).addClass( 'd-none');
         }
         $('#multipledelete').addClass( "d-none" );
+        // cetak
+        if ($( "#cetak" ).hasClass('d-none')) {
+          $('#cetak').removeClass( "d-none" );
+          $('#cetak').addClass( "d-block" );
+        } else {
+          $( "#cetak" ).addClass( 'd-block');
+          $( "#cetak" ).addClass( 'd-none');
+        }
+        $('#cetak').addClass( "d-none" );
         $(':checkbox').prop('checked', this.checked);
       }
     });
@@ -305,8 +333,13 @@ export default {
           $('#multipledelete').removeClass( "d-none" );
           $('#multipledelete').addClass( "d-block" );
         }
+        if ($( "#cetak" ).hasClass('d-none')) {
+          $('#cetak').removeClass( "d-none" );
+          $('#cetak').addClass( "d-block" );
+        }
       } else {
         $('#multipledelete').addClass( "d-none" );
+        $('#cetak').addClass( "d-none" );
         $(':checkbox').prop('checked', this.checked);
       }
     });
@@ -410,7 +443,8 @@ export default {
               <div class="btn-group">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary xs btn-flat rounded" @click="addForm()"><i class="bi bi-patch-plus"></i> Add</button>
-                <button id="multipledelete" class="btn btn-danger xs btn-flat rounded mx-1 d-none" @click="deleteSelected('/delete-selected')"><i class="fa fa-trash"></i> Delete</button>
+                <button id="multipledelete" class="btn btn-danger xs btn-flat rounded mx-1 d-none" @click="deleteSelected('/delete-selected')"><i class="bi bi-trash"></i> Delete</button>
+                <button id="cetak" class="btn btn-secondary xs btn-flat rounded mx-1 d-none" @click="cetakMember('cetak-member')"><i class="bi bi-printer"></i> Cetak Kartu Member</button>
               </div>
             </div>
             <!-- /.card-header -->

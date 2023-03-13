@@ -20,4 +20,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');
-Route::post('/product/cetak-barcode', [App\Http\Controllers\ProductController::class, 'cetakBarcode'])->name('product.cetak_barcode')->middleware('auth');;
+Route::post('/member/cetak-member', [App\Http\Controllers\MemberController::class, 'cetakMember'])->name('member.cetak_member')->middleware('auth');
+Route::post('/product/cetak-barcode', [App\Http\Controllers\ProductController::class, 'cetakBarcode'])->name('product.cetak_barcode')->middleware('auth');

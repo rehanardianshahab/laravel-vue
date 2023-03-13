@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class MemberController extends Controller
 {
@@ -70,7 +71,7 @@ class MemberController extends Controller
         } else {
             $code = $code->id;
         }
-        $request['code'] = 'MBR'.'.'.$request->member_id.'.'.add_nol((int)$code+1, 2);
+        $request['code'] = 'MBR'.'.'.add_nol((int)$code+1, 4);
         $request['phone'] = '0'.(string)$request->phone;
         //save to database
         $member = Member::create($request->all());
@@ -175,5 +176,19 @@ class MemberController extends Controller
         }
 
         return response()->json('Success deleting data', 204);
+    }
+
+    public function cetakMember(Request $request)
+    {
+        $datamember = collect(array());
+        foreach ($request->id_members as $key => $member) {
+            $member = member::find($member);
+            $datamember[] = $member;
+        }
+        $total = count($datamember);
+        return view('print.member', compact('datamember', 'total'));
+        // $pdf = Pdf::loadView('print.member', compact('datamember', 'total'));
+        // $pdf->setPaper('a4', 'potrait');
+        // return $pdf->stream('member.pdf');
     }
 }
