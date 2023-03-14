@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\MemberController;
+use App\Http\Controllers\SupplierController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -43,4 +44,12 @@ Route::group(['prefix' => 'member'], function() {
     Route::put('/{id?}', [MemberController::class, 'update']);
     Route::delete('/{member?}', [MemberController::class, 'destroy']);
     Route::post('/delete-selected', [MemberController::class, 'deleteSelected'])->name('product.deleteSelected');
+});
+
+Route::group(['prefix' => 'supplier'], function() {
+    Route::get('/', [SupplierController::class, 'index']);
+    Route::post('/', [SupplierController::class, 'store']);
+    Route::get('/{id?}', [SupplierController::class, 'show']);
+    Route::put('/{id?}', [SupplierController::class, 'update']);
+    Route::delete('/{supplier?}', [SupplierController::class, 'destroy']);
 });

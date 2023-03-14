@@ -111,7 +111,7 @@
                 <div class="phone">{{ $item->phone }}</div>
                 <div class="barcode text-left">
                     {{-- {!! DNS2D::getBarcodeSVG($item->code, 'QRCODE') !!} --}}
-                    {!! DNS2D::getBarcodeHTML($item->code, 'QRCODE', 4,4, 'goldenrod') !!}
+                    {!! DNS2D::getBarcodeHTML($item->code, 'QRCODE', 3,3, 'goldenrod') !!}
                 </div>
               </div>
             </td>

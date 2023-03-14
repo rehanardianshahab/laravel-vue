@@ -1,4 +1,5 @@
 <script>
+import ApplicationLogoVue from '../../../../vendor/laravel/breeze/stubs/inertia-vue/resources/js/Components/ApplicationLogo.vue';
 export default {
   data() {
     return {
@@ -6,11 +7,13 @@ export default {
         columns: [
                 {data: 'DT_RowIndex', searchable: false, sortable: true},
                 {data: 'name'},
+                {data: 'phone'},
+                {data: 'address'},
                 {data: 'action', searchable: false, sortable: false},
         ],
       // for api url
         url: import.meta.env.VITE_APP_URL,
-        getApi: import.meta.env.VITE_APP_API+'/category',
+        getApi: import.meta.env.VITE_APP_API+'/supplier',
       // for post sata
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       // for confirm box
@@ -64,8 +67,8 @@ export default {
         $.get(this.getApi+"/"+id)
             .done((response) => {
                 $('#FormModal [name=name]').val(response.data[0].name);
-                // console.log('yey');
-                // console.log(response.data[0].name);
+                $('#FormModal [name=phone]').val(response.data[0].telp);
+                $('#FormModal [name=address]').val(response.data[0].address);
             })
             .fail((error) => {
                 // set alert dan munculkan alert
@@ -155,6 +158,7 @@ export default {
                 $('#notif-utama .text').text("Add new data success");
             }
         }).fail((error) => {
+          console.log(error.responseJSON);
             // membuat pesan error
             let pesan = '';
             let pesanErr = '';
@@ -194,7 +198,7 @@ export default {
             // munculkan modal
             $('#modalConfirm').modal('hide');
             // membuat pesan error
-            const pesan = error.status;
+            let pesan = error.status;
             // if status 500
             let pesanErr = "";
             if (pesan == 500) {
@@ -221,10 +225,6 @@ export default {
   },
   mounted() {
     this.datatable();
-    // const table = $(this.$refs.table).dataTable({
-    //   ajax: this.getApi,
-    //   columns: this.columns
-    // });
     let edit = this.editForm;
     let deleteForm = this.deleteForm;
     let deleteData = this.deleteData;
@@ -269,9 +269,25 @@ export default {
               <input type="hidden" name="_method" value="post">
               <!-- end csrf token dan method -->
               <div class="form-group row">
-                <label for="name" class="col-md-4 control-label">Category Name</label>
+                <label for="name" class="col-md-4 control-label">Supplier Name</label>
                 <div class="col-md-8">
-                    <input type="text" name="name" id="name" class="form-control" autocomplete="off">
+                  <input type="text" name="name" id="name" class="form-control" placeholder="add name of Supplier" autocomplete="off">
+                  <span class="help-block with-errors"></span>
+                </div>
+              </div>
+              <div class="form-group row mt-1">
+                <label for="phone" class="col-md-4 control-label">Phone</label>
+                <div class="col-md-8">
+                  <div class="input-group">
+                    <span class="input-group-text">+62</span>
+                    <input type="number" name="phone" id="phone" class="form-control" placeholder="add phone number" required autocomplete="off">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group row mt-1">
+                <label for="address" class="col-md-4 control-label">Address</label>
+                <div class="col-md-8">
+                    <textarea name="address" id="address" class="form-control" required autocomplete="off" placeholder="Address of Supplier"></textarea>
                     <span class="help-block with-errors"></span>
                 </div>
               </div>
@@ -330,7 +346,9 @@ export default {
                   <thead>
                     <tr role="row">
                       <th width="5%">No</th>
-                      <th>Category</th>
+                      <th>Name</th>
+                      <th>Telp</th>
+                      <th>Address</th>
                       <th width="15%" class="fs-4"><i class="bi bi-gear-wide-connected"></i></th>
                     </tr>
                   </thead>

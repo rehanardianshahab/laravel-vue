@@ -4,6 +4,7 @@ import Dashboar from './components/Dashboar.vue';
 import Category from './components/Category.vue';
 import Product from './components/Product.vue';
 import Member from './components/Member.vue';
+import supplier from './components/supplier.vue';
 
 let routes = [
     {
@@ -25,6 +26,11 @@ let routes = [
         path: '/product',
         name: 'product',
         component: Product,
+    },
+    {
+        path: '/supplier',
+        name: 'supplier',
+        component: supplier,
     }
 ];
 
