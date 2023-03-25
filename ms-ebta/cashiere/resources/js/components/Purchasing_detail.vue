@@ -1,6 +1,6 @@
 <script>
 import Header from './Header.vue'
-import DataTable from './product/DataTable.vue'
+import DataTable from './purchasing_detail/DataTable.vue'
   
 export default {
   components: {
@@ -9,7 +9,7 @@ export default {
   },
   data() {
     return {
-      title: 'Product'
+      title: 'Purchase'
     }
   }
 }

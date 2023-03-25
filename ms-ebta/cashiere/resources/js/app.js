@@ -5,7 +5,8 @@ import Category from './components/Category.vue';
 import Product from './components/Product.vue';
 import Member from './components/Member.vue';
 import purchasing from './components/Purchasing.vue';
-import supplier from './components/supplier.vue';
+import supplier from './components/Supplier.vue';
+import purchasingDetail from './components/Purchasing_detail.vue';
 
 let routes = [
     {
@@ -37,6 +38,11 @@ let routes = [
         path: '/purchasing',
         name: 'purchasing',
         component: purchasing,
+    },
+    {
+        path: '/purchasingDetail',
+        name: 'purchasingDetail',
+        component: purchasingDetail,
     }
 ];
 

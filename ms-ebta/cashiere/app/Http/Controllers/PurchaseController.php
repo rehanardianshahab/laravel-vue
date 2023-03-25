@@ -100,7 +100,11 @@ class PurchaseController extends Controller
         session(['id_supplier' => $purchasing->supplier_id]);
         // return session('id');
         // return session('id');
-        return redirect('/purchasing-detail');
+        return response()->json([
+            'success' => true,
+            'message' => 'Purchasing Updated',
+            'data'    => $purchasing  
+        ], 200);
     }
 
     /**
