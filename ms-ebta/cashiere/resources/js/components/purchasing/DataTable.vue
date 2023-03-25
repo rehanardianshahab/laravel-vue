@@ -1,7 +1,7 @@
 <script>
-// import Product from './Product.vue';
+import supplierData from './supplierData.vue';
 export default {
-  // components: { Product },
+  components: { supplierData },
   data() {
     return {
       // for datatables
@@ -167,6 +167,7 @@ export default {
           </div>
           <!-- /.alert -->
           <div class="modal-body">
+            <supplierData></supplierData>
           </div>
           <!-- /.modal-body -->
           <div class="modal-footer">
@@ -176,6 +177,8 @@ export default {
         </div>
       </div>
     </div>
+    <!-- /.modal box for form -->
+
     <!-- main page -->
     <div class="container-fluid pb-5">
 
