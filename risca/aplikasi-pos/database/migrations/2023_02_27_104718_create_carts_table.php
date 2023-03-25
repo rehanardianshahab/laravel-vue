@@ -21,8 +21,8 @@ return new class extends Migration
             $table->bigInteger('price');
             $table->timestamps();
 
-            $table->foreign('cashier_id')->references('id')->on('users');
-            $table->foreign('product_id')->references('id')->on('products');
+            $table->foreign('cashier_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
         });
     }
 

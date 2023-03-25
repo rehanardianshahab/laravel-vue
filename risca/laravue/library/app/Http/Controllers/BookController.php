@@ -64,7 +64,7 @@ class BookController extends Controller
                     'price' => 'required',
                 ]);
 
-        Book::create($request->all());  //model add fillable
+        Book::create($request->all());  
 
         return redirect('books');
     }

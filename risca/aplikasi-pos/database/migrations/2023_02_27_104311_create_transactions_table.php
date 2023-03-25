@@ -24,8 +24,8 @@ return new class extends Migration
             $table->bigInteger('grand_total');
             $table->timestamps();
 
-            $table->foreign('cashier_id')->references('id')->on('users');
-            $table->foreign('customer_id')->references('id')->on('customers');
+            $table->foreign('cashier_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('customer_id')->references('id')->on('customers')->onDelete('cascade');
         });
     }
 

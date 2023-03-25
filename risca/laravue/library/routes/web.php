@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Auth::routes();
@@ -42,6 +42,7 @@ Route::resource('/publishers', App\Http\Controllers\PublisherController::class);
 Route::resource('/authors', App\Http\Controllers\AuthorController::class);
 Route::resource('/members', App\Http\Controllers\MemberController::class);
 Route::resource('/books', App\Http\Controllers\BookController::class);
+Route::resource('/details', App\Http\Controllers\TransactionDetailController::class);
 // Route::resource('/transactions', App\Http\Controllers\TransactionController::class);
 Route::get('/admins', [App\Http\Controllers\AdminController::class, 'dashboard']);
 
@@ -58,4 +59,5 @@ Route::get('/api/publishers', [App\Http\Controllers\PublisherController::class, 
 Route::get('/api/members', [App\Http\Controllers\MemberController::class, 'api']);
 Route::get('/api/books', [App\Http\Controllers\BookController::class, 'api']);
 Route::get('/api/transactions', [App\Http\Controllers\TransactionController::class, 'api']);
+Route::get('/api/details', [App\Http\Controllers\TransactionDetailController::class, 'api']);
 
