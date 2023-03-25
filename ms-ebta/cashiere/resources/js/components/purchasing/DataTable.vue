@@ -15,41 +15,18 @@ export default {
               {data: 'total_payment'},
               {data: 'action', searchable: false, sortable: false}
           ],
-      // data category
-        category : {
-          'selected' : 'one',
-          'data' : {
-            'name' : "data category",
-            'data':[]
-          }
-        },
       // for api url
         url: import.meta.env.VITE_APP_URL,
         getApi: import.meta.env.VITE_APP_API+'/purchasing',
       // for post sata
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       // for confirm box
-        confirm:'',
         pesanErr: '',
-        suppliers: ''
+        suppliers: '',
+        confirm: ''
     }
   },
   methods: {
-    cetakBarcode(url) {
-      if ($('input:checked').length < 1) {
-        alert('Pilih data yang akan dicetak');
-        return;
-      } else if ($('input:checked').length < 3) {
-        alert('Pilih minimal 3 data untuk dicetak');
-        return;
-      } else {
-        $('.form-product')
-        .attr('action', this.url+'product/'+url)
-        .attr('target', '_blank')
-        .attr('method', 'post')
-        .submit();
-      }
-    },
     closeNotif() {
         // reset alert
         if ($( "#notif" ).hasClass('d-none')) {
@@ -63,21 +40,6 @@ export default {
         } else {
             $( "#notif-utama" ).addClass( 'd-none');
         }
-    },
-    getCategory() {
-      // get data category
-      $.get(this.url+"api/category")
-            .done((response) => {
-              this.category.data = response.data;
-            })
-            .fail((error) => {
-                // set alert dan munculkan alert
-                $("#notif").attr('class', '');
-                $( "#notif" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
-                // isi tulisan
-                $('#notif .text').html( error.responseJSON.message );
-                return;
-            })
     },
     addForm() {
         $('#FormModal').modal('show');
@@ -124,10 +86,83 @@ export default {
         ]
       });
     },
+    redirectDetil(theid) {
+      this.$router.push({name: 'purchasing-detail', params: { id: theid }});
+    },
+    deleteModal (id, notes, lanjut) {
+      // munculkan modal
+      $('#modalConfirm').modal('show');
+      // ganti judul
+      $('#modalConfirm .modal-title').text('Confirm delete data');
+      // confirm
+      $('#modalConfirm .modal-body').text(notes);
+      // ganti rule
+      if (lanjut == 1) {
+        $('#confirm').show();
+      } else {
+        $('#confirm').hide();
+      }
+      this.confirm = id;
+    },
+    deleteData(id) {
+        let urlApi = this.getApi+"/"+id;
+        $.ajax({
+            url: urlApi,
+            type: 'delete',
+        }).done((response) => {
+          console.log(response);
+            // hilangkan modal
+            $('#modalConfirm').modal('hide');
+            // reload table
+            $('#table').DataTable().ajax.reload();
+            // set alert dan munculkan alert
+            $("#notif-utama").attr('class', '');
+            $( "#notif-utama" ).addClass( 'alert alert-success alert-dismissible mb-3 show');
+            /// isi tulisan
+            $('#notif-utama .text').text("Data deleted");
+        }).fail((error) => {
+            // set alert dan munculkan alert
+            $("#notif").attr('class', '');
+            $( "#notif" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+            // membuat pesan error
+            this.pesanErr = error.responseJSON;
+            return;
+        });
+    },
   },
   mounted() {
     this.datatable();
-    // this.$router.push({name: 'dashboard'});
+
+    // inisialisasi
+    let redirectDetil = this.redirectDetil;
+    let deleteModal = this.deleteModal;
+    let deleteData = this.deleteData;
+
+    // const self = this === make finish
+    $('tbody', this.$refs.table).on( 'click', '.finishData', function(){
+        let theid = $(this).attr('data-idfinish');
+        redirectDetil(theid);
+    });
+    // const self = this === open modal delete data
+    $('tbody', this.$refs.table).on( 'click', '.deleteData', function(){
+        let theid = $(this).attr('data-iddelete');
+        let note;
+        let lanjut = 1;
+        if ($(this).attr('data-total') == 0) {
+          note = "Yakin Mau menghapus data?";
+          lanjut = 1;
+        } else {
+          note = "Silahkan Hapus item dalam transaksi ini sebelum menghapus data transaksi ini.";    
+          lanjut = 0;      
+        }
+        deleteModal(theid, note, lanjut);
+    });
+
+    // const self = this === open modal delete data
+    $('#confirm').on('click', function(){
+      let theid = $('#confirm').attr('data-term');
+      deleteData(theid);
+    });
   }
 }
 </script>
@@ -164,6 +199,25 @@ export default {
       </div>
     </div>
     <!-- /.modal box for form -->
+
+    <!-- confirm box -->
+    <!-- modal box for delete form -->
+    <div class="modal fade" id="modalConfirm" tabindex="-1" aria-labelledby="modalConfirmLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title fs-5" id="modalConfirmLabel">Konfirmasi</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <span :data-term="confirm" id="confirm" class="btn confirm btn-primary">Yes</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- main page -->
     <div class="container-fluid pb-5">

@@ -184,7 +184,7 @@
                             </ul>
                             {{-- <li><router-link to="/product" class="dropdown-item" aria-current="page">product</router-link></li> --}}
                         </li>
-                        <router-link to="/purchasingDetail" class="nav-link" aria-current="page">Sample</router-link>
+                        <router-link to="/purchasing-detail" class="nav-link" aria-current="page">Sample</router-link>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

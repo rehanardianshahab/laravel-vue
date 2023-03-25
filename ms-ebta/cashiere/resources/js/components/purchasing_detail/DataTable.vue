@@ -1,8 +1,22 @@
 <script>
+import ModalData from './ModalData.vue';
 export default {
+  components: { ModalData },
   data() {
     return {
-      // 
+      columns: [
+              {data: 'DT_RowIndex', searchable: false, sortable: true},
+              {data: 'code'},
+              {data: 'product_name'},
+              {data: 'pricing_label'},
+              {data: 'item_qty'},
+              {data: 'subtotal'},
+              {data: 'action', searchable: false, sortable: false}
+          ],
+      purchasing_id:'',
+      // for api url
+      url: import.meta.env.VITE_APP_URL,
+      getApi: import.meta.env.VITE_APP_API+'/purchasing-detail',
     }
   },
   methods: {
@@ -20,46 +34,83 @@ export default {
             $( "#notif-utama" ).addClass( 'd-none');
         }
     },
-    addForm() {
+    showProduct() {
         // 
     },
     datatable() {
       $('#table').DataTable({
         ajax: {
-          url: this.getApi,
-          type: 'GET',
-        },//memanggil data dari data api dengan ajax, disimpan di DataTable
+          url: this.getApi+`/${this.$route.params.id}`
+        },
         columns: this.columns,
-        dom: 'Bfrtip',
-        buttons: [
-            'pageLength',
-            'colvis',
-            'spacer',
-            'copyHtml5',
-            'pdfHtml5',
-            'print',
-            'csvHtml5',
-            {
-              extend: 'excel',
-              text: 'exel',
-              exportOptions: {
-                  modifier: {
-                    page: 'current'
-                  }
-              }
-            },
-        ]
+        dom: 'Brt',
+        bSort: false,
+      }).on('draw.dt', function () {
+        // loadForm($('#discount').val());
       });
     },
   },
   mounted() {
-    this.datatable();
+    // this.datatable();
   }
 }
 </script>
 
+<style scoped>
+    .paying-view {
+      font-size: 5em;
+      text-align: center;
+      height: 100px;
+    }
+    .read-view {
+      padding: 10px;
+      background: #f0f0f0;
+    }
+    @media(max-width: 768px) {
+      .paying-view {
+        font-size: 3em;
+        height: 70px;
+        padding-top: 5px;
+      }
+    }
+    #table tbody tr:last-child {
+      display: none;
+    }
+</style>
+
 <template>
   <section class="content">
+    <!-- modal box for form -->
+    <div class="modal fade" id="ModalData" tabindex="-1" aria-labelledby="ModalDataLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ModalDataLabel">Modal title</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <!-- Alert -->
+          <div class="d-none" id="notif" data-not="1" role="alert">
+            <span class="text">
+              <span v-for="(value, key) in pesanErr" class="d-block" :key="key">
+                  {{ value[0] }}
+              </span>
+            </span>
+            <button type="button" class="btn-close" @click="closeNotif()"></button>
+          </div>
+          <!-- /.alert -->
+          <div class="modal-body">
+            <supplierData></supplierData>
+          </div>
+          <!-- /.modal-body -->
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.modal box for form -->
+    {{ this.$route.params.id }}
     <div class="container-fluid pb-5">
 
       <div class="row">
@@ -102,13 +153,13 @@ export default {
                     <div class="input-group">
                       <input type="hidden" name="id" id="id-product">
                       <input type="hidden" name="purchasing_id" id="purchasing_id" value="{{ $purchasing_id }}">
-                      <input type="text" name="code" id="code-product" class="form-control" placeholder="Add Product Code">
-                      <button class="input-group-text btn btn-info btn-flat" type="button" onclick="showProduct()"><i class="bi bi-arrow-bar-right"></i></button>
+                      <input type="text" name="code" id="code-product" class="form-control" placeholder="Add Product Code" @click="showProduct()">
+                      <button class="input-group-text btn btn-info btn-flat" type="button" @click="showProduct()"><i class="bi bi-arrow-bar-right"></i></button>
                     </div>
                   </div>
                 </div>
               </form>
-
+              <br />
                 <table id="table" class="table table-bordered table-striped" width="100%">
                     <thead>
                       <tr>

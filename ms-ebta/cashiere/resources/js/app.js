@@ -40,8 +40,8 @@ let routes = [
         component: purchasing,
     },
     {
-        path: '/purchasingDetail',
-        name: 'purchasingDetail',
+        path: '/purchasing-detail/:id',
+        name: 'purchasing-detail',
         component: purchasingDetail,
     }
 ];

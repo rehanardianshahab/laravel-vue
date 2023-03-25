@@ -68,11 +68,17 @@ class PurchaseController extends Controller
                 })
                 ->addColumn('action', function ($purchasing)
                 {
-                    return 
-                    '<div class="btn-group">
-                        <button onclick="deleteData()" class="btn btn-xs btn-danger btn-flate p-1"><i class="fa fa-trash"></i> Delete </button>
-                        <button onclick="detilData()" class="btn btn-xs btn-info btn-flate p-1"><i class="fa fa-eye"></i> Item </button>
-                    </div>';
+                    if ($purchasing->active == 1) {
+                        return 
+                        '<div class="btn-group">
+                            <a href="#" data-total="'.$purchasing->total_items.'" data-iddelete="'.$purchasing->id.'" class="deleteData btn btn-xs btn-danger btn-flate p-1"> Delete </a>
+                            <a href="#" data-idfinish="'.$purchasing->id.'" class="finishData btn btn-xs btn-warning btn-flate p-1"> Finish </a>
+                        </div>';
+                    } else {
+                        return '<div class="btn-group d-flex justify-content-center">
+                                    <a href="#" onclick="deleteData()" class="btn btn-xs btn-info btn-flate p-1"><i class="bi bi-eye"></i> item </a>
+                                </div>';
+                    }
                 })->rawColumns(['action'])
                 ->make(true);
     }
@@ -88,16 +94,17 @@ class PurchaseController extends Controller
         $purchasing->total_items   = 0;
         $purchasing->total_price   = 0;
         $purchasing->discount      = 0;
+        $purchasing->active        = true;
         $purchasing->total_payment = 0;
         $purchasing->save();
 
-        Session::put('id', 'id_supplier');
+        // Session::put('id', 'id_supplier');
 
         $purchaseNews = Purchase::latest()->get();;
         $purchaseNews_id = $purchaseNews[0]->id;
 
-        session(['id' => $purchaseNews_id]);
-        session(['id_supplier' => $purchasing->supplier_id]);
+        // session(['id' => $purchaseNews_id]);
+        // session(['id_supplier' => $purchasing->supplier_id]);
         // return session('id');
         // return session('id');
         return response()->json([
@@ -188,6 +195,10 @@ class PurchaseController extends Controller
     public function destroy(Purchase $purchase)
     {
         $purchase->delete();
-        return response(null, 204);
+        return response()->json([
+            'success' => true,
+            'message' => 'Data deleted',
+            'data'    => $purchase  
+        ], 200);
     }
 }

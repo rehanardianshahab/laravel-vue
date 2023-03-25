@@ -26,6 +26,13 @@ class PurchasingDetailController extends Controller
         return view('content.purchasingDetail.index', compact('purchasing_id', 'product', 'supplier', 'method', 'action'));
     }
 
+    public function sesi()
+    {
+        // return 'sesi';
+        $sesi = session('id_supplier');
+        return $sesi;
+    }
+
     public function data($id)
     {
         $purchasingDetail = PurchasingDetail::with('product')->where('purchasing_id', $id)->get();

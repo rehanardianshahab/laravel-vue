@@ -379,7 +379,7 @@ export default {
             <!-- Alert -->
             <div class="d-none" id="notif" data-not="1" role="alert">
               <span class="text">
-                <span v-for="(value, key) in pesanErr" class="d-block">
+                <span v-for="(value, key) in pesanErr" class="d-block" :key="key">
                   {{ value[0] }}
                 </span>
               </span>
@@ -403,7 +403,7 @@ export default {
                 <div class="col-md-8">
                   <select v-model="category.selected" id="category_id" name="category_id" class="form-control">
                     <option value="one">Pilih data</option>
-                    <option v-bind:value="category.id"  v-for="category in category.data">
+                    <option v-bind:value="category.id"  v-for="(category, key) in category.data" :key="key">
                       {{ category.name }}
                     </option>
                   </select>
