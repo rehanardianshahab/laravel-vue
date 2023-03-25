@@ -177,9 +177,14 @@
                               <li><a class="dropdown-item" href="#">Separated link</a></li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <router-link to="/sample" class="nav-link" aria-current="page">Sample</router-link>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Transaction</a>
+                            <ul class="dropdown-menu">
+                                <li><router-link to="/purchasing" class="dropdown-item" aria-current="page">Purchase</router-link></li>
+                            </ul>
+                            {{-- <li><router-link to="/product" class="dropdown-item" aria-current="page">product</router-link></li> --}}
                         </li>
+                        <router-link to="/sample" class="nav-link" aria-current="page">Sample</router-link>
                     </ul>
 
                     <!-- Right Side Of Navbar -->

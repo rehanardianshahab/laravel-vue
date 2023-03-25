@@ -15,8 +15,7 @@ return new class extends Migration
             $table->increments('id');
             $table->text('description')->unique();
             $table->integer('amount');
-            $table->string('address')->nullable();
-            $table->string('phone');
+            $table->timestamp('time');
             $table->timestamps();
         });
     }

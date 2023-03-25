@@ -42,6 +42,7 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
+        $request['phone'] = '0'.(string)$request->phone;
         //set validation
         $validator = Validator::make($request->all(), [
             'name' => ['required'],
@@ -63,7 +64,6 @@ class SupplierController extends Controller
             $code = $code->id;
         }
         $request['code'] = 'MBR'.'.'.add_nol((int)$code+1, 4);
-        $request['phone'] = '0'.(string)$request->phone;
         //save to database
         $supplier = Supplier::create($request->all());
 
