@@ -79,5 +79,6 @@ Route::group(['prefix' => 'purchasing-detail'], function() {
     Route::get('/sesi', [PurchasingDetailController::class, 'sesi'])->name('purchase.data');
     Route::get('/dataProduct', [PurchasingDetailController::class, 'dataProduct']);
     Route::post('/{product}/{id}/store', [PurchasingDetailController::class, 'store']);
+    Route::post('/{id}/update', [PurchasingDetailController::class, 'update']);
     Route::resource('/', PurchasingDetailController::class)->except('create');
 });

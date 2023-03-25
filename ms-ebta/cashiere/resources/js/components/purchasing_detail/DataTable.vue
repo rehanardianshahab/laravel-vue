@@ -15,7 +15,6 @@ export default {
           ],
       purchasing_id:'',
       modal: '',
-      pesanErr: '',
       detil: '',
       // for api url
       url: import.meta.env.VITE_APP_URL,
@@ -41,7 +40,6 @@ export default {
       // get data purchasing detail
       $.get(this.url+"api/purchasing-detail/"+this.$route.params.id+"/data")
             .done((response) => {
-              console.log(response.data);
               this.detil = response.data;
             })
             .fail((error) => {
@@ -49,8 +47,6 @@ export default {
               $("#notif-utama").attr('class', '');
                 $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
                 $( "#notif-utama .text" ).text( error.responseJSON.message);
-                // membuat pesan error
-                this.pesanErr = error.responseJSON;
                 return;
             });
     },
@@ -61,9 +57,40 @@ export default {
       $('#ModalData').modal('show');
       $('#ModalData modal-title').text('Add New Product');
     },
+    reloadData() {
+      this.getDetil();
+    }
   },
   mounted() {
     this.getDetil();
+    let getApi = this.getApi;
+    let reloadData = this.reloadData;
+    // save new product
+    $(document).on('blur', '.edit-qty', function () {
+      const id = $(this).attr('data-id');
+
+      let token = $("meta[name='csrf-token']").attr("content");
+      let qty = $(this).val();
+      $.ajax({
+        url: getApi+'/'+id+'/update',
+        type: 'POST',
+        data: {
+          _token:token,
+          item_qty:qty
+        },
+        success: function(response) {
+          // console.log(response)
+        },
+        error: function(xhr) {
+          //Do Something to handle error
+          // set alert dan munculkan alert
+          $("#notif-utama").attr('class', '');
+          $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+          $( "#notif-utama .text" ).text( error.responseJSON.message);
+          return;
+        }});
+        reloadData();
+    });
   }, 
   computed: {
     //

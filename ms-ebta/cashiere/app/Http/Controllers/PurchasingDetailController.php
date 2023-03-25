@@ -202,15 +202,16 @@ class PurchasingDetailController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, PurchasingDetail $id)
     {
-        $detail = PurchasingDetail::find($id);
+        $detail = $id;
         if ($request->item_qty == null) {
             $request->item_qty = 1;
         }
         $detail->item_qty = $request->item_qty;
         $detail->subtotal = $detail->pricing_label * $request->item_qty;
         $detail->update();
+        return $detail;
     }
 
     /**
