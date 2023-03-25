@@ -24,11 +24,19 @@ class PurchaseController extends Controller
     public function dataSupplier()
     {
         $supplier = Supplier::orderBy("name")->get();
-
-        return response()->json([
-            'success' => true,
-            'data'    => $supplier
-        ], 201);
+        
+        return datatables()
+                ->of($supplier)
+                ->addIndexColumn()
+                ->addColumn('action', function ($supplier)
+                {
+                    return '
+                    <button data-id="'.$supplier->id.'" class="addSupplier btn btn-primary btn-xs btn-flat">
+                        Pilih
+                    </button>
+                    ';
+                })->rawColumns(['action'])
+                ->make(true);
     }
 
     public function data()
@@ -70,7 +78,7 @@ class PurchaseController extends Controller
                 {
                     if ($purchasing->active == 1) {
                         return 
-                        '<div class="btn-group">
+                        '<div class="btn-group d-flex justify-content-center">
                             <a href="#" data-total="'.$purchasing->total_items.'" data-iddelete="'.$purchasing->id.'" class="deleteData btn btn-xs btn-danger btn-flate p-1"> Delete </a>
                             <a href="#" data-idfinish="'.$purchasing->id.'" class="finishData btn btn-xs btn-warning btn-flate p-1"> Finish </a>
                         </div>';

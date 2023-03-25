@@ -361,7 +361,7 @@ export default {
             <!-- Alert -->
             <div class="d-none" id="notif" data-not="1" role="alert">
               <span class="text">
-                <span v-for="(value, key) in pesanErr" class="d-block">
+                <span v-for="(value, key) in pesanErr" class="d-block" :key="key">
                   {{ value[0] }}
                 </span>
               </span>

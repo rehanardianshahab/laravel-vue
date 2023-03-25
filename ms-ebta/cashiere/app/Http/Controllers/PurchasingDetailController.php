@@ -33,7 +33,54 @@ class PurchasingDetailController extends Controller
         return $sesi;
     }
 
-    public function data($id)
+    public function dataProduct()
+    {
+        $product = Product::orderBy("name")->get();
+        
+        return datatables()
+                ->of($product)
+                ->addIndexColumn()
+                ->addColumn('select_all', function ($item)
+                {
+                    return '<input type="checkbox" name="id_products[]" class="checking" value="'.$item->id.'">';
+                })
+                ->addColumn('code', function ($item)
+                {
+                    return '<span class="badge bg-warning text-dark">'.$item->code.'</span>';
+                })
+                ->addColumn('buy', function ($item)
+                {
+                    return money_format($item->buying_price, '.', 'Rp ', ',-');
+                })
+                ->addColumn('sale', function ($item)
+                {
+                    return money_format($item->selling_price, '.', 'Rp ', ',-');
+                })
+                ->addColumn('category', function ($item)
+                {
+                    return $item->category;
+                })
+                ->addColumn('discountWpres', function ($item)
+                {
+                    if ($item->discount == 0) {
+                        return $item->discount;
+                    } else {
+                        return $item->discount. " %";
+                    };
+                })
+                ->addColumn('action', function ($product)
+                {
+                    return 
+                    '
+                        <a href="#" data-id="'.$product->id.'" class="choseProduct btn btn-primary btn-xs btn-flat">
+                            Pilih
+                        </a>
+                    ';
+                })->rawColumns(['action', 'code', 'select_all'])
+                ->make(true);
+    }
+
+    public function data(string $id)
     {
         $purchasingDetail = PurchasingDetail::with('product')->where('purchasing_id', $id)->get();
         $data = array();
@@ -43,13 +90,15 @@ class PurchasingDetailController extends Controller
         foreach ($purchasingDetail as $key => $value) {
             $row = array();
             $row['DT_RowIndex']   = $key+1;
-            $row['code']          = '<span class="badge badge-success">'.$value->product['code'].'</span>';
+            $row['id']            = $value->id;
+            $row['input_name']    = 'item_qty'.$value->id;
+            $row['code']          = $value->product['code'];
             $row['product_name']  = $value->product['name'];
             $row['pricing_label'] = money_format($value->pricing_label, '.', 'Rp ', ',-');
-            $row['item_qty']      = '<input type="number" min="1" name="item_qty'.$value->id.'" data-id="'.$value->id.'" class="form-control input-sm edit-qty" value="'.$value->item_qty.'">';
+            $row['item_qty']      = $value->item_qty;
             $row['subtotal']      = money_format($value->subtotal, '.', 'Rp ', ',-');
             $row['action']        = '<div class="btn-group d-flex justify-content-around rounded" role="group" aria-label="Basic example">'.
-                                        '<button onclick="deleteData(`'.route('purchasing_detail.destroy', $value->id).'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>'
+                                        '<button class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>'
                                     .'</div>';
             $data[] = $row;
 
@@ -116,17 +165,16 @@ class PurchasingDetailController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Product $product, string $id)
     {
-        $product = Product::where('id', $request->id)->first();
         if (! $product) {
             // abort(404);
             return response()->json('data gagal disimpan', 400);
         }
 
         $detail = new PurchasingDetail();
-        $detail->purchasing_id = $request->purchasing_id;
-        $detail->product_id = $request->id;
+        $detail->purchasing_id = $id;
+        $detail->product_id = $product->id;
         $detail->pricing_label = $product->buying_price;
         $detail->item_qty = 1;
         $detail->subtotal = $product->buying_price*$detail->item_qty;

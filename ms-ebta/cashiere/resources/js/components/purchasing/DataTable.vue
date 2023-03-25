@@ -171,7 +171,7 @@ export default {
   <section class="content">
     <!-- modal box for form -->
     <div class="modal fade" id="FormModal" tabindex="-1" aria-labelledby="FormModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog  modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="FormModalLabel">Modal title</h5>
@@ -192,7 +192,6 @@ export default {
           </div>
           <!-- /.modal-body -->
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Save</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancel</button>
           </div>
         </div>
@@ -203,7 +202,7 @@ export default {
     <!-- confirm box -->
     <!-- modal box for delete form -->
     <div class="modal fade" id="modalConfirm" tabindex="-1" aria-labelledby="modalConfirmLabel" aria-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog  modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title fs-5" id="modalConfirmLabel">Konfirmasi</h5>

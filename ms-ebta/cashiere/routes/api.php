@@ -68,7 +68,7 @@ Route::group(['prefix' => 'expense'], function() {
 Route::group(['prefix' => 'purchasing'], function() {
     Route::get('/{id}/create', [PurchaseController::class, 'create'])->name('purchase.create');
     Route::get('/data', [PurchaseController::class, 'data'])->name('purchase.data');
-    Route::get('/dataSupplier', [PurchaseController::class, 'dataSupplier'])->name('purchase.data-supplier');
+    Route::get('/dataSupplier', [PurchaseController::class, 'dataSupplier']);
     Route::delete('/{purchase}', [PurchaseController::class, 'destroy']);
     Route::resource('/', PurchaseController::class)->except('create');
 });
@@ -77,6 +77,7 @@ Route::group(['prefix' => 'purchasing-detail'], function() {
     Route::get('/{id}/create', [PurchasingDetailController::class, 'create'])->name('purchase.create');
     Route::get('/{id}/data', [PurchasingDetailController::class, 'data'])->name('purchase.data');
     Route::get('/sesi', [PurchasingDetailController::class, 'sesi'])->name('purchase.data');
-    Route::get('/dataSupplier', [PurchasingDetailController::class, 'dataSupplier'])->name('purchase.data-supplier');
+    Route::get('/dataProduct', [PurchasingDetailController::class, 'dataProduct']);
+    Route::post('/{product}/{id}/store', [PurchasingDetailController::class, 'store']);
     Route::resource('/', PurchasingDetailController::class)->except('create');
 });

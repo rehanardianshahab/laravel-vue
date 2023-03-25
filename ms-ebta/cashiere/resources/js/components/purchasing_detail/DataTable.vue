@@ -14,6 +14,9 @@ export default {
               {data: 'action', searchable: false, sortable: false}
           ],
       purchasing_id:'',
+      modal: '',
+      pesanErr: '',
+      detil: '',
       // for api url
       url: import.meta.env.VITE_APP_URL,
       getApi: import.meta.env.VITE_APP_API+'/purchasing-detail',
@@ -34,24 +37,36 @@ export default {
             $( "#notif-utama" ).addClass( 'd-none');
         }
     },
-    showProduct() {
-        // 
+    getDetil() {
+      // get data purchasing detail
+      $.get(this.url+"api/purchasing-detail/"+this.$route.params.id+"/data")
+            .done((response) => {
+              console.log(response.data);
+              this.detil = response.data;
+            })
+            .fail((error) => {
+              // set alert dan munculkan alert
+              $("#notif-utama").attr('class', '');
+                $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+                $( "#notif-utama .text" ).text( error.responseJSON.message);
+                // membuat pesan error
+                this.pesanErr = error.responseJSON;
+                return;
+            });
     },
-    datatable() {
-      $('#table').DataTable({
-        ajax: {
-          url: this.getApi+`/${this.$route.params.id}`
-        },
-        columns: this.columns,
-        dom: 'Brt',
-        bSort: false,
-      }).on('draw.dt', function () {
-        // loadForm($('#discount').val());
-      });
+    showProduct() {
+      // set idModal
+      this.modal = true;
+      
+      $('#ModalData').modal('show');
+      $('#ModalData modal-title').text('Add New Product');
     },
   },
   mounted() {
-    // this.datatable();
+    this.getDetil();
+  }, 
+  computed: {
+    //
   }
 }
 </script>
@@ -82,24 +97,17 @@ export default {
   <section class="content">
     <!-- modal box for form -->
     <div class="modal fade" id="ModalData" tabindex="-1" aria-labelledby="ModalDataLabel" aria-hidden="true">
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="ModalDataLabel">Modal title</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <!-- Alert -->
-          <div class="d-none" id="notif" data-not="1" role="alert">
-            <span class="text">
-              <span v-for="(value, key) in pesanErr" class="d-block" :key="key">
-                  {{ value[0] }}
-              </span>
-            </span>
-            <button type="button" class="btn-close" @click="closeNotif()"></button>
+          <div v-if="modal">
+            <ModalData></ModalData>
           </div>
-          <!-- /.alert -->
-          <div class="modal-body">
-            <supplierData></supplierData>
+          <div v-else>
+            kosong
           </div>
           <!-- /.modal-body -->
           <div class="modal-footer">
@@ -110,7 +118,6 @@ export default {
       </div>
     </div>
     <!-- /.modal box for form -->
-    {{ this.$route.params.id }}
     <div class="container-fluid pb-5">
 
       <div class="row">
@@ -119,9 +126,7 @@ export default {
             <!-- Alert -->
             <div class="d-none" id="notif-utama" role="alert">
                 <span class="text"></span>
-                <button type="button" class="close">
-                    <span onclick="closeNotif()">&times;</span>
-                </button>
+              <button type="button" class="btn-close" @click="closeNotif()"></button>
             </div>
             <!-- /.alert -->
           
@@ -169,11 +174,24 @@ export default {
                         <th>Price</th>
                         <th>Total Item</th>
                         <th>Total Price</th>
-                        <th width="15%"><i class="fa fa-cog"></i></th>
+                        <th width="15%" class="fs-4"><i class="bi bi-gear-wide-connected"></i></th>
+
                       </tr>
                     </thead>
                     <tbody>
-
+                      <tr v-for="(item, key) in detil" :key="key">
+                        <td style="text-align: center;">{{ item.DT_RowIndex }}</td>
+                        <td style="text-align: center;"><span class="badge text-bg-success">{{ item.code }}</span></td>
+                        <td>{{ item.product_name }}</td>
+                        <td>{{ item.pricing_label }}</td>
+                        <td><input type="number" min="1" :name="item.input_name" :data-id="item.id" class="form-control input-sm edit-qty" v-bind:value="item.item_qty"></td>
+                        <td>{{ item.subtotal }}</td>
+                        <td>
+                          <div class="btn-group d-flex justify-content-around rounded" role="group" aria-label="Basic example">
+                            <button class="btn btn-xs btn-danger btn-flat"><i class="bi bi-trash"></i></button>
+                          </div>
+                        </td>
+                      </tr>
                     </tbody>
                 </table>
               

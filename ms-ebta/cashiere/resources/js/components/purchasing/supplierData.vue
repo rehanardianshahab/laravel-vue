@@ -5,22 +5,36 @@ export default {
   },
   data() {
     return {
-      suppliers: 'halo',
+      columns: [
+              {data: 'DT_RowIndex', searchable: false, sortable: true},
+              {data: 'name'},
+              {data: 'phone'},
+              {data: 'address'},
+              {data: 'action', searchable: false, sortable: false}
+          ],
       // for api url
       url: import.meta.env.VITE_APP_URL,
       getApi: import.meta.env.VITE_APP_API+'/purchasing',
-      id: ''
+      id: '',
+      product: ''
     }
   },
   methods: {
     datatable() {
-      $('#tableSupplier').DataTable();
+      $('#tableSupplier').DataTable({
+        ajax: {
+          url: this.getApi+'/dataSupplier',
+          type: 'GET',
+        },//memanggil data dari data api dengan ajax, disimpan di DataTable
+        columns: this.columns,
+      });
     },
-    getSupplier() {
-      // get data Supplier
-      $.get(this.url+"api/purchasing/dataSupplier")
+    getProduct() {
+      // get data product
+      $.get(this.getApi+'/data')
             .done((response) => {
-              this.suppliers = response.data;
+              this.product = response.data;
+              this.product = response.data[0].id;
             })
             .fail((error) => {
                 // set alert dan munculkan alert
@@ -62,7 +76,16 @@ export default {
                 return;
             });
     this.datatable();
-    this.getSupplier();
+    this.getProduct();
+
+    // inisiasi
+    let selectSupplier = this.selectSupplier;
+
+    // const self = this === select supplier
+    $('tbody', this.$refs.table).on( 'click', '.addSupplier', function(){
+        let theid = $(this).attr('data-id');
+        selectSupplier(theid);
+    });
   }, 
   computed: {
     newId: function () {
@@ -88,17 +111,6 @@ export default {
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(item, index) in suppliers" :key="item.id">
-        <td style="text-align: center" width="15%">{{ index+1 }}</td>
-        <td>{{ item.name }}</td>
-        <td>{{ item.phone }}</td>
-        <td>{{ item.address }}</td>
-        <td style="text-align: center" width="15%">
-          <button class="btn btn-primary btn-xs btn-flat" @click="selectSupplier(item.id)">
-            <i class="fa fa-check-circle"></i> Pilih
-          </button>
-        </td>
-      </tr>
     </tbody>
   </table>
 </template>
