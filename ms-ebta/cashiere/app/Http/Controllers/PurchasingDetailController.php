@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PurchasingDetail;
 use App\Models\Product;
+use App\Models\Purchase;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -80,6 +81,12 @@ class PurchasingDetailController extends Controller
                 ->make(true);
     }
 
+    public function datapurchase(Purchase $purchase)
+    {
+        $purchase->total_price_rp = money_format($purchase->total_price, '.', 'Rp ', ',-');
+        return $purchase;
+    }
+
     public function data(string $id)
     {
         $purchasingDetail = PurchasingDetail::with('product')->where('purchasing_id', $id)->get();
@@ -98,7 +105,7 @@ class PurchasingDetailController extends Controller
             $row['item_qty']      = $value->item_qty;
             $row['subtotal']      = money_format($value->subtotal, '.', 'Rp ', ',-');
             $row['action']        = '<div class="btn-group d-flex justify-content-around rounded" role="group" aria-label="Basic example">'.
-                                        '<button class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>'
+                                        '<button data-id="'.$value->id.'" class="delete btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>'
                                     .'</div>';
             $data[] = $row;
 
@@ -106,14 +113,9 @@ class PurchasingDetailController extends Controller
             $total_item += $value->item_qty;
         }
         $data[] = [
-            'code' => '
-                <div class="total invisible">'. $total .'</div>
-                <div class="total_item invisible">'. $total_item .'</div>',
-            'product_name' => '',
-            'pricing_label' => '',
-            'item_qty' => '',
-            'subtotal' => '',
-            'action' => '',
+            'total' => $total,
+            'totalrp' => money_format($total, '.', 'Rp ', ',-'),
+            'qty_total' => $total_item,
         ];
         
         return datatables()
@@ -217,13 +219,12 @@ class PurchasingDetailController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(PurchasingDetail $id)
     {
         // return $id;
-        $purchasingDetail = PurchasingDetail::find($id);
-        $purchasingDetail->delete();
+        $id->delete();
 
-        return response()->json('Success updating data', 204);
+        return response()->json('Success deleting data', 204);
     }
 
     public function loadForm(string $discount, string $total)

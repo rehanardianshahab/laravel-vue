@@ -4,7 +4,7 @@ export default {
   components: { ModalData },
   data() {
     return {
-      columns: [
+      columns: [ // for datatable
               {data: 'DT_RowIndex', searchable: false, sortable: true},
               {data: 'code'},
               {data: 'product_name'},
@@ -13,9 +13,18 @@ export default {
               {data: 'subtotal'},
               {data: 'action', searchable: false, sortable: false}
           ],
-      purchasing_id:'',
-      modal: '',
-      detil: '',
+
+      purchasing_id: this.$route.params.id, // data id for current purchasing
+      modal: '', // for initialize the modal to used
+      detil: '', // data purchasingDetail
+      discount: '', // data discount
+      purchasing: '', // data purchasing current
+      totalItem: '', // data total purchasing item
+      totalPrice: '', // for total of price without discount
+      totalPriceRp: '', // for total of price without discount with format Rupiah
+      payment: '', // for total payment after discount
+      total_payment: '', // for total payment after discount with money forma
+
       // for api url
       url: import.meta.env.VITE_APP_URL,
       getApi: import.meta.env.VITE_APP_API+'/purchasing-detail',
@@ -41,6 +50,24 @@ export default {
       $.get(this.url+"api/purchasing-detail/"+this.$route.params.id+"/data")
             .done((response) => {
               this.detil = response.data;
+              this.getTotal();
+            })
+            .fail((error) => {
+              // set alert dan munculkan alert
+              $("#notif-utama").attr('class', '');
+                $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+                $( "#notif-utama .text" ).text( error.responseJSON.message);
+                return;
+            });
+    },
+    getPurchasing () {
+      // get data purchasing current
+      // console.log(this.url+"api/purchasing-detail/"+this.$route.params.id+"/dataPurchase");
+      // return;
+      $.get(this.url+"api/purchasing-detail/"+this.$route.params.id+"/dataPurchase")
+            .done((response) => {
+              this.purchasing = response;
+              this.setDiscount();
             })
             .fail((error) => {
               // set alert dan munculkan alert
@@ -59,12 +86,95 @@ export default {
     },
     reloadData() {
       this.getDetil();
+      this.getPurchasing();
+      this.setDiscount();
+    },
+    getTotal() {
+      // console.log(this.detil);
+      let detil = this.detil;
+      detil.forEach((element, key) => {
+        if (detil.length == key+1) {
+          this.totalPrice = element.total;
+          this.totalPriceRp = element.totalrp;
+          this.totalItem = element.qty_total;
+        }
+      });
+      // console.log(this.totalPrice);
+    },
+    setDiscount () {
+      this.discount = this.purchasing.discount;
+      const discount = this.discount/100;
+      const total = this.totalPrice;
+      const calculated_discount = total*discount;
+
+      let total_payment = total - calculated_discount;
+      let payment = total - calculated_discount;
+
+      this.total_payment = this.formatMoney(total_payment);
+      this.payment = payment;
+    },
+    formatMoney (angka){
+      if (angka != null) {
+        // console.log(angka);
+          /**
+         * Number.prototype.format(n, x, s, c)
+         * 
+         * @param integer n: length of decimal
+         * @param integer x: length of whole part
+         * @param mixed   s: sections delimiter
+         * @param mixed   c: decimal delimiter
+         */
+        Number.prototype.format = function(n, x, s, c) {
+            var re = '\\d(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\D' : '$') + ')',
+                num = this.toFixed(Math.max(0, ~~n));
+
+            return (c ? num.replace('.', c) : num).replace(new RegExp(re, 'g'), '$&' + (s || ','));
+        };
+        return angka.format(0, 3, '.');       // "12.345.679"
+
+        // 12345678.9.format(2, 3, '.', ',');  // "12.345.678,90"
+        // 123456.789.format(4, 4, ' ', ':');  // "12 3456:7890"
+        // 12345678.9.format(0, 3, '-');       // "12-345-679"
+      }
+    },
+    saveTransaction () {
+      $.ajax({
+        url: this.url+'api/purchasing/'+this.purchasing_id,
+        type: 'PUT',
+        data: {
+          _token:$("meta[name='csrf-token']").attr("content"),
+          id:this.purchasing_id,
+          total_items:this.totalItem,
+          total_price:this.totalPrice,
+          discount:this.discount,
+          total_payment:this.payment,
+          active:0
+        },
+        success: function(response) {
+          console.log(response)
+        },
+        error: function(error) {
+          //Do Something to handle error
+          // set alert dan munculkan alert
+          $("#notif-utama").attr('class', '');
+          $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+          $( "#notif-utama .text" ).text( error.responseJSON.message);
+          return;
+        }
+      });
+      this.$router.push({name: 'purchasing'});
     }
   },
   mounted() {
-    this.getDetil();
+    this.reloadData();
+    // this.setDiscount();
+    // this.getDetil();
+    // this.getPurchasing();
     let getApi = this.getApi;
+    let saveTransaction = this.saveTransaction;
     let reloadData = this.reloadData;
+    let purchasing_id = this.purchasing_id;
+    let urlweb = this.url;
     // save new product
     $(document).on('blur', '.edit-qty', function () {
       const id = $(this).attr('data-id');
@@ -81,7 +191,7 @@ export default {
         success: function(response) {
           // console.log(response)
         },
-        error: function(xhr) {
+        error: function(error) {
           //Do Something to handle error
           // set alert dan munculkan alert
           $("#notif-utama").attr('class', '');
@@ -91,9 +201,73 @@ export default {
         }});
         reloadData();
     });
+    // set discount
+    $(document).on('blur', '#discount', function () {
+      let nominal = $(this).val();
+      if (nominal == '') {
+        nominal = 0;
+      } else if (nominal < 0) {
+        nominal = 0;
+      } else if (nominal > 100) {
+        nominal = 100;
+      }
+      const token = $("meta[name='csrf-token']").attr("content");
+      const url = urlweb+"api/purchasing/"+purchasing_id;
+      // console.log(url);
+      $.ajax({
+        url: url,
+        type: 'PUT',
+        data: {
+          _token:token,
+          discount:nominal
+        },
+        success: function(response) {
+          // console.log(response)
+        },
+        error: function(error) {
+          //Do Something to handle error
+          // set alert dan munculkan alert
+          $("#notif-utama").attr('class', '');
+          $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+          $( "#notif-utama .text" ).text( error.responseJSON.message);
+          return;
+        }
+      });
+        reloadData();
+    });
+    // delete data
+    $(document).on('click', '.delete', function () {
+      let idnya = $(this).attr('data-id');
+      const token = $("meta[name='csrf-token']").attr("content");
+      const url = urlweb+"api/purchasing-detail/"+idnya;
+      $.ajax({
+        url: url,
+        type: 'DELETE',
+        data: {
+          _token:token,
+          id:idnya
+        },
+        success: function(response) {
+          // console.log(response)
+        },
+        error: function(error) {
+          //Do Something to handle error
+          // set alert dan munculkan alert
+          $("#notif-utama").attr('class', '');
+          $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+          $( "#notif-utama .text" ).text( error.responseJSON.message);
+          return;
+        }
+      });
+        reloadData();
+    });
+    // save Transaksi
+    $('.btn-save').on('click', function () {
+      saveTransaction();
+    });
   }, 
   computed: {
-    //
+    // 
   }
 }
 </script>
@@ -122,6 +296,12 @@ export default {
 
 <template>
   <section class="content">
+    <input type="text" hidden id="data_discount" :value="discount">
+    <input type="text" hidden id="data_totalItem" :value="totalItem">
+    {{ totalItem }}
+    {{ totalPrice }}
+    {{ total_payment }}
+    {{ payment }}
     <!-- modal box for form -->
     <div class="modal fade" id="ModalData" tabindex="-1" aria-labelledby="ModalDataLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
@@ -138,7 +318,6 @@ export default {
           </div>
           <!-- /.modal-body -->
           <div class="modal-footer">
-            <button type="submit" class="btn btn-primary">Save</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancel</button>
           </div>
         </div>
@@ -176,6 +355,7 @@ export default {
               </table>
             </div>
             <!-- /.card-header -->
+            {{ purchasing_id }}
 
             <div class="card-body table-responsive">
               <form action="" class="form-product">
@@ -215,7 +395,7 @@ export default {
                         <td>{{ item.subtotal }}</td>
                         <td>
                           <div class="btn-group d-flex justify-content-around rounded" role="group" aria-label="Basic example">
-                            <button class="btn btn-xs btn-danger btn-flat"><i class="bi bi-trash"></i></button>
+                            <button :data-id="item.id" class="delete btn btn-xs btn-danger btn-flat"><i class="bi bi-trash"></i></button>
                           </div>
                         </td>
                       </tr>
@@ -224,7 +404,7 @@ export default {
               
                 <div class="row mt-4">
                   <div class="col-lg-8">
-                    <div class="paying-view bg-primary"></div>
+                    <div class="paying-view bg-primary">Rp {{ total_payment }},-</div>
                     <div class="read-view"></div>
                   </div>
                   <div class="col-lg-4">
@@ -236,19 +416,19 @@ export default {
                       <div class="form-group row">
                         <label for="totalrp" class="col-lg-4 control-label">Total</label>
                         <div class="col-lg-8">
-                          <input type="text" name="totalrp" id="totalrp" class="form-control" readonly>
+                          <input type="text" name="totalrp" id="totalrp" class="form-control" v-bind:value="totalPriceRp" readonly>
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="discount" class="col-lg-4 control-label">discount</label>
                         <div class="col-lg-8">
-                          <input type="number" min="0" max="100" name="discount" id="discount" class="form-control" value="0">
+                          <input type="number" min="0" max="100" name="discount" id="discount" class="form-control" :value="discount">
                         </div>
                       </div>
                       <div class="form-group row">
                         <label for="bayar" class="col-lg-4 control-label">Total Payment</label>
                         <div class="col-lg-8">
-                          <input type="text" name="bayar" id="bayar" class="form-control">
+                          <input type="text" name="bayar" id="bayar" class="form-control" :value="'Rp '+total_payment+',-'" readonly>
                         </div>
                       </div>
                     </form>

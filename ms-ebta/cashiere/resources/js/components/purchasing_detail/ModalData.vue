@@ -51,6 +51,7 @@ export default {
           // reload table
           console.log(response);
           // $('#table').DataTable().ajax.reload();
+          this.$parent.reloadData()
         })
         .fail(errors => {
           // set alert dan munculkan alert
@@ -60,7 +61,7 @@ export default {
           $('#notif-utama .text').html( 'tidak dapat menyimpan data' );
           return;
         });
-    }
+    },
   },
   mounted() {
     this.getProduct();
@@ -90,9 +91,7 @@ export default {
   <!-- Alert -->
   <div class="d-none" id="notif" data-not="1" role="alert">
     <span class="text">
-      <span v-for="(value, key) in pesanErr" class="d-block" :key="key">
-                  {{ value[0] }}
-      </span>
+      
     </span>
     <button type="button" class="btn-close" @click="closeNotif()"></button>
   </div>

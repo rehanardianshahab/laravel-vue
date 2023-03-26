@@ -9,7 +9,7 @@ export default {
               {data: 'DT_RowIndex', searchable: false, sortable: true},
               {data: 'date'},
               {data: 'supplier'},
-              {data: 'total_items'},
+              {data: 'total_item'},
               {data: 'total_price'},
               {data: 'discount'},
               {data: 'total_payment'},

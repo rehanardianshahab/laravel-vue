@@ -43,6 +43,17 @@ class PurchaseController extends Controller
     {
         $purchasing = Purchase::orderBy('id', 'desc')->with('supplier')->get();
         $purchasing->sesi = true;
+
+        // total item
+        foreach ($purchasing as $key => $value) {
+            $total_item = 0;
+            $purchasingDetail = PurchasingDetail::where('purchasing_id', $value->id)->get();
+            foreach ($purchasingDetail as $index => $item) {
+                $total_item += $item->item_qty;
+            }
+            $value->total_item = $total_item;
+        }
+
         foreach ($purchasing as $key => $value) {
             if ((Session::has('id'))) {
                 $value['sesi'] = 1;
@@ -79,7 +90,7 @@ class PurchaseController extends Controller
                     if ($purchasing->active == 1) {
                         return 
                         '<div class="btn-group d-flex justify-content-center">
-                            <a href="#" data-total="'.$purchasing->total_items.'" data-iddelete="'.$purchasing->id.'" class="deleteData btn btn-xs btn-danger btn-flate p-1"> Delete </a>
+                            <a href="#" data-total="'.$purchasing->total_item.'" data-iddelete="'.$purchasing->id.'" class="deleteData btn btn-xs btn-danger btn-flate p-1"> Delete </a>
                             <a href="#" data-idfinish="'.$purchasing->id.'" class="finishData btn btn-xs btn-warning btn-flate p-1"> Finish </a>
                         </div>';
                     } else {
@@ -195,6 +206,11 @@ class PurchaseController extends Controller
     public function update(Request $request, Purchase $purchase)
     {
         $purchase->update($request->all());
+        return response()->json([
+            'success' => true,
+            'message' => 'Data updated',
+            'data'    => $purchase  
+        ], 200);
     }
 
     /**
