@@ -34,7 +34,6 @@ export default {
       $.get(this.getApi+'/data')
             .done((response) => {
               this.product = response.data;
-              this.product = response.data[0].id;
             })
             .fail((error) => {
                 // set alert dan munculkan alert
@@ -65,7 +64,13 @@ export default {
   mounted() {
     $.get(this.url+`api/purchasing/data`)
             .done((response) => {
-              this.id = response.data[0].id;
+              // console.log(response);
+              let jml = response.data;
+              if (jml.length == 0) {
+                this.id = 0;
+              } else {
+                this.id = response.data[0].id;
+              }
             })
             .fail((error) => {
                 // set alert dan munculkan alert

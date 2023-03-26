@@ -87,19 +87,22 @@ export default {
     reloadData() {
       this.getDetil();
       this.getPurchasing();
-      this.setDiscount();
     },
     getTotal() {
       // console.log(this.detil);
       let detil = this.detil;
-      detil.forEach((element, key) => {
-        if (detil.length == key+1) {
-          this.totalPrice = element.total;
-          this.totalPriceRp = element.totalrp;
-          this.totalItem = element.qty_total;
-        }
-      });
-      // console.log(this.totalPrice);
+      if (detil.length == 0) {
+        // console.log('halo');
+      } else {
+        detil.forEach((element, key) => {
+          if (detil.length == key+1) {
+            this.totalPrice = element.total;
+            this.totalPriceRp = element.totalrp;
+            this.totalItem = element.qty_total;
+          }
+        });
+        // console.log(this.totalPrice);
+      }
     },
     setDiscount () {
       this.discount = this.purchasing.discount;
@@ -139,7 +142,7 @@ export default {
     },
     saveTransaction () {
       $.ajax({
-        url: this.url+'api/purchasing/'+this.purchasing_id,
+        url: this.url+'api/purchasing/'+this.purchasing_id+'/save',
         type: 'PUT',
         data: {
           _token:$("meta[name='csrf-token']").attr("content"),
@@ -163,13 +166,43 @@ export default {
         }
       });
       this.$router.push({name: 'purchasing'});
+    },
+    saveDiscount (nominal) {
+      if (nominal == '') {
+        nominal = 0;
+      } else if (nominal < 0) {
+        nominal = 0;
+      } else if (nominal > 100) {
+        nominal = 100;
+      }
+      const token = $("meta[name='csrf-token']").attr("content");
+      const url = this.url+"api/purchasing/"+this.purchasing_id+'/diskon';
+      // console.log(url);
+      $.ajax({
+        url: url,
+        type: 'PUT',
+        data: {
+          _token:token,
+          discount:nominal
+        },
+        success: function(response) {
+          console.log(response)
+        },
+        error: function(error) {
+          //Do Something to handle error
+          // set alert dan munculkan alert
+          $("#notif-utama").attr('class', '');
+          $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+          $( "#notif-utama .text" ).text( error.responseJSON.message);
+          return;
+        }
+      });
+        this.reloadData();
     }
   },
   mounted() {
     this.reloadData();
-    // this.setDiscount();
-    // this.getDetil();
-    // this.getPurchasing();
+    let saveDiscount = this.saveDiscount;
     let getApi = this.getApi;
     let saveTransaction = this.saveTransaction;
     let reloadData = this.reloadData;
@@ -204,36 +237,8 @@ export default {
     // set discount
     $(document).on('blur', '#discount', function () {
       let nominal = $(this).val();
-      if (nominal == '') {
-        nominal = 0;
-      } else if (nominal < 0) {
-        nominal = 0;
-      } else if (nominal > 100) {
-        nominal = 100;
-      }
-      const token = $("meta[name='csrf-token']").attr("content");
-      const url = urlweb+"api/purchasing/"+purchasing_id;
-      // console.log(url);
-      $.ajax({
-        url: url,
-        type: 'PUT',
-        data: {
-          _token:token,
-          discount:nominal
-        },
-        success: function(response) {
-          // console.log(response)
-        },
-        error: function(error) {
-          //Do Something to handle error
-          // set alert dan munculkan alert
-          $("#notif-utama").attr('class', '');
-          $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
-          $( "#notif-utama .text" ).text( error.responseJSON.message);
-          return;
-        }
-      });
-        reloadData();
+      // console.log(nominal);
+      saveDiscount(nominal);
     });
     // delete data
     $(document).on('click', '.delete', function () {
@@ -296,12 +301,6 @@ export default {
 
 <template>
   <section class="content">
-    <input type="text" hidden id="data_discount" :value="discount">
-    <input type="text" hidden id="data_totalItem" :value="totalItem">
-    {{ totalItem }}
-    {{ totalPrice }}
-    {{ total_payment }}
-    {{ payment }}
     <!-- modal box for form -->
     <div class="modal fade" id="ModalData" tabindex="-1" aria-labelledby="ModalDataLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">

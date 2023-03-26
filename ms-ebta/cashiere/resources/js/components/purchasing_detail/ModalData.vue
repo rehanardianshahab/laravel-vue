@@ -12,7 +12,7 @@ export default {
           {data: 'DT_RowIndex', searchable: false, sortable: true},
           {data: 'code'},
           {data: 'name'},
-          {data: 'sale'},
+          {data: 'buy'},
           {data: 'stock'},
           {data: 'action', searchable: false, sortable: false}
         ]

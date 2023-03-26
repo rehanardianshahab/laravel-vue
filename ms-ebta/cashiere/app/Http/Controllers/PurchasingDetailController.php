@@ -81,10 +81,18 @@ class PurchasingDetailController extends Controller
                 ->make(true);
     }
 
-    public function datapurchase(Purchase $purchase)
+    public function dataPurchase(string $purchase)
     {
-        $purchase->total_price_rp = money_format($purchase->total_price, '.', 'Rp ', ',-');
-        return $purchase;
+        $purchased = Purchase::find($purchase);
+        // return;
+        // return count(array($purchased));
+        if ($purchased == null) {
+            return;
+        }
+        return $purchased;
+        // return money_format((int)$purchased->total_price, '.', 'Rp ', ',-');
+        // $purchased->total_price_rp = money_format((int)$purchased->total_price, '.', 'Rp ', ',-');
+        // return $purchased;
     }
 
     public function data(string $id)
@@ -122,37 +130,6 @@ class PurchasingDetailController extends Controller
                 ->of($data)
                 ->addIndexColumn()
                 ->rawColumns(['action', 'code', 'item_qty'])
-                ->make(true);
-        return datatables()
-                ->of($purchasingDetail)
-                ->addIndexColumn()
-                ->addColumn('product_name', function ($purchasingDetail)
-                {
-                    return $purchasingDetail->product['name'];
-                })
-                ->addColumn('pricing_label', function ($purchasingDetail)
-                {
-                    return 'Rp. '.$purchasingDetail->pricing_label;
-                })
-                ->addColumn('item_qty', function ($purchasingDetail)
-                {
-                    return '<input type="number" min="1" name="item_qty'.$purchasingDetail->id.'" data-id="'.$purchasingDetail->id.'" class="form-control input-sm edit-qty" value="'.$purchasingDetail->item_qty.'">';
-                })
-                ->addColumn('subtotal', function ($purchasingDetail)
-                {
-                    return 'Rp. '.$purchasingDetail->subtotal;
-                })
-                ->addColumn('code', function ($purchasingDetail)
-                {
-                    return '<span class="badge badge-success">'.$purchasingDetail->product['code'].'</span>';
-                })
-                ->addColumn('action', function ($purchasingDetail)
-                {
-                    return 
-                    '<div class="btn-group d-flex justify-content-around rounded" role="group" aria-label="Basic example">'.
-                        '<button onclick="deleteData(`'.route('purchasing_detail.destroy', $purchasingDetail->id).'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i></button>'
-                    .'</div>';
-                })->rawColumns(['action', 'code', 'item_qty'])
                 ->make(true);
     }
 

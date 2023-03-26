@@ -71,7 +71,8 @@ Route::group(['prefix' => 'purchasing'], function() {
     Route::get('/dataSupplier', [PurchaseController::class, 'dataSupplier']);
     Route::delete('/{purchase}', [PurchaseController::class, 'destroy']);
     Route::resource('/', PurchaseController::class)->except('create');
-    Route::put('/{purchase}', [PurchaseController::class, 'update']);
+    Route::put('/{id}/diskon', [PurchaseController::class, 'diskonUpdate']);
+    Route::put('/{id}/save', [PurchaseController::class, 'save']);
 });
 
 Route::group(['prefix' => 'purchasing-detail'], function() {

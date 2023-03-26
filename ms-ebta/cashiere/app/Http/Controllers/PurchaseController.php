@@ -195,21 +195,49 @@ class PurchaseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Purchase $purchase)
+    public function save(string $id, Request $request)
     {
-        //
+        $purchased = Purchase::find($id);
+        $purchased->update($request->all());
+
+        $detail = PurchasingDetail::where('purchasing_id', $id)->get();
+        foreach ($detail as $key => $value) {
+            $product = Product::find($value->product_id);
+            $product->stock += $value->item_qty;
+            $product->update();
+        }
     }
+
+    // /**
+    //  * Update the specified resource in storage.
+    //  */
+    // public function update(Request $request, string $purchase)
+    // {
+    //     $purchased = Purchase::find($purchase);
+    //     // return 'hai';
+    //     $purchased->update($request->all());
+
+    //     return response()->json([
+    //         'success' => true,
+    //         'message' => 'Data updated',
+    //         'data'    => $purchased  
+    //     ], 200);
+    // }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Purchase $purchase)
+    public function diskonUpdate(Request $request, string $id)
     {
-        $purchase->update($request->all());
+        // return $request;
+        $purchased = Purchase::find($id);
+        // return 'hai';
+        $purchased->update($request->all());
+
         return response()->json([
             'success' => true,
             'message' => 'Data updated',
-            'data'    => $purchase  
+            'data'    => $purchased  
         ], 200);
     }
 
