@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
+use App\Models\Transaction;
 use App\Models\TransactionDetail;
 use Illuminate\Http\Request;
 
+
+
 class TransactionDetailController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,23 @@ class TransactionDetailController extends Controller
      */
     public function index()
     {
+    
         return view ('admin.transactionDetail.index');
+    }
+
+    public function api()
+    {
+        $details = TransactionDetail::selectRaw('transaction_details.*, books.title')
+                                    ->join('books', 'books.id','=','transaction_details.book_id')
+                                    ->groupBy('transaction_details.id')
+                                    ->get();
+
+        $datatables = datatables()->of($details)
+                                ->addColumn('date', function($transactionDetail) {
+                                    return convert_date ($transactionDetail->created_at);
+                                })->addIndexColumn();
+
+        return $datatables->make(true);
     }
 
     /**
@@ -24,7 +48,7 @@ class TransactionDetailController extends Controller
      */
     public function create()
     {
-        //
+       //
     }
 
     /**
@@ -35,7 +59,7 @@ class TransactionDetailController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       //
     }
 
     /**
@@ -78,8 +102,11 @@ class TransactionDetailController extends Controller
      * @param  \App\Models\TransactionDetail  $transactionDetail
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TransactionDetail $transactionDetail)
+    public function destroy($id, TransactionDetail $transactionDetail)
     {
-        //
+        $transactionDetail = TransactionDetail::find($id);
+        $transactionDetail->delete();
+
+        return redirect('details');
     }
 }

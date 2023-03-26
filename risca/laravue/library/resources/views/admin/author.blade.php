@@ -112,46 +112,5 @@
 	];
 </script>
 <script src="{{ asset('js/data.js') }}"></script>
-<!-- js memanggil plugin datatables -->
-<!-- <script type="text/javascript">
-	$(function () {
-    $("#datatable").DataTable();
-  });
-</script> -->
-<!-- CRUD Vue Js -->
-<!-- <script type="text/javascript">
-	var controller = new Vue({
-		el: '#controller',
-		data: {
-			data : {},
-			actionUrl : '{{ url('authors') }}',
-			editStatus : false
-		},
-		mounted: function () {
 
-		},
-		methods: {
-			addData() {
-				this.data = {};
-				this.actionUrl = '{{ url('authors') }}';
-				this.editStatus = false;
-				$('#modal-default').modal();
-			},
-			editData(data) {
-				this.data = data;
-				this.actionUrl = '{{ url('authors') }}'+'/'+data.id;
-				this.editStatus = true;
-				$('#modal-default').modal();
-			},
-			deleteData(id) {
-				this.actionUrl = '{{ url('authors') }}'+'/'+id;
-				if (confirm("Are you sure ?")) {
-					axios.post(this.actionUrl, {_method: 'DELETE'}).then(response => {
-						location.reload();
-					});
-				}
-			}
-		}
-	});
-</script> -->
 @endsection

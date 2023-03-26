@@ -19,7 +19,7 @@ return new class extends Migration
             $table->bigInteger('total');
             $table->timestamps();
 
-            $table->foreign('transaction_id')->references('id')->on('transactions');
+            $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');
         });
     }
 
