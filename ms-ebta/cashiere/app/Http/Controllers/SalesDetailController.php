@@ -12,9 +12,52 @@ class SalesDetailController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function data(string $id)
     {
-        //
+        $salesDetail = SalesDetail::with('product')->where('sale_id', $id)->get();
+        $data = array();
+        $total = 0;
+        $total_item = 0;
+
+        foreach ($salesDetail as $key => $value) {
+            $row = array();
+            $row['DT_RowIndex']   = $key+1;
+            $row['code']          = '<span class="badge text-bg-success">'.$value->product['code'].'</span>';
+            $row['product_name']  = $value->product['name'];
+            $row['discount']      = $value->product->discount.' %';
+            $row['selling_price'] = money_format($value->selling_price, '.', 'Rp ', ',-');
+            $row['item_qty']      = '<input type="number" min="1" name="item_qty'.$value->id.'" data-id="'.$value->id.'" data-discount="'.$value->product->discount.'" class="form-control input-sm edit-qty" value="'.$value->qty.'">';
+            
+            $hargatotal = $value->selling_price*$value->qty;
+            $discount = ($value->product->discount/100)*$hargatotal;
+
+            $row['subtotal']      = money_format($hargatotal-$discount, '.', 'Rp ', ',-');
+            $row['action']        = '<div class="btn-group d-flex justify-content-around rounded" role="group" aria-label="Basic example">'.
+                                        '<button class="btn btn-xs btn-danger btn-flat"><i class="bi bi-trash"></i></button>'
+                                    .'</div>';
+            $data[] = $row;
+
+            $total += $hargatotal-$discount;
+            $total_item += $value->qty;
+        }
+        $data[] = [
+            'code' => '
+                <input type="hidden" class="total d-none" value="'. $total .'">
+                <input type="hidden" class="total d-none" value="'. $total_item .'">',
+            'product_name' => '',
+            'selling_price' => '',
+            'item_qty' => '',
+            'discount' => '',
+            'subtotal' => '',
+            'action' => '',
+        ];
+        
+        // return $data;
+        return datatables()
+                ->of($data)
+                ->addIndexColumn()
+                ->rawColumns(['action', 'code', 'item_qty'])
+                ->make(true);
     }
 
     /**

@@ -97,6 +97,7 @@ Route::group(['prefix' => 'selling'], function() {
 Route::group(['prefix' => 'selling-detail'], function() {
     Route::get('/dataProduct', [SalesDetailController::class, 'dataProduct']);
     Route::post('/store', [SalesDetailController::class, 'store']);
+    Route::get('/{id}', [SalesDetailController::class, 'data']);
 });
 
 Route::group(['prefix' => 'purchasing-detail'], function() {

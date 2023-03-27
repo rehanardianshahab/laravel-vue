@@ -105,6 +105,7 @@ export default {
 </style>
 
 <template>
+<div class="card-body table-responsive">
   <table id="tableSupplier" class="table table-bordered table-striped" width="100%">
     <thead>
       <tr>
@@ -118,4 +119,5 @@ export default {
     <tbody>
     </tbody>
   </table>
+</div>
 </template>

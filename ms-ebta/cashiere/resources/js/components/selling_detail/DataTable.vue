@@ -17,7 +17,7 @@ export default {
         ],
       // for api url
         url: import.meta.env.VITE_APP_URL,
-        getApi: import.meta.env.VITE_APP_API+'/purchasing',
+        getApi: import.meta.env.VITE_APP_API+'/selling-detail',
       // for post sata
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       // for confirm box
@@ -62,9 +62,18 @@ export default {
       }   
       return;
     },
+    datatable() {
+      $('#table').DataTable({
+        ajax: {
+          url: this.getApi+'/'+this.selling_id,
+          type: 'GET',
+        },//memanggil data dari data api dengan ajax, disimpan di DataTable
+        columns: this.columns,
+      });
+    }
   },
   mounted() {
-    //
+    this.datatable();
   }
 }
 </script>
@@ -86,9 +95,9 @@ export default {
         padding-top: 5px;
       }
     }
-    #table tbody tr:last-child {
-      display: none;
-    }
+  .table tbody tr:last-child {
+    display: none;
+  }
 </style>
 
 <template>

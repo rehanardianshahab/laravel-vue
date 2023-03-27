@@ -11,6 +11,7 @@ export default {
               {data: 'name'},
               {data: 'brand'},
               {data: 'sale'},
+              {data: 'stock'},
               {data: 'action', searchable: false, sortable: false}
           ],
       // for api url
@@ -20,7 +21,7 @@ export default {
   },
   methods: {
     datatable() {
-      $('#tableSupplier').DataTable({
+      $('#tableProduct').DataTable({
         ajax: {
           url: this.url+'api/selling-detail/dataProduct',
           type: 'GET',
@@ -33,7 +34,6 @@ export default {
     this.datatable();
     // console.log(this.$parent);
     let addPesan = this.$parent.addPesan;
-    let closeNotif = this.$parent.closeNotif;
     let url = this.url;
     let selling_id = this.$parent.selling_id;
 
@@ -50,6 +50,7 @@ export default {
           },
           success: function(response) {
             $('#ModalData').modal('hide');
+            $('#table').DataTable().ajax.reload();
           },
           error: function(error) {
             // set alert dan munculkan alert
@@ -71,22 +72,24 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
 
 <template>
-  <table id="tableSupplier" class="table table-bordered table-striped" width="100%">
-    <thead>
-      <tr>
-        <th width="5%">No</th>
-        <th>Code</th>
-        <th>Name</th>
-        <th>Brand</th>
-        <th>Price</th>
-        <th width="15%"><i class="bi bi-gear-wide-connected"></i></th>
-      </tr>
-    </thead>
-    <tbody>
-    </tbody>
-  </table>
+  <div class="card-body table-responsive">
+    <table id="tableProduct" class="table table-bordered table-striped" width="100%">
+      <thead>
+        <tr>
+          <th width="5%">No</th>
+          <th>Code</th>
+          <th>Name</th>
+          <th>Brand</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th width="15%"><i class="bi bi-gear-wide-connected"></i></th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
 </template>
