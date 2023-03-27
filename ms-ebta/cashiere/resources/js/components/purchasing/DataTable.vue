@@ -237,8 +237,6 @@ export default {
               <div class="btn-group">
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary xs btn-flat rounded" @click="addForm()"><i class="bi bi-patch-plus"></i> Add</button>
-                <button id="multipledelete" class="btn btn-danger xs btn-flat rounded mx-1 d-none" @click="deleteSelected('/delete-selected')"><i class="bi bi-trash"></i> Delete</button>
-                <button id="cetak" class="btn btn-secondary xs btn-flat rounded mx-1 d-none" @click="cetakBarcode('cetak-barcode')"><i class="bi bi-upc-scan"></i> Cetak Label Price</button>
               </div>
             </div>
             <!-- /.card-header -->

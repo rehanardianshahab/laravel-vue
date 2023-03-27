@@ -4,9 +4,11 @@ import Dashboar from './components/Dashboar.vue';
 import Category from './components/Category.vue';
 import Product from './components/Product.vue';
 import Member from './components/Member.vue';
-import purchasing from './components/Purchasing.vue';
 import supplier from './components/Supplier.vue';
+import purchasing from './components/Purchasing.vue';
 import purchasingDetail from './components/Purchasing_detail.vue';
+import selling from './components/Selling.vue';
+import sellingDetail from './components/Selling_detail.vue';
 
 let routes = [
     {
@@ -43,6 +45,16 @@ let routes = [
         path: '/purchasing-detail/:id',
         name: 'purchasing-detail',
         component: purchasingDetail,
+    },
+    {
+        path: '/selling',
+        name: 'selling',
+        component: selling,
+    },
+    {
+        path: '/selling-detail/:id',
+        name: 'selling-detail',
+        component: sellingDetail,
     }
 ];
 

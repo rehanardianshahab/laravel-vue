@@ -181,8 +181,8 @@
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Transaction</a>
                             <ul class="dropdown-menu">
                                 <li><router-link to="/purchasing" class="dropdown-item" aria-current="page">Purchase</router-link></li>
+                                <li><router-link to="/selling" class="dropdown-item" aria-current="page">Sale</router-link></li>
                             </ul>
-                            {{-- <li><router-link to="/product" class="dropdown-item" aria-current="page">product</router-link></li> --}}
                         </li>
                         <router-link to="/purchasing-detail" class="nav-link" aria-current="page">Sample</router-link>
                     </ul>

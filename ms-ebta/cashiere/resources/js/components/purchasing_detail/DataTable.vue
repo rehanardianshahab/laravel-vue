@@ -330,7 +330,9 @@ export default {
 
             <!-- Alert -->
             <div class="d-none" id="notif-utama" role="alert">
-                <span class="text"></span>
+              <span class="text">
+                {{ pesanErr }}
+              </span>
               <button type="button" class="btn-close" @click="closeNotif()"></button>
             </div>
             <!-- /.alert -->

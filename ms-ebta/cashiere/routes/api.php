@@ -6,6 +6,8 @@ use App\Http\Controllers\MemberController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PurchasingDetailController;
+use App\Http\Controllers\SaleController;
+use App\Http\Controllers\SalesDetailController;
 use App\Http\Controllers\PurchaseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -73,6 +75,28 @@ Route::group(['prefix' => 'purchasing'], function() {
     Route::resource('/', PurchaseController::class)->except('create');
     Route::put('/{id}/diskon', [PurchaseController::class, 'diskonUpdate']);
     Route::put('/{id}/save', [PurchaseController::class, 'save']);
+});
+
+Route::group(['prefix' => 'purchasing-detail'], function() {
+    Route::get('/{id}/create', [PurchasingDetailController::class, 'create'])->name('purchase.create');
+    Route::get('/{id}/data', [PurchasingDetailController::class, 'data'])->name('purchase.data');
+    Route::delete('/{id}', [PurchasingDetailController::class, 'destroy']);
+    Route::get('/dataProduct', [PurchasingDetailController::class, 'dataProduct']);
+    Route::get('/{purchase}/dataPurchase', [PurchasingDetailController::class, 'dataPurchase']);
+    Route::post('/{product}/{id}/store', [PurchasingDetailController::class, 'store']);
+    Route::post('/{id}/update', [PurchasingDetailController::class, 'update']);
+    Route::resource('/', PurchasingDetailController::class)->except('create');
+});
+
+Route::group(['prefix' => 'selling'], function() {
+    Route::get('/', [SaleController::class, 'index']);
+    Route::post('/new', [SaleController::class, 'create']);
+    Route::put('/{id}/save', [SaleController::class, 'save']);
+});
+
+Route::group(['prefix' => 'selling-detail'], function() {
+    Route::get('/dataProduct', [SalesDetailController::class, 'dataProduct']);
+    Route::post('/store', [SalesDetailController::class, 'store']);
 });
 
 Route::group(['prefix' => 'purchasing-detail'], function() {

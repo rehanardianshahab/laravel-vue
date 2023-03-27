@@ -16,9 +16,7 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        $supplier = Supplier::orderBy("name")->get();
-
-        return view("content.purchase.index", compact("supplier"));
+        
     }
 
     public function dataSupplier()
