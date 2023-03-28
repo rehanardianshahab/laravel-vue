@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\salesDetail;
+use App\Models\sale;
+use App\Models\member;
+use App\Models\setting;
 
 use Illuminate\Http\Request;
 
@@ -26,6 +29,9 @@ class SalesDetailController extends Controller
             $row['product_name']  = $value->product['name'];
             $row['discount']      = $value->product->discount.' %';
             $row['selling_price'] = money_format($value->selling_price, '.', 'Rp ', ',-');
+            $row['sellingPrice']  = $value->selling_price;
+            $row['Discount']      = $value->discount;
+            $row['Qty']           = $value->qty;
             $row['item_qty']      = '<input type="number" min="1" name="item_qty'.$value->id.'" data-id="'.$value->id.'" data-discount="'.$value->product->discount.'" class="form-control input-sm edit-qty" value="'.$value->qty.'">';
             
             $hargatotal = $value->selling_price*$value->qty;
@@ -40,17 +46,6 @@ class SalesDetailController extends Controller
             $total += $hargatotal-$discount;
             $total_item += $value->qty;
         }
-        $data[] = [
-            'code' => '
-                <input type="hidden" class="total d-none" value="'. $total .'">
-                <input type="hidden" class="total d-none" value="'. $total_item .'">',
-            'product_name' => '',
-            'selling_price' => '',
-            'item_qty' => '',
-            'discount' => '',
-            'subtotal' => '',
-            'action' => '',
-        ];
         
         // return $data;
         return datatables()
@@ -91,9 +86,26 @@ class SalesDetailController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function dataMember()
     {
-        //
+        $member = Member::orderBy('name')->get();
+        return datatables()->of($member)
+                ->addColumn('code_label', function ($member)
+                {
+                    return '<span class="badge bg-warning text-dark">'.$member->code.'</span>';
+                })
+                ->addColumn('action', function ($member)
+                {
+                    return 
+                    '
+                        <a href="#" data-id="'.$member->id.'" class="choseproduct btn btn-primary btn-xs btn-flat">
+                            Pilih
+                        </a>
+                    ';
+                })
+                ->addIndexColumn()
+                ->rawColumns(['action', 'code_label'])
+                ->make(true);
     }
 
     /**
@@ -111,7 +123,7 @@ class SalesDetailController extends Controller
         $detail->sale_id = $request->selling_id;
         $detail->product_id = $request->id;
         $detail->selling_price = $product->selling_price;
-        $detail->discount = 0;
+        $detail->discount = $product->discount;
         $detail->qty = 1;
         $detail->customer_money = 0;
         $detail->subtotal_prices = $detail->selling_price*$detail->qty;
@@ -123,17 +135,58 @@ class SalesDetailController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Sale $sale)
     {
-        //
+        $sale = array($sale)[0];
+        $code = null;
+        if ($sale->member_id != null) {
+            $member = Member::where('id', $sale->member_id)->get()[0];
+            $code = $member->code;
+        } else {
+            $code = null;
+        }
+        $data = $arrayName = array(
+            'member_code' => $code,
+            'discount' => $sale->discount
+        );
+        return response()->json([
+            'success' => true,
+            'message' => 'Data updated',
+            'data'    => $data  
+        ], 200);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function memberUpdate(Request $request)
     {
-        //
+        // ----------------get data--------------------
+            $saleData = Sale::where('id', $request->selling_id)->get()[0];
+            // return $saleData;
+            $setting = Setting::get()[0];
+        // --------------------------------------------
+        // -----------------update---------------------
+            if ($request->member_id == null) {
+                $dataUpdate = array(
+                    'member_id' => $request->member_id,
+                    'discount' => 0,
+                );
+            } else {
+                $dataUpdate = array(
+                    'member_id' => $request->member_id,
+                    'discount' => $setting->discount,
+                );
+            }
+        // --------------------------------------------
+        // -----------------update---------------------
+            $saleData->update($dataUpdate);
+        // --------------------------------------------
+        return response()->json([
+            'success' => true,
+            'message' => 'Data updated',
+            'data'    => $saleData  
+        ], 200);
     }
 
     /**
@@ -141,7 +194,28 @@ class SalesDetailController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // ----------------get data--------------------
+            $data = SalesDetail::where('id', $id)->get();
+            $data = $data[0];
+        // --------------------------------------------
+        // ----------------counting--------------------
+            $total = $data->selling_price*$request->qty;
+            $hasil = $total-(($data->discount/100)*$total);
+        // --------------------------------------------
+        // ----------------valuasi---------------------
+            $valuation = array(
+                'qty' => $request->qty,
+                'subtotal_prices' => $hasil
+            );
+        // --------------------------------------------
+        // -----------------update---------------------
+            $data->update($valuation);
+        // --------------------------------------------
+        return response()->json([
+            'success' => true,
+            'message' => 'Data updated',
+            'data'    => $data  
+        ], 200);
     }
 
     /**

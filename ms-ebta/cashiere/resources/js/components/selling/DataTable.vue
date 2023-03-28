@@ -36,7 +36,7 @@ export default {
     addTransaction() {
       $.post(this.url+`api/selling/new`)
             .done((response) => {
-              console.log(response.data);
+              // console.log(response.data);
               // $('#FormModal').modal('hide');
               this.$router.push({name: 'selling-detail', params: { id: response.data.id }});
             })
