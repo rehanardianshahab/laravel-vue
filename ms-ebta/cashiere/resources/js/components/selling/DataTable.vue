@@ -6,16 +6,25 @@ export default {
     return {
       // for datatables
         columns: [
-          
+            {data: 'DT_RowIndex', searchable: false, sortable: true},
+            {data: 'date'},
+            {data: 'member_code'},
+            {data: 'total_item'},
+            {data: 'pricing_total'},
+            {data: 'discount'},
+            {data: 'subtotal_prices'},
+            {data: 'customer_money'},
+            {data: 'action', searchable: false, sortable: false}
         ],
       // for api url
         url: import.meta.env.VITE_APP_URL,
-        getApi: import.meta.env.VITE_APP_API+'/purchasing',
+        getApi: import.meta.env.VITE_APP_API+'/selling',
       // for post sata
         csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
       // for confirm box
         pesanErr: '',
-        confirm: ''
+        confirm: '',
+        activated: false
     }
   },
   methods: {
@@ -62,10 +71,62 @@ export default {
                 return;
             });
     },
-    // 
+    blockTransaction() {
+      $('#modalConfirm').modal('show');
+      $('#modalConfirmLabel').text('Sorry');
+    },
+    datatable() {
+      $('#table').DataTable({
+        ajax: {
+          url: this.getApi+'/datatable',
+          type: 'GET',
+        },//memanggil data dari data api dengan ajax, disimpan di DataTable
+        columns: this.columns,
+      });
+    },
+    checked(params) {
+      this.activated = params;
+    },
+    getDataSale() {
+        let checked = this.checked;
+        $.ajax({
+          url: this.getApi+'/datatable',
+          type: 'GET',
+          success: function(response) {
+            let active = response.data.filter(( {active} ) => [1].includes(active));
+            if (active.length > 0) {
+              checked(true);
+            }
+          },
+          error: function(error) {
+            // set alert dan munculkan alert
+            $("#notif-utama").attr('class', '');
+            $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+            
+            addPesan(error);
+            return;
+          }
+        });
+    },
+    redirect(id, name) {
+      this.$router.push({name:name, params: { id:id }});
+    },
   },
   mounted() {
-    //
+    this.datatable();
+    this.getDataSale();
+    let redirect = this.redirect;
+
+    // const self = this === select supplier
+    $('tbody', this.$refs.table).on( 'click', '.finishData', function(){
+        let theid = $(this).attr('data-idfinish');
+        redirect(theid, 'selling-detail');
+    });
+    // const self = this === select supplier
+    $('tbody', this.$refs.table).on( 'click', '.see', function(){
+        let theid = $(this).attr('data-idsee');
+        redirect(theid, 'selesai');
+    });
   }
 }
 </script>
@@ -81,11 +142,13 @@ export default {
             <h5 class="modal-title fs-5" id="modalConfirmLabel">Konfirmasi</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div class="modal-body">
+          <div class="modal-body" v-if="activated">
+            Ada Transaksi yang Masih Aktif. Tolong Selesaikan Transaksi Tersebut Lebih Dahulu
+            Baru Membuat Transaksi Baru.
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <span :data-term="confirm" id="confirm" class="btn confirm btn-primary">Yes</span>
+            <span :data-term="confirm" id="confirm" class="btn confirm btn-primary" v-if="!activated">Yes</span>
           </div>
         </div>
       </div>
@@ -111,24 +174,25 @@ export default {
             <div class="card-header">
               <div class="btn-group">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary xs btn-flat rounded" @click="addTransaction()"><i class="bi bi-patch-plus"></i> Add</button>
+                <button type="button" class="btn btn-primary xs btn-flat rounded" v-if="!activated" @click="addTransaction()"><i class="bi bi-patch-plus"></i> Add</button>
+                <button type="button" class="btn btn-primary xs btn-flat rounded" v-else @click="blockTransaction()"><i class="bi bi-patch-plus"></i> Add</button>
               </div>
             </div>
             <!-- /.card-header -->
 
             <div class="card-body table-responsive">
-              <form action="" class="form-product">
                 <input type="hidden" name="_token" :value="csrf">
-                <table id="table" class="table table-bordered table-striped">
+                <table id="table" class="table table-bordered table-striped"  style="text-align: center;">
                   <thead>
                     <tr role="row">
                       <th width="5%">No</th>
                       <th>Date</th>
-                      <th>Supplier</th>
+                      <th>Member</th>
                       <th>Total Item</th>
                       <th>Total Price</th>
                       <th>Discount</th>
                       <th>Total Payment</th>
+                      <th>Customer Money</th>
                       <th width="15%" class="fs-4"><i class="bi bi-gear-wide-connected"></i></th>
                     </tr>
                   </thead>
@@ -136,7 +200,6 @@ export default {
 
                   </tbody>
                 </table>
-              </form>
             </div>
             <!-- ./card-body -->
             <div class="card-footer">

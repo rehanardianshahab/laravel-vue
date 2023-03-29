@@ -20,9 +20,10 @@ export default {
 </style>
 
 <template>
+<div>
   <Header
   	:title="title"
 	></Header>
-  {{ this.$route.params.id }}
   <DataTable></DataTable>
+</div>
 </template>

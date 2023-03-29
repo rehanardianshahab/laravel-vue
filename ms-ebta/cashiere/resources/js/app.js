@@ -9,6 +9,7 @@ import purchasing from './components/Purchasing.vue';
 import purchasingDetail from './components/Purchasing_detail.vue';
 import selling from './components/Selling.vue';
 import sellingDetail from './components/Selling_detail.vue';
+import selesai from './components/Selesai.vue';
 
 let routes = [
     {
@@ -55,6 +56,11 @@ let routes = [
         path: '/selling-detail/:id',
         name: 'selling-detail',
         component: sellingDetail,
+    },
+    {
+        path: '/selesai/:id',
+        name: 'selesai',
+        component: selesai,
     }
 ];
 

@@ -27,11 +27,13 @@ export default {
         pesanErr: '', // to showing error in modal
         salesData: '', // data of current ransaction
         member_code: null, // data code of member
+        member_id: null, // data code of member
         discount: 0, // discount of transaction
         costumer_money: 0, // money costumer
-        modal: true,
+        key: 0,
         totalItem: 0, // total of item
-        totalPrice: 0 // total of price without discount form store
+        totalPrice: 0, // total of price without discount form store
+        stock: 0
     }
   },
   methods: {
@@ -52,6 +54,14 @@ export default {
     showProduct () {
       $('#ModalData').modal('show');
       $('#ModalDataLabel').text('Add New Product');
+      this.key = 2;
+      this.modal = true;
+    },
+    showMember () {
+      $('#ModalData').modal('show');
+      $('#ModalDataLabel').text('Add Member');
+      this.key = 3;
+      this.notif = false;
     },
     addPesan(error) {
       // isi tulisan
@@ -152,6 +162,7 @@ export default {
     setDataMemberAndDiscount(data) {
       this.discount = data.discount;
       this.member_code = data.member_code;
+      this.member_id = data.member_id;
     },
     getDataMemberAndDiscount () {
       // get data sellding detail
@@ -205,61 +216,152 @@ export default {
             return;
           }
         })
+    },
+    redirect(id) {
+      this.$router.push({name: 'selesai', params: { id: id }});
+    },
+    saveData() {
+      let addPesan = this.addPesan;
+      let redirect = this.redirect; 
+      if (this.costumer_money < this.payment_total) {
+        this.key = 1;
+        // set alert dan munculkan alert
+        $('#ModalData').modal('show');
+        $('#ModalDataLabel').text("Sorry");
+        return;
+      } else {
+        let selling_id = this.selling_id;
+        let memberid = this.member_id;
+        let itemqty = this.totalItem;
+        let totalPrice = this.totalPrice;
+        let disc = this.discount;
+        let url = this.url;
+        let payment_total = this.payment_total;
+        let costumermoney = this.costumer_money;
+        $.ajax({
+          url: url+'api/selling/'+selling_id+'/save',
+          type: 'PUT',
+          data: {
+            id: selling_id,
+            member_id: memberid,
+            total_item: itemqty,
+            discount: disc,
+            pricing_total: totalPrice,
+            subtotal_prices: payment_total,
+            customer_money: costumermoney,
+            active: 0
+          },
+          success: function(response) {
+            console.log(response);
+            redirect(selling_id);
+            // getData();
+            // $('#table').DataTable().ajax.reload();
+          },
+          error: function(error) {
+            // set alert dan munculkan alert
+            $("#notif-utama").attr('class', '');
+            $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+              
+            addPesan(error);
+            return;
+          }
+        });
+      }
+    },
+    warning(key, stock) {
+      $('#ModalData').modal('show');
+      $('#ModalDataLabel').text('Peringatan');
+      this.key = key;
+      this.stock = stock;
+    },
+    deleteData (id) {
+      let addPesan = this.addPesan;
+      let getData = this.getData;
+      $.ajax({
+          url: this.getApi+'/'+id,
+          type: 'DELETE',
+          // data: {
+          //   selling_id:selling_id,
+          // },
+          success: function(response) {
+            $('#table').DataTable().ajax.reload();
+            getData();
+          },
+          error: function(error) {
+            // set alert dan munculkan alert
+            $("#notif-utama").attr('class', ''); 
+            $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+            
+            addPesan(error);
+            return;
+          }
+      });
     }
   },
   mounted() {
     this.getDataMemberAndDiscount();
     this.datatable();
     this.getData();
-    
+
     // inisiasi
     let url = this.url;
     let addPesan = this.addPesan;
     let getData = this.getData;
     let selling_id = this.selling_id;
+    let warning = this.warning;
+    let deleteData = this.deleteData;
 
     $('tbody', this.$refs.table).on( 'blur', '.edit-qty', function(){
         let theid = $(this).attr('data-id');
+        let thestock = $(this).attr('data-stock');
         let discounted = $(this).attr('data-discount');
         let value = $(this).val();
+
+
         if (value == '') {
           value = 1;
         } else if (value == 0) {
           value = 1;
+        } else if (parseInt(value) > parseInt(thestock)) {
+          warning (4, thestock);
+          value = thestock;
+          console.log(value);
         }
-        // update database
-        $.ajax({
-          url: url+'api/selling-detail/'+theid,
-          type: 'PUT',
-          data: {
-            id: theid,
-            qty:value,
-            discount: discounted,
-            subtotal_prices:0
-          },
-          success: function(response) {
-            getData();
-            $('#table').DataTable().ajax.reload();
-          },
-          error: function(error) {
-            // set alert dan munculkan alert
-            $("#notif-utama").attr('class', '');
-            $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
-            
-            addPesan(error);
-            return;
-          }
-        });
+
+          // update database
+          $.ajax({
+            url: url+'api/selling-detail/'+theid,
+            type: 'PUT',
+            data: {
+              id: theid,
+              qty:value,
+              discount: discounted,
+              subtotal_prices:0
+            },
+            success: function(response) {
+              getData();
+              $('#table').DataTable().ajax.reload();
+            },
+            error: function(error) {
+              // set alert dan munculkan alert
+              $("#notif-utama").attr('class', '');
+              $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+              
+              addPesan(error);
+              return;
+            }
+          });
     });
+    $('tbody', this.$refs.table).on( 'click', '.delete', function(){
+        let theid = $(this).attr('data-id');
+        deleteData(theid)
+    })
   },
   computed: {
     payment_total: function () {
       let discounted = this.totalPrice-((this.discount/100)*this.totalPrice);
       return discounted;
     },
-    // money_back: function () {
-    //   return this.costumer_money;
-    // }
   }
 }
 </script>
@@ -293,15 +395,21 @@ export default {
             <h5 class="modal-title" id="ModalDataLabel">Modal title</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
-          <div v-if="modal">
-            <productData></productData>
+          <div v-if="key == 1" class="modal-body">
+            <div id="text-modal">Maaf Uang Pembayaran Masih Kurang</div>
           </div>
-          <div v-else>
+          <div v-else-if="key == 2" class="modal-body">
+              <productData></productData>
+          </div>
+          <div v-else-if="key == 3" class="modal-body">
             <memberData></memberData>
+          </div>
+          <div v-else-if="key == 4" class="modal-body">
+            <div id="text-modal">Stok Barang ini hanya tinggal {{ stock }}.</div>
           </div>
           <!-- /.modal-body -->
           <div class="modal-footer">
-            <button type="button" data-id="" id="reset" class="btn btn-primary" @click="resetMember()">Reset</button>
+            <button type="button" data-id="" id="reset" class="btn btn-primary" @click="resetMember()" v-if="key == 3">Reset</button>
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancel</button>
           </div>
         </div>
@@ -334,8 +442,8 @@ export default {
                   <label for="code">Code Product</label>
                   <div class="col-lg-5">
                     <div class="input-group">
-                      <input type="text" name="code" id="code-product" class="form-control" placeholder="Add Product Code" @click="showProduct(); modal = true;">
-                      <button class="input-group-text btn btn-info btn-flat" type="button" @click="showProduct(); modal = true;"><i class="bi bi-arrow-bar-right"></i></button>
+                      <input type="text" name="code" id="code-product" class="form-control" placeholder="Add Product Code" @click="showProduct();">
+                      <button class="input-group-text btn btn-info btn-flat" type="button" @click="showProduct();"><i class="bi bi-arrow-bar-right"></i></button>
                     </div>
                   </div>
                 </div>
@@ -379,8 +487,8 @@ export default {
                         <label for="member" class="col-lg-4 control-label">Member</label>
                         <div class="col-lg-8">
                           <div class="input-group">
-                            <input type="text" name="member" id="member" class="form-control" placeholder="input member" @click="showProduct(); modal = false;" :value="member_code">
-                            <button class="input-group-text btn btn-info btn-flat" type="button" @click="showProduct(); modal = false;"><i class="bi bi-arrow-bar-right"></i></button>
+                            <input type="text" name="member" id="member" class="form-control" placeholder="input member" @click="showMember();" :value="member_code">
+                            <button class="input-group-text btn btn-info btn-flat" type="button" @click="showMember();"><i class="bi bi-arrow-bar-right"></i></button>
                           </div>
                         </div>
                       </div>
@@ -410,7 +518,7 @@ export default {
             </div>
             <!-- ./card-body -->
             <div class="card-footer">
-              <div class="btn btn-primary pull-right btn-save"><i class="fa fa-floppy-o"> Simpan Transaksi</i></div>
+              <div class="btn btn-primary pull-right btn-save" @click="saveData()"><i class="fa fa-floppy-o"> Simpan Transaksi</i></div>
             </div>
             <!-- /.card-footer -->
           </div>

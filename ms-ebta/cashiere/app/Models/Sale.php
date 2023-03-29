@@ -11,4 +11,9 @@ class Sale extends Model
 
     protected $table = 'sales';
     protected $guarded = ['id'];
+
+    public function member()
+    {
+        return $this->hasOne(Member::class, 'id', 'member_id');
+    }
 }

@@ -32,14 +32,14 @@ class SalesDetailController extends Controller
             $row['sellingPrice']  = $value->selling_price;
             $row['Discount']      = $value->discount;
             $row['Qty']           = $value->qty;
-            $row['item_qty']      = '<input type="number" min="1" name="item_qty'.$value->id.'" data-id="'.$value->id.'" data-discount="'.$value->product->discount.'" class="form-control input-sm edit-qty" value="'.$value->qty.'">';
+            $row['item_qty']      = '<input type="number" min="1" name="item_qty'.$value->id.'" data-stock="'.$value->product->stock.'"  data-id="'.$value->id.'" data-discount="'.$value->product->discount.'" class="form-control input-sm edit-qty" value="'.$value->qty.'">';
             
             $hargatotal = $value->selling_price*$value->qty;
             $discount = ($value->product->discount/100)*$hargatotal;
 
             $row['subtotal']      = money_format($hargatotal-$discount, '.', 'Rp ', ',-');
             $row['action']        = '<div class="btn-group d-flex justify-content-around rounded" role="group" aria-label="Basic example">'.
-                                        '<button class="btn btn-xs btn-danger btn-flat"><i class="bi bi-trash"></i></button>'
+                                        '<button data-id="'.$value->id.'" class="delete btn btn-xs btn-danger btn-flat"><i class="bi bi-trash"></i></button>'
                                     .'</div>';
             $data[] = $row;
 
@@ -60,7 +60,7 @@ class SalesDetailController extends Controller
      */
     public function dataProduct()
     {
-        $product = Product::orderBy('name')->get();
+        $product = Product::orderBy('name')->where('stock', '>', 0)->get();
         return datatables()->of($product)
                 ->editColumn('code', function ($product)
                 {
@@ -147,7 +147,8 @@ class SalesDetailController extends Controller
         }
         $data = $arrayName = array(
             'member_code' => $code,
-            'discount' => $sale->discount
+            'discount' => $sale->discount,
+            'member_id' => $sale->member_id
         );
         return response()->json([
             'success' => true,
@@ -221,8 +222,13 @@ class SalesDetailController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(SalesDetail $salesDetail)
     {
-        //
+        $salesDetail->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'Data deleted',
+            'data'    => $salesDetail  
+        ], 200);
     }
 }

@@ -41,6 +41,7 @@ export default {
     // const self = this === select supplier
     $('tbody', this.$refs.table).on( 'click', '.choseProduct', function(){
         let theid = $(this).attr('data-id');
+
         // update database
         $.ajax({
           url: url+'api/selling-detail/store',

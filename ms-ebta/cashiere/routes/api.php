@@ -7,6 +7,7 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\PurchasingDetailController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\SelesaiController;
 use App\Http\Controllers\SalesDetailController;
 use App\Http\Controllers\PurchaseController;
 use Illuminate\Http\Request;
@@ -90,8 +91,10 @@ Route::group(['prefix' => 'purchasing-detail'], function() {
 
 Route::group(['prefix' => 'selling'], function() {
     Route::get('/', [SaleController::class, 'index']);
+    Route::get('/datatable', [SaleController::class, 'datatable']);
+    Route::get('/nota-kecil/{id}', [SelesaiController::class, 'notaKecil']);
     Route::post('/new', [SaleController::class, 'create']);
-    Route::put('/{id}/save', [SaleController::class, 'save']);
+    Route::put('/{id}/save', [SaleController::class, 'update']);
 });
 
 Route::group(['prefix' => 'selling-detail'], function() {
@@ -101,16 +104,11 @@ Route::group(['prefix' => 'selling-detail'], function() {
     Route::post('/memberUpdate', [SalesDetailController::class, 'memberUpdate']);
     Route::post('/store', [SalesDetailController::class, 'store']);
     Route::get('/{id}', [SalesDetailController::class, 'data']);
+    Route::delete('/{salesDetail}', [SalesDetailController::class, 'destroy']);
     Route::put('/{id}', [SalesDetailController::class, 'update']);
 });
 
-// Route::group(['prefix' => 'purchasing-detail'], function() {
-//     Route::get('/{id}/create', [PurchasingDetailController::class, 'create'])->name('purchase.create');
-//     Route::get('/{id}/data', [PurchasingDetailController::class, 'data'])->name('purchase.data');
-//     Route::delete('/{id}', [PurchasingDetailController::class, 'destroy']);
-//     Route::get('/dataProduct', [PurchasingDetailController::class, 'dataProduct']);
-//     Route::get('/{purchase}/dataPurchase', [PurchasingDetailController::class, 'dataPurchase']);
-//     Route::post('/{product}/{id}/store', [PurchasingDetailController::class, 'store']);
-//     Route::post('/{id}/update', [PurchasingDetailController::class, 'update']);
-//     Route::resource('/', PurchasingDetailController::class)->except('create');
-// });
+Route::group(['prefix' => 'selesai'], function() {
+    Route::get('/', [PurchasingDetailController::class, 'selesaiData']);
+    Route::resource('/', PurchasingDetailController::class)->except('create');
+});
