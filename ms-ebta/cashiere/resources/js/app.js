@@ -12,6 +12,8 @@ import sellingDetail from './components/Selling_detail.vue';
 import selesai from './components/Selesai.vue';
 
 let routes = [
+    { path: '/', redirect: '/dashboard' },
+    { path: '/home', redirect: '/' },
     {
         path: '/dashboard',
         name: 'dashboard',

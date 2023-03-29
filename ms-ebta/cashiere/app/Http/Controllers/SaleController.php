@@ -16,11 +16,29 @@ class SaleController extends Controller
      */
     public function datatable()
     {
-        $sale = Sale::with('member')->orderBy('updated_at')->get();
+        $sale = Sale::with('member', 'salesDetail')->orderBy('updated_at')->get();
+        // $qty = 0;
+        // foreach ($sale as $key => $value) {
+        //    foreach($value->salesDetail as $key => $item) {
+        //         $qty += $item->qty;
+        //    }
+        // }
+        // $sale->total_item = $qty;
+        // return $sale;
         return datatables()->of($sale)
                 ->addColumn('date', function ($sale)
                 {
                     return tanggal_indonesia($sale->updated_at, false);
+                })
+                ->editColumn('total_item', function ($sale)
+                {
+                    $qty = 0;
+                    if ($sale->salesDetail != null) {
+                        foreach($sale->salesDetail as $key => $item) {
+                            $qty += $item->qty;
+                        }
+                    }
+                    return $qty;
                 })
                 ->addColumn('sale', function ($sale)
                 {
@@ -37,11 +55,28 @@ class SaleController extends Controller
                 })
                 ->editColumn('pricing_total', function ($sale)
                 {
-                    return money_format($sale->pricing_total, '.', 'Rp ', ',-');
+                    $subtotal = 0;
+                    if ($sale->salesDetail != null) {
+                        foreach($sale->salesDetail as $key => $item) {
+                            $subtotal += $item->subtotal_prices;
+                        }
+                    }
+                    return money_format($subtotal, '.', 'Rp ', ',-');
                 })
                 ->editColumn('subtotal_prices', function ($sale)
                 {
-                    return money_format($sale->subtotal_prices, '.', 'Rp ', ',-');
+                    $subtotal = 0;
+                    if ($sale->salesDetail != null) {
+                        foreach($sale->salesDetail as $key => $item) {
+                            $subtotal += $item->subtotal_prices;
+                        }
+                        $discount = $sale->discount/100;
+                        $disc = $discount*$subtotal;
+                        $total = $subtotal-$disc;
+                    } else {
+                        $total = 0;
+                    }
+                    return money_format($total, '.', 'Rp ', ',-');
                 })
                 ->editColumn('customer_money', function ($sale)
                 {
@@ -53,10 +88,16 @@ class SaleController extends Controller
                 })
                 ->editColumn('action', function ($sale)
                 {
+                    $qty = 0;
+                    if ($sale->salesDetail != null) {
+                        foreach($sale->salesDetail as $key => $item) {
+                            $qty += $item->qty;
+                        }
+                    }
                     if ($sale->active == 1) {
                         return 
                         '<div class="btn-group d-flex justify-content-center">
-                            <a href="#" data-total="'.$sale->total_item.'" data-iddelete="'.$sale->id.'" class="deleteData btn btn-xs btn-danger btn-flate p-1"> Delete </a>
+                            <a href="#" data-total="'.$qty.'" data-iddelete="'.$sale->id.'" class="deleteData btn btn-xs btn-danger btn-flate p-1"> Delete </a>
                             <a href="#" data-idfinish="'.$sale->id.'" class="finishData btn btn-xs btn-warning btn-flate p-1"> Finish </a>
                         </div>';
                     } else {
@@ -83,7 +124,7 @@ class SaleController extends Controller
         $selling->subtotal_prices = 0;
         $selling->customer_money = 0;
         $selling->active = true;
-        $selling->user_id = Auth::id();
+        // $selling->user_id = Auth::id();
         // $user = auth('api')->user();
         //$user auth('sanctum')->check();
         // return Auth::check('sanctum');
@@ -150,8 +191,13 @@ class SaleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Sale $sale)
     {
-        //
+        $sale->delete();
+        return response()->json([
+            'success' => true,
+            'message' => 'selling Updated',
+            'data'    => $sale 
+        ], 200);
     }
 }

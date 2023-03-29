@@ -48,10 +48,8 @@ export default {
     addItem(id) {
       $.post(this.getApi+'/'+id+'/'+this.$route.params.id+'/store')
         .done(response => {
-          // reload table
-          console.log(response);
-          // $('#table').DataTable().ajax.reload();
-          this.$parent.reloadData()
+          this.$parent.getDetil();
+          this.$parent.getPurchasing();
         })
         .fail(errors => {
           // set alert dan munculkan alert
@@ -97,7 +95,6 @@ export default {
   </div>
   <!-- /.alert -->
   <div class="modal-body table-responsive">
-    {{ this.$route.params.id }}
     <table id="tableDetil" class="table table-bordered table-striped" width="100%">
       <thead>
         <tr>

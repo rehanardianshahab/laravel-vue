@@ -20,8 +20,10 @@ export default {
 </style>
 
 <template>
+<div>
   <Header
   	:title="title"
 	></Header>
   <DataTable></DataTable>
+</div>
 </template>

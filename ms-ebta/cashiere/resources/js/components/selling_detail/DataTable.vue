@@ -222,50 +222,57 @@ export default {
     },
     saveData() {
       let addPesan = this.addPesan;
-      let redirect = this.redirect; 
-      if (this.costumer_money < this.payment_total) {
-        this.key = 1;
-        // set alert dan munculkan alert
+      let redirect = this.redirect;
+      if (this.totalItem < 1) {
         $('#ModalData').modal('show');
-        $('#ModalDataLabel').text("Sorry");
-        return;
-      } else {
-        let selling_id = this.selling_id;
-        let memberid = this.member_id;
-        let itemqty = this.totalItem;
-        let totalPrice = this.totalPrice;
-        let disc = this.discount;
-        let url = this.url;
-        let payment_total = this.payment_total;
-        let costumermoney = this.costumer_money;
-        $.ajax({
-          url: url+'api/selling/'+selling_id+'/save',
-          type: 'PUT',
-          data: {
-            id: selling_id,
-            member_id: memberid,
-            total_item: itemqty,
-            discount: disc,
-            pricing_total: totalPrice,
-            subtotal_prices: payment_total,
-            customer_money: costumermoney,
-            active: 0
-          },
-          success: function(response) {
-            console.log(response);
-            redirect(selling_id);
-            // getData();
-            // $('#table').DataTable().ajax.reload();
-          },
-          error: function(error) {
-            // set alert dan munculkan alert
-            $("#notif-utama").attr('class', '');
-            $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
-              
-            addPesan(error);
-            return;
-          }
-        });
+        $('#ModalDataLabel').text('Peringatan');
+        this.key = 5;
+      } else {    
+        if (this.costumer_money < this.payment_total) {
+          this.key = 1;
+          // set alert dan munculkan alert
+          $('#ModalData').modal('show');
+          $('#ModalDataLabel').text("Sorry");
+          return;
+        } else {
+          let selling_id = this.selling_id;
+          let memberid = this.member_id;
+          let itemqty = this.totalItem;
+          let totalPrice = this.totalPrice;
+          let disc = this.discount;
+          let url = this.url;
+          let payment_total = this.payment_total;
+          let addPesan = this.addPesan;
+          let costumermoney = this.costumer_money;
+          $.ajax({
+            url: url+'api/selling/'+selling_id+'/save',
+            type: 'PUT',
+            data: {
+              id: selling_id,
+              member_id: memberid,
+              total_item: itemqty,
+              discount: disc,
+              pricing_total: totalPrice,
+              subtotal_prices: payment_total,
+              customer_money: costumermoney,
+              active: 0
+            },
+            success: function(response) {
+              console.log(response);
+              redirect(selling_id);
+              // getData();
+              // $('#table').DataTable().ajax.reload();
+            },
+            error: function(error) {
+              // set alert dan munculkan alert
+              $("#notif-utama").attr('class', '');
+              $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+                
+              addPesan(error);
+              return;
+            }
+          });
+        }
       }
     },
     warning(key, stock) {
@@ -406,6 +413,9 @@ export default {
           </div>
           <div v-else-if="key == 4" class="modal-body">
             <div id="text-modal">Stok Barang ini hanya tinggal {{ stock }}.</div>
+          </div>
+          <div v-else-if="key == 5" class="modal-body">
+            <div id="text-modal">Tidak ada barang yang dipilih. silahkan hapus transaksi ini.</div>
           </div>
           <!-- /.modal-body -->
           <div class="modal-footer">

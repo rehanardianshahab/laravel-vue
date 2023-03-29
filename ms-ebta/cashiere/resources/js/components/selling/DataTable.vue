@@ -24,7 +24,7 @@ export default {
       // for confirm box
         pesanErr: '',
         confirm: '',
-        activated: false
+        activated: false,
     }
   },
   methods: {
@@ -75,6 +75,11 @@ export default {
       $('#modalConfirm').modal('show');
       $('#modalConfirmLabel').text('Sorry');
     },
+    notAllowed() {
+      $('#modalConfirm').modal('show');
+      $('#modalConfirmLabel').text('Sorry');
+      this.activated = false;
+    },
     datatable() {
       $('#table').DataTable({
         ajax: {
@@ -87,8 +92,24 @@ export default {
     checked(params) {
       this.activated = params;
     },
+    addPesan(error) {
+      // isi tulisan
+      let pesan = '';
+      let pesanErr = '';
+      if (error.responseJSON.message) {
+        pesan = error.responseJSON.message;
+        this.pesanErr = pesan;
+      } else {
+        pesan = Object.entries(error.responseJSON);
+        pesan.forEach(element => {
+          this.pesanErr = pesanErr+element[1]+'<br>';
+        });
+      }   
+      return;
+    },
     getDataSale() {
         let checked = this.checked;
+        let addPesan = this.addPesan;
         $.ajax({
           url: this.getApi+'/datatable',
           type: 'GET',
@@ -108,6 +129,24 @@ export default {
           }
         });
     },
+    deleteData(id) {
+        let checked = this.checked;
+        $.ajax({
+          url: this.getApi+'/'+id,
+          type: 'Delete',
+          success: function(response) {
+            $('#table').DataTable().ajax.reload();
+          },
+          error: function(error) {
+            // set alert dan munculkan alert
+            $("#notif-utama").attr('class', '');
+            $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+            
+            addPesan(error);
+            return;
+          }
+        });
+    },
     redirect(id, name) {
       this.$router.push({name:name, params: { id:id }});
     },
@@ -116,16 +155,29 @@ export default {
     this.datatable();
     this.getDataSale();
     let redirect = this.redirect;
+    let notAllowed = this.notAllowed;
+    let deleteData = this.deleteData;
 
-    // const self = this === select supplier
+    // const self = this === select finish
     $('tbody', this.$refs.table).on( 'click', '.finishData', function(){
         let theid = $(this).attr('data-idfinish');
         redirect(theid, 'selling-detail');
     });
-    // const self = this === select supplier
+    // const self = this === select see
     $('tbody', this.$refs.table).on( 'click', '.see', function(){
         let theid = $(this).attr('data-idsee');
         redirect(theid, 'selesai');
+    });
+    // const self = this === select delete
+    $('tbody', this.$refs.table).on( 'click', '.deleteData', function(){
+        let theid = $(this).attr('data-iddelete');
+        let total = $(this).attr('data-total');
+        console.log(total);
+        if (parseInt(total) > 0) {
+          notAllowed();
+        } else {
+          deleteData(theid);
+        }
     });
   }
 }
@@ -146,9 +198,13 @@ export default {
             Ada Transaksi yang Masih Aktif. Tolong Selesaikan Transaksi Tersebut Lebih Dahulu
             Baru Membuat Transaksi Baru.
           </div>
+          <div class="modal-body" v-else>
+            Ada beberapa produk yang sudah dipilih di dalam transaksi ini. Mohon hapus
+            terlebih dahulu sebelum menghapus transaksi ini.
+          </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <span :data-term="confirm" id="confirm" class="btn confirm btn-primary" v-if="!activated">Yes</span>
+            <!-- <span :data-term="confirm" id="confirm" class="btn confirm btn-primary" v-if="!activated">Yes</span> -->
           </div>
         </div>
       </div>

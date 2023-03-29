@@ -21,7 +21,7 @@ class SalesDetailController extends Controller
         $data = array();
         $total = 0;
         $total_item = 0;
-
+        
         foreach ($salesDetail as $key => $value) {
             $row = array();
             $row['DT_RowIndex']   = $key+1;

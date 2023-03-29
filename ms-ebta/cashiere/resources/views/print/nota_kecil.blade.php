@@ -70,13 +70,14 @@
     <p class="text-center">===================================</p>
     <table width="100%" style="border: 0;">
         @foreach ($detail as $item)
+        {{-- {{ $sale }} --}}
             <tr>
                 <td colspan="3">{{ $item->product->name }}</td>
             </tr>
             <tr>
-                <td>{{ $item->qty }} x {{ money_format($item->selling_price, '.', 'Rp ', ',-') }} (dis: {{ money_format($sale->discount, '.', '', '%') }})</td>
+                <td>{{ $item->qty }} x {{ money_format($item->selling_price, '.', 'Rp ', ',-') }} (dis: {{ money_format($item->discount, '.', '', '%') }})</td>
                 <td></td>
-                <td class="text-right">{{ money_format($item->qty * $item->selling_price, '.', 'Rp ', ',-') }}</td>
+                <td class="text-right">{{ money_format(($item->qty * $item->selling_price)-($item->qty * $item->selling_price)*($item->discount/100), '.', 'Rp ', ',-') }}</td>
             </tr>
         @endforeach
     </table>

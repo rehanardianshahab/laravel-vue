@@ -83,7 +83,7 @@ class PurchasingDetailController extends Controller
 
     public function dataPurchase(string $purchase)
     {
-        $purchased = Purchase::find($purchase);
+        $purchased = Purchase::where('id', $purchase)->with('supplier')->get()[0];
         // return;
         // return count(array($purchased));
         if ($purchased == null) {

@@ -67,28 +67,10 @@ export default {
                 return;
             });
     },
-    getTotal() {
-      // console.log(this.detil);
-      let detil = this.detil;
-      if (detil.length == 0) {
-        console.log('halo');
-      } else {
-        console.log(detil.length);
-        detil.forEach((element, key) => {
-          if (detil.length == key+1) {
-            this.totalPrice = element.total;
-            this.totalPriceRp = element.totalrp;
-            this.totalItem = element.qty_total;
-          }
-        });
-        // console.log(this.totalPrice);
-      }
-    },
     getPurchasing () {
       $.get(this.url+"api/purchasing-detail/"+this.$route.params.id+"/dataPurchase")
             .done((response) => {
               this.purchasing = response;
-              // console.log(response);
               this.setDiscount();
             })
             .fail((error) => {
@@ -105,6 +87,22 @@ export default {
       
       $('#ModalData').modal('show');
       $('#ModalData modal-title').text('Add New Product');
+    },
+    getTotal() {
+      // console.log(this.detil);
+      let detil = this.detil;
+      if (detil.length == 0) {
+        // console.log('halo');
+      } else {
+        detil.forEach((element, key) => {
+          if (detil.length == key+1) {
+            this.totalPrice = element.total;
+            this.totalPriceRp = element.totalrp;
+            this.totalItem = element.qty_total;
+          }
+        });
+        // console.log(this.totalPrice);
+      }
     },
     setDiscount () {
       this.discount = this.purchasing.discount;
@@ -142,11 +140,7 @@ export default {
         // 12345678.9.format(0, 3, '-');       // "12-345-679"
       }
     },
-    redirect() {
-        this.$router.push({name: 'purchasing'});
-    },
     saveTransaction () {
-      let redirect = this.redirect;
       $.ajax({
         url: this.url+'api/purchasing/'+this.purchasing_id+'/save',
         type: 'PUT',
@@ -160,7 +154,7 @@ export default {
           active:0
         },
         success: function(response) {
-          redirect();
+          this.$router.push({name: 'purchasing'});
         },
         error: function(error) {
           //Do Something to handle error
@@ -180,7 +174,6 @@ export default {
       } else if (nominal > 100) {
         nominal = 100;
       }
-      const getPurchasing = this.getPurchasing;
       const token = $("meta[name='csrf-token']").attr("content");
       const url = this.url+"api/purchasing/"+this.purchasing_id+'/diskon';
       // console.log(url);
@@ -192,7 +185,7 @@ export default {
           discount:nominal
         },
         success: function(response) {
-          getPurchasing();
+          this.getPurchasing();
         },
         error: function(error) {
           //Do Something to handle error
@@ -211,8 +204,9 @@ export default {
     let getPurchasing = this.getPurchasing;
     let getDetil = this.getDetil;
     let saveDiscount = this.saveDiscount;
-    let saveTransaction = this.saveTransaction;
     let getApi = this.getApi;
+    let saveTransaction = this.saveTransaction;
+    let purchasing_id = this.purchasing_id;
     let urlweb = this.url;
     // save new product
     $(document).on('blur', '.edit-qty', function () {
@@ -230,7 +224,6 @@ export default {
         },
         success: function(response) {
           getDetil();
-          getPurchasing();
           // console.log(response)
         },
         error: function(error) {
@@ -246,7 +239,6 @@ export default {
     $(document).on('blur', '#discount', function () {
       let nominal = $(this).val();
       // console.log(nominal);
-      // console.log(saveDiscount);
       saveDiscount(nominal);
     });
     // delete data
@@ -311,6 +303,7 @@ export default {
 
 <template>
   <section class="content">
+    {{ detil }}
     <!-- modal box for form -->
     <div class="modal fade" id="ModalData" tabindex="-1" aria-labelledby="ModalDataLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg">
@@ -373,6 +366,8 @@ export default {
                   <label for="code">Code Product</label>
                   <div class="col-lg-5">
                     <div class="input-group">
+                      <input type="hidden" name="id" id="id-product">
+                      <input type="hidden" name="purchasing_id" id="purchasing_id" value="{{ $purchasing_id }}">
                       <input type="text" name="code" id="code-product" class="form-control" placeholder="Add Product Code" @click="showProduct()">
                       <button class="input-group-text btn btn-info btn-flat" type="button" @click="showProduct()"><i class="bi bi-arrow-bar-right"></i></button>
                     </div>

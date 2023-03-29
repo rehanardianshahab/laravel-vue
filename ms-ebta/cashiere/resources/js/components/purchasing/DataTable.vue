@@ -1,6 +1,9 @@
 <script>
 import supplierData from './supplierData.vue';
+// import Show from './Show.vue';
+// import Show from '../purchasing_detail/Show.vue';
 export default {
+  // components: { Show },
   components: { supplierData },
   data() {
     return {
@@ -15,6 +18,15 @@ export default {
               {data: 'total_payment'},
               {data: 'action', searchable: false, sortable: false}
           ],
+        detil: [ // for datatable
+              {data: 'DT_RowIndex', searchable: false, sortable: true},
+              {data: 'code'},
+              {data: 'product_name'},
+              {data: 'pricing_label'},
+              {data: 'item_qty'},
+              {data: 'subtotal'},
+              {data: 'action', searchable: false, sortable: false}
+          ],
       // for api url
         url: import.meta.env.VITE_APP_URL,
         getApi: import.meta.env.VITE_APP_API+'/purchasing',
@@ -23,7 +35,9 @@ export default {
       // for confirm box
         pesanErr: '',
         suppliers: '',
-        confirm: ''
+        confirm: '',
+        modalkey: '',
+        detil: [],
     }
   },
   methods: {
@@ -41,18 +55,10 @@ export default {
             $( "#notif-utama" ).addClass( 'd-none');
         }
     },
-    addForm() {
+    addForm(key,note) {
         $('#FormModal').modal('show');
-        $('#FormModal .modal-title').text('Add New Product');
-
-        // // action
-        $('#FormModal form').attr('action', this.getApi)
-
-        // // method form
-        $('#FormModal [name=_method]').val('post');
-
-        // // input form
-        $('#FormModal [name=name]').focus();
+        $('#FormModal .modal-title').text(note);
+        this.modalkey = key;
 
         // close notif
         this.closeNotif();
@@ -86,7 +92,21 @@ export default {
         ]
       });
     },
-    redirectDetil(theid) {
+    getDetail(id) {
+      // get data purchasing detail
+      $.get(this.url+"api/purchasing-detail/"+id+"/data")
+            .done((response) => {
+              this.detil = response.data;
+            })
+            .fail((error) => {
+              // set alert dan munculkan alert
+              $("#notif-utama").attr('class', '');
+                $( "#notif-utama" ).addClass( 'alert alert-danger alert-dismissible mb-3 show');
+                $( "#notif-utama .text" ).text( error.responseJSON.message);
+                return;
+            });
+    },
+    redirectDetil(theid, supplay) {
       this.$router.push({name: 'purchasing-detail', params: { id: theid }});
     },
     deleteModal (id, notes, lanjut) {
@@ -137,6 +157,8 @@ export default {
     let redirectDetil = this.redirectDetil;
     let deleteModal = this.deleteModal;
     let deleteData = this.deleteData;
+    let getDetail = this.getDetail;
+    let addForm = this.addForm;
 
     // const self = this === make finish
     $('tbody', this.$refs.table).on( 'click', '.finishData', function(){
@@ -159,6 +181,13 @@ export default {
     });
 
     // const self = this === open modal delete data
+    $('tbody', this.$refs.table).on( 'click', '.see', function(){
+        let theid = $(this).attr('data-idsee');
+        getDetail(theid);
+        addForm(2, 'Detail Produk of Transaction');
+    });
+
+    // const self = this === open modal delete data
     $('#confirm').on('click', function(){
       let theid = $('#confirm').attr('data-term');
       deleteData(theid);
@@ -166,6 +195,12 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  #tableDetil tbody tr:last-child {
+    display: none;
+  }
+</style>
 
 <template>
   <section class="content">
@@ -187,12 +222,40 @@ export default {
             <button type="button" class="btn-close" @click="closeNotif()"></button>
           </div>
           <!-- /.alert -->
-          <div class="modal-body">
+          <div class="modal-body" v-if="modalkey == 1">
             <supplierData></supplierData>
+          </div>
+          <div class="modal-body" v-else-if="modalkey == 2">
+            <div class="modal-body table-responsive">
+              <!--  -->
+              <table id="tableDetil" class="table table-bordered table-striped" width="100%">
+                <thead>
+                  <tr role="row">
+                    <th width="5%">No</th>
+                    <th>code</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Total Item</th>
+                    <th>Total Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="(item, key) in detil" :key="key">
+                    <td>{{ item.DT_RowIndex }}</td>
+                    <td>{{ item.code }}</td>
+                    <td>{{ item.product_name }}</td>
+                    <td>{{ item.pricing_label }}</td>
+                    <td>{{ item.item_qty }}</td>
+                    <td>{{ item.subtotal }}</td>
+                  </tr>
+                </tbody>
+              </table>
+              <!--  -->
+            </div>
           </div>
           <!-- /.modal-body -->
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancel</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
           </div>
         </div>
       </div>
@@ -236,13 +299,12 @@ export default {
             <div class="card-header">
               <div class="btn-group">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary xs btn-flat rounded" @click="addForm()"><i class="bi bi-patch-plus"></i> Add</button>
+                <button type="button" class="btn btn-primary xs btn-flat rounded" @click="addForm(1, 'Add New Product')"><i class="bi bi-patch-plus"></i> Add</button>
               </div>
             </div>
             <!-- /.card-header -->
 
             <div class="card-body table-responsive">
-              <form action="" class="form-product">
                 <input type="hidden" name="_token" :value="csrf">
                 <table id="table" class="table table-bordered table-striped">
                   <thead>
@@ -261,7 +323,6 @@ export default {
 
                   </tbody>
                 </table>
-              </form>
             </div>
             <!-- ./card-body -->
             <div class="card-footer">

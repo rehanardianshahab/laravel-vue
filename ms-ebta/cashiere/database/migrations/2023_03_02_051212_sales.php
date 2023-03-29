@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('total_item');
             $table->integer('pricing_total');
             $table->tinyInteger('discount')->default(0);
-            // $table->integer('subtotal_prices');
+            $table->integer('subtotal_prices');
             $table->integer('customer_money');
             $table->timestamps('');
         });

@@ -421,7 +421,7 @@ export default {
                 <div class="col-md-8">
                   <div class="input-group">
                     <span class="input-group-text">Rp</span>
-                    <input type="number" min="0" name="buying_price" id="buying_price" class="form-control" placeholder="Harga Pembelian" autocomplete="off">
+                    <input type="number" min="0" name="buying_price" id="buying_price" class="form-control" placeholder="Harga Pembelian" value="0" autocomplete="off">
                   </div>
                 </div>
               </div>
@@ -443,13 +443,13 @@ export default {
                   </div>
                 </div>
               </div>
-              <div class="form-group row mt-1">
+              <!-- <div class="form-group row mt-1">
                 <label for="stock" class="col-md-4 control-label">Stock</label>
-                <div class="col-md-8">
-                  <input type="number" name="stock" min="0" id="stock" class="form-control" placeholder="Stock" value="0" autocomplete="off">
-                  <span class="help-block with-errors"></span>
+                <div class="col-md-8"> -->
+                  <input type="hidden" name="stock" min="0" id="stock" class="form-control" placeholder="Stock" value="0" autocomplete="off">
+                  <!-- <span class="help-block with-errors"></span>
                 </div>
-              </div>
+              </div> -->
             </div>
             <div class="modal-footer">
               <button type="submit" class="btn btn-primary">Save</button>

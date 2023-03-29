@@ -94,6 +94,7 @@ Route::group(['prefix' => 'selling'], function() {
     Route::get('/datatable', [SaleController::class, 'datatable']);
     Route::get('/nota-kecil/{id}', [SelesaiController::class, 'notaKecil']);
     Route::post('/new', [SaleController::class, 'create']);
+    Route::delete('/{sale}', [SaleController::class, 'destroy']);
     Route::put('/{id}/save', [SaleController::class, 'update']);
 });
 
@@ -110,5 +111,7 @@ Route::group(['prefix' => 'selling-detail'], function() {
 
 Route::group(['prefix' => 'selesai'], function() {
     Route::get('/', [PurchasingDetailController::class, 'selesaiData']);
-    Route::resource('/', PurchasingDetailController::class)->except('create');
+    // Route::resource('/', PurchasingDetailController::class)->except('create');
+    Route::get('/settingget', [selesaiController::class, 'settingget']);
+    Route::put('/discount', [selesaiController::class, 'discount']);
 });

@@ -93,7 +93,7 @@ class PurchaseController extends Controller
                         </div>';
                     } else {
                         return '<div class="btn-group d-flex justify-content-center">
-                                    <a href="#" onclick="deleteData()" class="btn btn-xs btn-info btn-flate p-1"><i class="bi bi-eye"></i> item </a>
+                                    <a href="#" data-idsee="'.$purchasing->id.'" class="see btn btn-xs btn-info btn-flate p-1"><i class="bi bi-eye"></i> item </a>
                                 </div>';
                     }
                 })->rawColumns(['action'])

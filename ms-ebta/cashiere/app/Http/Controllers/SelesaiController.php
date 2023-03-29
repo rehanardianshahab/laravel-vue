@@ -70,4 +70,23 @@ class SelesaiController extends Controller
     {
         //
     }
+
+    public function settingget()
+    {
+        $setting = Setting::first();
+        return $setting;
+    }
+
+    public function discount(Request $request)
+    {
+        // return $request;
+        $setting = Setting::first();
+        $setting->update($request->all());
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Data updated',
+            'data'    => $setting  
+        ], 200);
+    }
 }
