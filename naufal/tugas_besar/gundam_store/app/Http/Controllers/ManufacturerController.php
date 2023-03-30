@@ -1,0 +1,126 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Manufacturer;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
+class ManufacturerController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('manufacturer.index');
+    }
+
+    public function api() {
+        $manufacturers = Manufacturer::all();
+        $datatables = datatables()->of($manufacturers)
+                            ->addColumn('show_date', function($manufacturer) {
+                                return convert_date($manufacturer->established);
+                            })
+                            ->addIndexColumn();
+
+        return $datatables->make(true);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+            'manufacture_company' => ['required'],
+            'country' => ['required'],
+            'established' => ['required'],
+        ]);
+
+        Manufacturer::create($request->all());
+
+        return redirect('manufacturers');
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $this->validate($request, [
+            'manufacture_company' => ['required'],
+            'country' => ['required'],
+            'established' => ['required'],
+        ]);
+
+        $manufacturers = DB::table('manufacturers')
+                            ->where('id', $id)
+                            ->update([
+                                'manufacture_company' => $request['manufacture_company'],
+                                'country' => $request['country'],
+                                'established' => $request['established'],
+                            ]);
+        
+        return redirect('manufacturers');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $manufacturers = Manufacturer::find($id);
+        $manufacturers->delete();
+
+        return redirect('manufacturers');
+    }
+}
