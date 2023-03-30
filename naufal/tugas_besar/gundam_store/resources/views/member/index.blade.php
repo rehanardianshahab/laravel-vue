@@ -25,6 +25,16 @@
             <div class="clearfix"></div>
           </div>
             <div class="x_content">
+                <div class="row mb-3">
+                    <div class="col-md-10"></div>
+                    <div class="col-md-2">
+                        <select class="form-control" name="gender">
+                          <option value="0">All Gender</option>
+                          <option value="male">Male</option>
+                          <option value="female">Female</option>
+                        </select>
+                      </div>
+                </div>
                 <div class="row">
                   <div class="col-sm-12">
                         <div class="card-box table-responsive">
@@ -239,6 +249,14 @@
     });
 </script>
 <script type="text/javascript">
-    
-</script>
+    $('select[name=gender]').on('change', function() {
+      gender = $('select[name=gender]').val();
+  
+      if (gender == 0) {
+        controller.table.ajax.url(apiUrl).load();
+      } else {
+        controller.table.ajax.url(apiUrl+'?gender='+gender).load();
+      }
+    });
+  </script>
 @endsection

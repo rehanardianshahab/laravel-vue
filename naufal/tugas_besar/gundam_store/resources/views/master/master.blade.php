@@ -62,7 +62,9 @@
                 <h3>Menu</h3>
                 <ul class="nav side-menu">
                   <li><a href="/home"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+                  @role('admin')
                   <li><a href="/members"><i class="fa fa-users"></i> Member</a></li>
+                  @endrole
                   <li><a href="/transactions"><i class="fa fa-money"></i> Transaction</a></li>
                   <li><a href="/products"><i class="fa fa-cubes"></i> Product</a></li>
                   <li><a href="/categories"><i class="fa fa-filter"></i> Category</a></li>
@@ -100,71 +102,32 @@
                   </form>
                   </div>
                 </li>
-
                 <li role="presentation" class="nav-item dropdown open">
                   <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
-                    <i class="fa fa-envelope-o"></i>
-                    <span class="badge bg-green">6</span>
+                    <i class="fa fa-bell-o"></i>
+                    <span class="badge bg-green">{{ $counts[0]->status_count }}</span>
                   </a>
                   <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
-                    <li class="nav-item">
-                      <a class="dropdown-item">
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="dropdown-item">
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="dropdown-item">
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="dropdown-item">
-                        <span class="image"><img src="images/img.jpg" alt="Profile Image" /></span>
-                        <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                        <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <div class="text-center">
-                        <a class="dropdown-item">
-                          <strong>See All Alerts</strong>
-                          <i class="fa fa-angle-right"></i>
-                        </a>
-                      </div>
-                    </li>
+                    @foreach($contents as $key => $content)
+                      @if($content->status == 0))
+                        <li class="nav-item">
+                          <a class="dropdown-item">
+                            <span>
+                              <span>{{ $content->name }}</span>
+                            </span>
+                            <span class="message">
+                              Due date {{ convert_date($content->repayment_date) }}
+                            </span>
+                            <span class="message">
+                              Invoice Number {{ $content->invoice_number }}
+                            </span>
+                          </a>
+                        </li>
+                      @endif
+                    @endforeach
                   </ul>
                 </li>
+
               </ul>
             </nav>
           </div>

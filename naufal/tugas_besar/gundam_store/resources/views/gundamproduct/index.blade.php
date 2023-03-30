@@ -24,9 +24,11 @@
             </ul>
             <div class="clearfix"></div>
           </div>
+          @role('admin')
           <div>
             <a href="#" @click="addData()" class="btn btn-info btn-sm">Add Product</a>
           </div>
+          @endrole
             <div class="x_content">
                 <div class="row">
                   <div class="col-sm-12">
@@ -57,7 +59,7 @@
             <div class="modal-content">
                 <form :action="actionUrl" method="POST" autocomplete="off"  @submit="submitForm($event, data.id)">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Edit Member's Data</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">Edit Product's Data</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -149,18 +151,23 @@ var apiUrl = '{{ url('api/products') }}';
 var columns = [
         {data: 'DT_RowIndex', class: 'text-center', orderable: true},
         {data: 'product_name', class: 'text-center', orderable: true},
-        {data: 'price', class: 'text-center', orderable: true},
+        {data: 'show_price', class: 'text-center', orderable: true},
         {data: 'stock_qty', class: 'text-center', orderable: true},
         {data: 'category_product', class: 'text-center', orderable: true},
         {data: 'manufacture_company', class: 'text-center', orderable: true},
         {render: function (index, row, data, meta) {
             return `
+                @role('admin')
                 <a href="#" class="btn btn-sm btn-warning" onclick="controller.editData(event, ${meta.row})">
                 Edit
                 </a>
                 <a href="#" class="btn btn-sm btn-danger" onclick="controller.deleteData(event, ${data.id})">
                 Delete
-                </a>`;
+                </a>
+                @endrole
+                @role('member')
+                <p>Permission not granted</p>
+                @endrole`;
         }, orderable: false, width: '200px', class: 'text-center'},
     ];
 
@@ -247,6 +254,9 @@ var columns = [
                     .then((response) => {
                         $("#modalForm").modal("hide");
                         _this.table.ajax.reload();
+                    })
+                    .then((response) => {
+                        alert("Data submitted successfully!")
                     });
             },
         }

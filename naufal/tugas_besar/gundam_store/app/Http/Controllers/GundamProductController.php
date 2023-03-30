@@ -31,8 +31,10 @@ class GundamProductController extends Controller
                             ->orderBy('gundam_products.id')
                             ->get();
 
-        $datatables = datatables()
-                        ->of($products)
+        $datatables = datatables()->of($products)
+                        ->addColumn('show_price', function($product) {
+                            return change_currency($product->price);
+                        })
                         ->addIndexColumn();
 
         return $datatables->make(true);

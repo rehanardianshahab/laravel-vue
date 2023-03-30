@@ -32,7 +32,35 @@
                 <div class="clearfix"></div>
             </div>
             <div class="x_content">
-                <a href="/transactions/create" class="btn btn-sm btn-primary mb-2">Add Transaction</a>
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <a href="/transactions/create" class="btn btn-sm btn-primary mb-2">Add Transaction</a>
+                    </div>
+                    <div class="col-md-2">
+                        <select class="form-control" name="status">
+                          <option value="">Status</option>
+                          <option value="1">Paid</option>
+                          <option value="0">Not Paid</option>
+                        </select>
+                      </div>
+                      <div class="col-md-2">
+                        <select class="form-control" name="purchase_date">
+                          <option value="0">Purchase Date</option>
+                          <option value="01">January</option>
+                          <option value="02">February</option>
+                          <option value="03">March</option>
+                          <option value="04">April</option>
+                          <option value="05">May</option>
+                          <option value="06">June</option>
+                          <option value="07">July</option>
+                          <option value="08">August</option>
+                          <option value="09">September</option>
+                          <option value="10">October</option>
+                          <option value="11">November</option>
+                          <option value="12">December</option>
+                        </select>
+                      </div>
+                </div>
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card-box table-responsive">
@@ -86,21 +114,26 @@ var columns = [
         {data: 'DT_RowIndex', class: 'text-center', orderable: true},
         {data: 'invoice_number', class: 'text-center', orderable: true},
         {data: 'name', class: 'text-center', orderable: true},
-        {data: 'purchase_date', class: 'text-center', orderable: true},
-        {data: 'repayment_date', class: 'text-center', orderable: true},
-        {data: 'total_price', class: 'text-center', orderable: true},
-        {data: 'status', class: 'text-center', orderable: true},
+        {data: 'show_purchase_date', class: 'text-center', orderable: true},
+        {data: 'show_repayment_date', class: 'text-center', orderable: true},
+        {data: 'show_price', class: 'text-center', orderable: true},
+        {data: 'show_status', class: 'text-center', orderable: true},
         {render: function (index, row, data, meta) {
             return `
-                <a href="/transactions/{transactions}/edit" class="btn btn-sm btn-info">
-                Details
-                </a>
-                <a href="/transactions/{transactions}/edit" class="btn btn-sm btn-warning">
-                Edit
-                </a>
-                <a href="/transactions/{transactions}" class="btn btn-sm btn-danger">
-                Delete
-                </a>`;
+            <form action="/transactions/${data.id}" method="post">
+            <a href="/transactions/${data.id}" class="btn btn-sm btn-info">
+              Detail
+            </a>
+            @role('admin')
+            <a href="/transactions/${data.id}/edit" class="btn btn-sm btn-warning">
+              Edit
+            </a>
+            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+            @csrf
+            @method('DELETE')
+            @endrole
+          </form>
+                `;
         }, orderable: false, width: '200px', class: 'text-center'},
     ];
 
@@ -166,4 +199,25 @@ var columns = [
         }
     });
 </script>
+<script type="text/javascript">
+    $('select[name=status]').on('change', function() {
+      status = $('select[name=status]').val();
+  
+      if (status == '1' || status == '0') {
+        controller.table.ajax.url(apiUrl+'?status='+status).load();
+      } else {
+        controller.table.ajax.url(apiUrl).load();
+      }
+    });
+  
+    $('select[name=purchase_date]').on('change', function() {
+      purchase_date = $('select[name=purchase_date]').val();
+  
+      if (purchase_date == "0") {
+        controller.table.ajax.url(apiUrl).load();
+      } else {
+        controller.table.ajax.url(apiUrl+'?purchase_date='+purchase_date).load();
+      }
+    });
+  </script>
 @endsection

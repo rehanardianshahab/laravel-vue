@@ -18,7 +18,6 @@ class CreateTransactionDetailsTable extends Migration
             $table->unsignedBigInteger('transaction_id');
             $table->unsignedBigInteger('gundam_product_id');
             $table->integer('purchase_qty');
-            $table->integer('total_price');
             $table->timestamps();
 
             $table->foreign('transaction_id')->references('id')->on('transactions')->onDelete('cascade');

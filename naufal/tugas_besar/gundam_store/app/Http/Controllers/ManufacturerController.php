@@ -24,7 +24,11 @@ class ManufacturerController extends Controller
 
     public function api() {
         $manufacturers = Manufacturer::all();
-        $datatables = datatables()->of($manufacturers)->addIndexColumn();
+        $datatables = datatables()->of($manufacturers)
+                            ->addColumn('show_date', function($manufacturer) {
+                                return convert_date($manufacturer->established);
+                            })
+                            ->addIndexColumn();
 
         return $datatables->make(true);
     }

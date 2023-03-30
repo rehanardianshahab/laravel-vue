@@ -66,4 +66,11 @@ Route::get('/transactions/create', [App\Http\Controllers\TransactionController::
 Route::post('/transactions', [App\Http\Controllers\TransactionController::class, 'store']);
 Route::get('/transactions/{transactions}/edit', [App\Http\Controllers\TransactionController::class, 'edit']);
 Route::put('/transactions/{transactions}', [App\Http\Controllers\TransactionController::class, 'update']);
-Route::delete('/transactions/{transactions}', [App\Http\Controllers\TransactionController::class, 'delete']);
+Route::get('/transactions/{transactions}', [App\Http\Controllers\TransactionController::class, 'show']);
+// Route::get('/export-pdf/{export-pdf}', [App\Http\Controllers\TransactionController::class, 'exportPdf']);
+Route::delete('/transactions/{transactions}', [App\Http\Controllers\TransactionController::class, 'destroy']);
+
+Route::get('/pdf/{pdf}', [App\Http\Controllers\PdfController::class, 'index']);
+// Route::get('/export-pdf/{export-pdf}', [App\Http\Controllers\PdfController::class, 'exportPdf']);
+
+Route::get('spatie', [App\Http\Controllers\PermissionController::class, 'spatie']);

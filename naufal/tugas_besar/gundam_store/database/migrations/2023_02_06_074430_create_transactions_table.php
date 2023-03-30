@@ -20,6 +20,7 @@ class CreateTransactionsTable extends Migration
             $table->date('repayment_date');
             $table->boolean('status');
             $table->unsignedBigInteger('member_id');
+            $table->integer('total_price');
             $table->timestamps();
 
             $table->foreign('member_id')->references('id')->on('members');

@@ -31,7 +31,7 @@
                 </div>
                 <div class="x_content">
                     <br />
-                    <form action="{{ url('transactions') }}" method="POST" class="form-label-left input_mask">
+                    <form action="{{ url('transactions') }}" method="POST" @submit="submitForm($event)" class="form-label-left input_mask">
                         @csrf
                         <div class="form-group row">
                             <label class="col-form-label col-md-3 col-sm-3 ">Name </label>
@@ -70,7 +70,7 @@
                         <div class="form-group row" v-for="(list, index) in dataProduct" :key="index">
                             <div class="col-md-6 form-group">
                                 <label for="product">Product Name</label>
-                                <select class="form-control @error('gundam_product_id') is-invalid @enderror" v-on:change="handleProduct(index)" v-model="list.product" name="gundam_product_id" id="product">
+                                <select class="form-control @error('gundam_product_id') is-invalid @enderror" v-on:change="handleProduct(index)" v-model="list.product" name="gundam_product_id[]" id="product">
                                     <option value="0">-- Select Product --</option>
                                     <option v-on:click="selectProduct(index, indexProduct)" v-for="createData, indexProduct in createDatas" v-bind:value="createData.id" v-bind:key="createData.id">@{{ createData.product_name }}</option>
                                 </select>
@@ -81,12 +81,12 @@
 
                             <div class="col-md-4 form-group">
                                 <label for="price">Price</label>
-                                <input class="form-control" v-model="list.price" :value="price" type="number" id="price" readonly>
+                                <input class="form-control" v-model="list.price" type="number" id="price" readonly v-on:change="countPrice(index)">
                             </div>
 
                             <div class="col-md-2 form-group">
                                 <label for="quantity">Quantity</label>
-                                <input name="purchase_qty" v-model="list.quantity" class="form-control @error('purchase_qty') is-invalid @enderror" type="number" id="quantity">
+                                <input name="purchase_qty[]" v-model="list.quantity" class="form-control @error('purchase_qty') is-invalid @enderror" type="number" id="quantity" v-on:keyup="countTotal()">
                                 @error('purchase_qty')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -189,12 +189,12 @@
                     quantity: 1
                 }
             ],
-            totalPrice: ''
+            totalPrice: 0
         },
         mounted: function () {
             this.getCreate();
             this.getPrice();
-            this.countTotal;
+            this.countTotal
         },
         methods: {
             getCreate() {
@@ -228,6 +228,7 @@
                         this.dataProduct[index].price = dataPrice['price'];
                     }
                 }
+                this.countTotal()
             },
             addProduct() {
                 this.dataProduct.push({
@@ -244,15 +245,25 @@
                         this.dataProduct[index].price = dataPrice['price'];
                     }
                 }
-            }
-        },
-        computed: {
+            },
+            countPrice(index) {
+                this.dataProduct[index].price = this.dataProduct[index].price * this.dataProduct[index].quantity
+                console.log('data count', this.dataProduct[index].price)
+            },
             countTotal() {
-                const total = 0
+                let total = 0
                 this.dataProduct.map((result) => total += result.price*result.quantity)
                 this.totalPrice = total
-            }
-        }
+                console.log('data total',this.totalPrice)
+            },
+            submitForm(event) {
+                axios
+                    .post(actionUrl, new FormData($(event.target)[0]))
+                    .then((response) => {
+                        alert("Data submitted successfully!")
+                    });
+            },
+        },
     });
 </script>
 @endsection

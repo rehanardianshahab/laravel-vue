@@ -13,7 +13,6 @@ class TransactionDetail extends Model
         'transaction_id',
         'gundam_product_id',
         'purchase_qty',
-        'total_price'
     ];
 
     public function transaction() {
