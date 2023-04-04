@@ -197,7 +197,7 @@
                 }
                 else if (rendah < element) {
                     rendah = rendah;
-                } else {
+                } else if (element < rendah ) {
                     rendah = element;
                 }
 
@@ -206,7 +206,7 @@
                 } else {
                     tinggi = element;
                 }
-                document.getElementById("hasil9").innerHTML = 'low = '+rendah + '|| high = ' + tinggi; 
+                document.getElementById("hasil9").innerHTML = 'low = '+rendah + ' || high = ' + tinggi; 
             });
         }
         proses6();
