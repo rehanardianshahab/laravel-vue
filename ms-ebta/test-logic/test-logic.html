@@ -112,6 +112,8 @@
 
                 keterangan : string edu untuk kelipatan 3, string work untuk kelipatan 5, string eduwork untuk kelipatan 3 dan 5
             </p>
+            <p><span>int : </span><input id="input8" type="text" value="15" min="0" onblur="proses8()"></p>
+            <p><span>Hasil : </span><br><span id="hasil8"></span></p>
         </li>
         <li>
             Buatlah fungsi untuk menentukan bilangan terkecil dan terbesar dari sebuah array
@@ -208,6 +210,24 @@
             });
         }
         proses6();
+        // nomor 8
+        function proses8() {
+            let value = document.getElementById('input8').value;
+            let result = '';
+            for(var i=1; i<=value; i++){
+                if(i%3==0 && i%5==0) {
+                    result += 'eduwork<br>';
+                } else if (i%5 == 0) {
+                    result += 'work<br>';
+                } else if (i%3==0) {
+                    result += 'edu<br>';
+                } else {
+                    result += i+'<br>';
+                }
+            }
+            document.getElementById("hasil8").innerHTML = result; 
+        }
+        proses8();
         // nomer 10
         function proses10() {
             let tahun = document.getElementById('input10').value;
