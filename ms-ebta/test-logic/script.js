@@ -35,6 +35,7 @@ function terbilang(angka)
     else if ( angka < 20 ) terbilang = this.terbilang(angka-10) + ' belas';
     else if ( angka < 100 ) terbilang = this.terbilang(angka/10) + ' puluh ' + this.terbilang(angka % 10);
     else if( angka > 100 ) terbilang = 'silahkan masukkan bilangan 1-100';
+    else if( angka < 200 ) terbilang = 'seratus ' + this.terbilang(angka - 100);
     
     return terbilang;
 }
