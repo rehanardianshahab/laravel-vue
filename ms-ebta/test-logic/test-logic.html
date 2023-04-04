@@ -81,6 +81,53 @@
             <p><span>Array : </span><input id="input6" type="text" value="" min="0" onblur="proses6()"></p>
             <p><span>Hasil : </span><span id="hasil6"></span></p>
         </li>
+        <li>
+            <p>
+                Dari soal nomor 6, buatlah juga untuk menghasilkan output total ada berapa angka yg termasuk dari bagian low dan high
+                array data =  [1,4,7,9,12], 
+                int low = 2,
+                int high = 15,
+                maka akan menghasilkan ouput = 4
+            </p>
+            <p><span>Hasil : </span><span id="hasil7"></span></p>
+        </li>
+        <li>
+            <p>
+                Apabila terdapat int = 15, maka akan mencetak output berikut :<br>
+                1<br>
+                2<br>
+                Edu<br>
+                4<br>
+                Work<br>
+                Edu<br>
+                7<br>
+                8<br>
+                Edu<br>
+                Work<br>
+                11<br>
+                Edu<br>
+                13<br>
+                14<br>
+                EduWork<br>
+
+                keterangan : string edu untuk kelipatan 3, string work untuk kelipatan 5, string eduwork untuk kelipatan 3 dan 5
+            </p>
+        </li>
+        <li>
+            Buatlah fungsi untuk menentukan bilangan terkecil dan terbesar dari sebuah array
+            Contoh : array [4,2,6,88,3,11]
+            Maka outputnya adalah low : 2, high : 88
+            dilarang menggunakan built in function
+            <p><span>Array : </span><input id="input9" type="text" value="2021" min="0" onblur="proses9()"></p>
+            <p><span>Hasil : </span><span id="hasil9"></span></p>
+        </li>
+        <li>
+            Buatlah fungsi untuk mengecek tahun kabisat
+            input : 2021
+            output : 2021 bukan tahun kabisat
+            <p><span>Array : </span><input id="input10" type="text" value="2021" min="0" onblur="proses10()"></p>
+            <p><span>Hasil : </span><span id="hasil10"></span></p>
+        </li>
       </ol>
     </div>
     <script src="script.js"></script>
@@ -126,7 +173,7 @@
             document.getElementById("hasil5").innerHTML = terbilang(value); 
         }
         proses5();
-        // nomer 6
+        // nomer 6 & 7
         let theArr = [];
         function proses6() {
             let value = document.getElementById('input6').value;
@@ -137,11 +184,30 @@
                 }
             }
             console.log(theArr);
-            // return theArr;
             document.getElementById("hasil6").innerHTML = '['+theArr+']'; 
-            // const numb3 = value.replace(/\D/g, '');
+            document.getElementById("hasil7").innerHTML = theArr.length; 
         }
         proses6();
+        // nomer 10
+        function proses10() {
+            let tahun = document.getElementById('input10').value;
+            
+            habis_dibagi_400 = tahun % 400 == 0
+            habis_dibagi_100 = tahun % 100 == 0
+            habis_dibagi_4 = tahun % 4 == 0
+
+            let hasil = '';
+
+            if (habis_dibagi_400 || (habis_dibagi_4 && !habis_dibagi_100)) {
+                hasil = tahun+' adalah tahun kabisat';
+            } else {
+                hasil = tahun+' bukanlah tahun kabisat';
+            }
+            return hasil;
+        }
+        console.log(proses10());
+        document.getElementById("hasil10").innerHTML = proses10(); 
+        
     </script>
 </body>
 </html>
