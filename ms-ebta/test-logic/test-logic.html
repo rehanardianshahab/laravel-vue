@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="letter">
+      <ol>
+        <li>
+            <p>Buatlah fungsi sebagai berikut :</p>
+            <span>Apabila terdapat int = 4, maka outputnya 24 (prosesnya : 4*3*2*1)</span></br>
+            <span>Apabila terdapat int = 8, maka outputnya 40320 (prosesnya : 8*7*6*5*4*3*2*1)</span>
+            <p><span>Input : </span><input id="input1" type="number" min="0"  value="4" onblur="proses1()"></p>
+            <p><span>Hasil : </span><span id="hasil1"></span></p>
+        </li>
+        <li>
+            <p>
+                Buatlah fungsi untuk reverse sebuah string<br>
+                Apabila input = “abcde”, maka outputnya = “edcba”<br>
+                Dilarang menggunakan function reverse, buatlah logika sendiri<br>
+            </p>
+            <p><span>Input : </span><input id="input2" type="text" value="abc d e" onblur="proses2()"></p>
+            <p><span>Hasil : </span><span id="hasil2"></span></p>
+        </li>
+        <li>
+            <p>
+                Buatlah fungsi untuk menampilkan jumlah digit angka tergantung dimana posisi atau tempat dari angka dalam sebuah string “9.86-A5.321”!<br>
+                Contoh: printDigitValue(‘9.86-A5.321’);<br>
+                Hasil :<br>
+                9865321<br>
+                9000000<br>
+                800000<br>
+                60000<br>
+                5000<br>
+                300<br>
+                20<br>
+                1<br>
+            </p>
+            <p><span>printDigitValue(</span><input id="input3" type="text" value="9.86-A5.321" onblur="proses3()">)</p>
+            <p><span>Hasil : </span><br><span id="hasil3"></span></p>
+        </li>
+        <li>
+            <p>
+                Ketik kode untuk swap 2 integer variables tanpa VARIABLE TAMBAHAN 
+                Contoh : let a = 3, let b = 7 => hasilnya a = 7, b = 3
+            </p>
+            <p><span>Input : 
+                <ol type="a">
+                    <li> = </span><input id="input4a" type="text" value="3" onblur="proses4()"></p></li>
+                    <li> = </span><input id="input4b" type="text" value="7" onblur="proses4()"></p></li>
+                </ol>
+            <p><span>Hasil : </span><span id="hasil4"></span></p>
+        </li>
+      </ol>
+    </div>
+    <div class="letter">
+      <ol start="5">
+        <li>
+            <p>
+                Buatlah fungsi sebagai berikut :<br>
+                int : 4, maka outputnya adalah : empat<br>
+                int : 20, maka outputnya adalah : dua puluh<br>
+                int : 39, maka outputnya adalah : tiga puluh sembilan<br>
+                int : 104, maka outputnya adalah : silahkan masukkan bilangan 1-100<br>
+            </p>
+            <p><span>Input : </span><input id="input5" type="number" value="4" min="0" onblur="proses5()"></p>
+            <p><span>Hasil : </span><span id="hasil5"></span></p>
+        </li>
+        <li>
+            <p>
+                Apabila terdapat sebuah data : <br>
+                array data =  [1,4,7,9,12], <br>
+                int low = 2,<br>
+                int high = 15,<br>
+                maka akan menghasilkan ouput [4,7,9,12]
+            </p>
+            <p><span>Array : </span><input id="input6" type="text" value="" min="0" onblur="proses6()"></p>
+            <p><span>Hasil : </span><span id="hasil6"></span></p>
+        </li>
+      </ol>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        // nomer 1
+        function proses1(params) {
+            let value = document.getElementById('input1').value;
+            document.getElementById("hasil1").innerHTML = faktorial(value); 
+        }
+        proses1()
+        // nomer 2
+        function proses2(params) {
+            let value = document.getElementById('input2').value;
+            const text2 = value.replace(/\s/g, '');
+            document.getElementById("hasil2").innerHTML = reverseText(text2); 
+        }
+        proses2();
+        // nomer 3
+        function proses3(params) {
+            let value = document.getElementById('input3').value;
+            const numb3 = value.replace(/\D/g, '');
+            document.getElementById("hasil3").innerHTML = numb3+'<br>'+numPhyramid(numb3); 
+        }
+        proses3();
+        // nomer 4
+        function proses4(params) {
+            let valueA = document.getElementById('input4a').value;
+            let valueB = document.getElementById('input4b').value;
+            function switchNumb(a, b) {
+                a = parseInt(a);
+                b = parseInt(b);
+                a = a+b;
+                b = a-b;
+                a = a-b;
+                return 'a = '+a+', b = '+b;
+            }
+            document.getElementById("hasil4").innerHTML = switchNumb(valueA, valueB); 
+        }
+        proses4();
+        // nomer 5
+        function proses5(params) {
+            let value = document.getElementById('input5').value;
+            document.getElementById("hasil5").innerHTML = terbilang(value); 
+        }
+        proses5();
+        // nomer 6
+        let theArr = [];
+        function proses6() {
+            let value = document.getElementById('input6').value;
+            if (value.length > 0) {
+                document.getElementById('input6').value = '';
+                if (value >= 2 && value <= 15) {
+                    theArr.push(value);
+                }
+            }
+            console.log(theArr);
+            // return theArr;
+            document.getElementById("hasil6").innerHTML = '['+theArr+']'; 
+            // const numb3 = value.replace(/\D/g, '');
+        }
+        proses6();
+    </script>
+</body>
+</html>
