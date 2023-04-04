@@ -118,7 +118,7 @@
             Contoh : array [4,2,6,88,3,11]
             Maka outputnya adalah low : 2, high : 88
             dilarang menggunakan built in function
-            <p><span>Array : </span><input id="input9" type="text" value="2021" min="0" onblur="proses9()"></p>
+            <p>note : menggunakan array nomer 6</p>
             <p><span>Hasil : </span><span id="hasil9"></span></p>
         </li>
         <li>
@@ -186,6 +186,26 @@
             console.log(theArr);
             document.getElementById("hasil6").innerHTML = '['+theArr+']'; 
             document.getElementById("hasil7").innerHTML = theArr.length; 
+
+            // nomer 9
+            let rendah = 0;
+            let tinggi = 0;
+            theArr.forEach(element => {
+                if (rendah < element) {
+                    rendah = rendah;
+                } else {
+                    rendah = element;
+                }
+
+                if (tinggi > element) {
+                    tinggi = tinggi;
+                } else {
+                    tinggi = element;
+                }
+                console.log(rendah);
+                console.log(tinggi);
+                document.getElementById("hasil9").innerHTML = 'low = '+rendah + '|| high = ' + tinggi; 
+            });
         }
         proses6();
         // nomer 10
