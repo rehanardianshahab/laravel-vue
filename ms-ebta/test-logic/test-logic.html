@@ -185,7 +185,6 @@
                     theArr.push(value);
                 }
             }
-            console.log(theArr);
             document.getElementById("hasil6").innerHTML = '['+theArr+']'; 
             document.getElementById("hasil7").innerHTML = theArr.length; 
 
@@ -204,8 +203,6 @@
                 } else {
                     tinggi = element;
                 }
-                console.log(rendah);
-                console.log(tinggi);
                 document.getElementById("hasil9").innerHTML = 'low = '+rendah + '|| high = ' + tinggi; 
             });
         }
@@ -243,11 +240,9 @@
             } else {
                 hasil = tahun+' bukanlah tahun kabisat';
             }
-            return hasil;
+            document.getElementById("hasil10").innerHTML = hasil; 
         }
-        console.log(proses10());
-        document.getElementById("hasil10").innerHTML = proses10(); 
-        
+        proses10();
     </script>
 </body>
 </html>
