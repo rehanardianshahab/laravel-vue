@@ -78,8 +78,9 @@
                 int high = 15,<br>
                 maka akan menghasilkan ouput [4,7,9,12]
             </p>
-            <p><span>Array : </span><input id="input6" type="text" value="" min="0" onblur="proses6()"></p>
-            <p><span>Hasil : </span><span id="hasil6"></span></p>
+            <p><span>Data : </span><input id="input6" type="text" value="" min="0" onblur="proses6()"></p>
+            <p>Data Array : <span id="array6"></span></p>
+            <p>Hasil : <span id="hasil6"></span></p>
         </li>
         <li>
             <p>
@@ -89,6 +90,7 @@
                 int high = 15,
                 maka akan menghasilkan ouput = 4
             </p>
+            <p>Data Array : <span id="array7"></span></p>
             <p><span>Hasil : </span><span id="hasil7"></span></p>
         </li>
         <li>
@@ -121,6 +123,7 @@
             Maka outputnya adalah low : 2, high : 88
             dilarang menggunakan built in function
             <p>note : menggunakan array nomer 6</p>
+            <p>Data Array : <span id="array9"></span></p>
             <p><span>Hasil : </span><span id="hasil9"></span></p>
         </li>
         <li>
@@ -177,14 +180,18 @@
         proses5();
         // nomer 6 & 7
         let theArr = [];
+        let dataArr = [];
         function proses6() {
             let value = document.getElementById('input6').value;
             if (value.length > 0) {
+                dataArr.push(value);
                 document.getElementById('input6').value = '';
                 if (value >= 2 && value <= 15) {
                     theArr.push(value);
                 }
             }
+            document.getElementById("array6").innerHTML = '['+dataArr+']'; 
+            document.getElementById("array7").innerHTML = '['+dataArr+']'; 
             document.getElementById("hasil6").innerHTML = '['+theArr+']'; 
             document.getElementById("hasil7").innerHTML = theArr.length; 
 
@@ -195,17 +202,18 @@
                 if (rendah == 0) {
                     rendah = element;
                 }
-                else if (rendah < element) {
-                    rendah = rendah;
-                } else if (element < rendah ) {
+                else if (rendah > element) {
                     rendah = element;
                 }
 
-                if (tinggi > element) {
-                    tinggi = tinggi;
-                } else {
+                if (tinggi == 0) {
                     tinggi = element;
                 }
+                else if (tinggi < element) {
+                    tinggi = element;
+                }
+
+                document.getElementById("array9").innerHTML = '['+theArr+']'; 
                 document.getElementById("hasil9").innerHTML = 'low = '+rendah + ' || high = ' + tinggi; 
             });
         }
