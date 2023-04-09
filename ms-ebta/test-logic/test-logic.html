@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="letter">
+      <ol>
+        <li>
+            <p>Buatlah fungsi sebagai berikut :</p>
+            <span>Apabila terdapat int = 4, maka outputnya 24 (prosesnya : 4*3*2*1)</span></br>
+            <span>Apabila terdapat int = 8, maka outputnya 40320 (prosesnya : 8*7*6*5*4*3*2*1)</span>
+            <p><span>Input : </span><input id="input1" type="number" min="0"  value="4" onblur="proses1()"></p>
+            <p><span>Hasil : </span><span id="hasil1"></span></p>
+        </li>
+        <li>
+            <p>
+                Buatlah fungsi untuk reverse sebuah string<br>
+                Apabila input = “abcde”, maka outputnya = “edcba”<br>
+                Dilarang menggunakan function reverse, buatlah logika sendiri<br>
+            </p>
+            <p><span>Input : </span><input id="input2" type="text" value="abc d e" onblur="proses2()"></p>
+            <p><span>Hasil : </span><span id="hasil2"></span></p>
+        </li>
+        <li>
+            <p>
+                Buatlah fungsi untuk menampilkan jumlah digit angka tergantung dimana posisi atau tempat dari angka dalam sebuah string “9.86-A5.321”!<br>
+                Contoh: printDigitValue(‘9.86-A5.321’);<br>
+                Hasil :<br>
+                9865321<br>
+                9000000<br>
+                800000<br>
+                60000<br>
+                5000<br>
+                300<br>
+                20<br>
+                1<br>
+            </p>
+            <p><span>printDigitValue(</span><input id="input3" type="text" value="9.86-A5.321" onblur="proses3()">)</p>
+            <p><span>Hasil : </span><br><span id="hasil3"></span></p>
+        </li>
+        <li>
+            <p>
+                Ketik kode untuk swap 2 integer variables tanpa VARIABLE TAMBAHAN 
+                Contoh : let a = 3, let b = 7 => hasilnya a = 7, b = 3
+            </p>
+            <p><span>Input : 
+                <ol type="a">
+                    <li> = </span><input id="input4a" type="text" value="3" onblur="proses4()"></p></li>
+                    <li> = </span><input id="input4b" type="text" value="7" onblur="proses4()"></p></li>
+                </ol>
+            <p><span>Hasil : </span><span id="hasil4"></span></p>
+        </li>
+      </ol>
+    </div>
+    <div class="letter">
+      <ol start="5">
+        <li>
+            <p>
+                Buatlah fungsi sebagai berikut :<br>
+                int : 4, maka outputnya adalah : empat<br>
+                int : 20, maka outputnya adalah : dua puluh<br>
+                int : 39, maka outputnya adalah : tiga puluh sembilan<br>
+                int : 104, maka outputnya adalah : silahkan masukkan bilangan 1-100<br>
+            </p>
+            <p><span>Input : </span><input id="input5" type="number" value="4" min="0" onblur="proses5()"></p>
+            <p><span>Hasil : </span><span id="hasil5"></span></p>
+        </li>
+        <li>
+            <p>
+                Apabila terdapat sebuah data : <br>
+                array data =  [1,4,7,9,12], <br>
+                int low = 2,<br>
+                int high = 15,<br>
+                maka akan menghasilkan ouput [4,7,9,12]
+            </p>
+            <p><span>Data : </span><input id="input6" type="text" value="" min="0" onblur="proses6()"></p>
+            <p>Data Array : <span id="array6"></span></p>
+            <p>Hasil : <span id="hasil6"></span></p>
+        </li>
+        <li>
+            <p>
+                Dari soal nomor 6, buatlah juga untuk menghasilkan output total ada berapa angka yg termasuk dari bagian low dan high
+                array data =  [1,4,7,9,12], 
+                int low = 2,
+                int high = 15,
+                maka akan menghasilkan ouput = 4
+            </p>
+            <p>Data Array : <span id="array7"></span></p>
+            <p><span>Hasil : </span><span id="hasil7"></span></p>
+        </li>
+        <li>
+            <p>
+                Apabila terdapat int = 15, maka akan mencetak output berikut :<br>
+                1<br>
+                2<br>
+                Edu<br>
+                4<br>
+                Work<br>
+                Edu<br>
+                7<br>
+                8<br>
+                Edu<br>
+                Work<br>
+                11<br>
+                Edu<br>
+                13<br>
+                14<br>
+                EduWork<br>
+
+                keterangan : string edu untuk kelipatan 3, string work untuk kelipatan 5, string eduwork untuk kelipatan 3 dan 5
+            </p>
+            <p><span>int : </span><input id="input8" type="text" value="15" min="0" onblur="proses8()"></p>
+            <p><span>Hasil : </span><br><span id="hasil8"></span></p>
+        </li>
+        <li>
+            Buatlah fungsi untuk menentukan bilangan terkecil dan terbesar dari sebuah array
+            Contoh : array [4,2,6,88,3,11]
+            Maka outputnya adalah low : 2, high : 88
+            dilarang menggunakan built in function
+            <p>note : menggunakan array nomer 6</p>
+            <p>Data Array : <span id="array9"></span></p>
+            <p><span>Hasil : </span><span id="hasil9"></span></p>
+        </li>
+        <li>
+            Buatlah fungsi untuk mengecek tahun kabisat
+            input : 2021
+            output : 2021 bukan tahun kabisat
+            <p><span>Input : </span><input id="input10" type="text" value="2021" min="0" onblur="proses10()"></p>
+            <p><span>Output : </span><span id="hasil10"></span></p>
+        </li>
+      </ol>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        // nomer 1
+        function proses1(params) {
+            let value = document.getElementById('input1').value;
+            document.getElementById("hasil1").innerHTML = faktorial(value); 
+        }
+        proses1()
+        // nomer 2
+        function proses2(params) {
+            let value = document.getElementById('input2').value;
+            const text2 = value.replace(/\s/g, '');
+            document.getElementById("hasil2").innerHTML = reverseText(text2); 
+        }
+        proses2();
+        // nomer 3
+        function proses3(params) {
+            let value = document.getElementById('input3').value;
+            const numb3 = value.replace(/\D/g, '');
+            document.getElementById("hasil3").innerHTML = numb3+'<br>'+numPhyramid(numb3); 
+        }
+        proses3();
+        // nomer 4
+        function proses4(params) {
+            let valueA = document.getElementById('input4a').value;
+            let valueB = document.getElementById('input4b').value;
+            function switchNumb(a, b) {
+                a = parseInt(a);
+                b = parseInt(b);
+                a = a+b;
+                b = a-b;
+                a = a-b;
+                return 'a = '+a+', b = '+b;
+            }
+            document.getElementById("hasil4").innerHTML = switchNumb(valueA, valueB); 
+        }
+        proses4();
+        // nomer 5
+        function proses5(params) {
+            let value = document.getElementById('input5').value;
+            document.getElementById("hasil5").innerHTML = terbilang(value); 
+        }
+        proses5();
+        // nomer 6 & 7
+        let theArr = [];
+        let dataArr = [];
+        function proses6() {
+            let value = document.getElementById('input6').value;
+            if (value.length > 0) {
+                dataArr.push(value);
+                document.getElementById('input6').value = '';
+                if (value >= 2 && value <= 15) {
+                    theArr.push(value);
+                }
+            }
+            document.getElementById("array6").innerHTML = '['+dataArr+']'; 
+            document.getElementById("array7").innerHTML = '['+dataArr+']'; 
+            document.getElementById("hasil6").innerHTML = '['+theArr+']'; 
+            document.getElementById("hasil7").innerHTML = theArr.length; 
+
+            // nomer 9
+            let rendah = 0;
+            let tinggi = 0;
+            theArr.forEach(element => {
+                if (rendah == 0) {
+                    rendah = element;
+                }
+                else if (rendah > element) {
+                    rendah = element;
+                }
+
+                if (tinggi == 0) {
+                    tinggi = element;
+                }
+                else if (tinggi < element) {
+                    tinggi = element;
+                }
+
+                document.getElementById("array9").innerHTML = '['+theArr+']'; 
+                document.getElementById("hasil9").innerHTML = 'low = '+rendah + ' || high = ' + tinggi; 
+            });
+        }
+        proses6();
+        // nomor 8
+        function proses8() {
+            let value = document.getElementById('input8').value;
+            let result = '';
+            for(var i=1; i<=value; i++){
+                if(i%3==0 && i%5==0) {
+                    result += 'eduwork<br>';
+                } else if (i%5 == 0) {
+                    result += 'work<br>';
+                } else if (i%3==0) {
+                    result += 'edu<br>';
+                } else {
+                    result += i+'<br>';
+                }
+            }
+            document.getElementById("hasil8").innerHTML = result; 
+        }
+        proses8();
+        // nomer 10
+        function proses10() {
+            let tahun = document.getElementById('input10').value;
+            
+            habis_dibagi_400 = tahun % 400 == 0
+            habis_dibagi_100 = tahun % 100 == 0
+            habis_dibagi_4 = tahun % 4 == 0
+
+            let hasil = '';
+
+            if (habis_dibagi_400 || (habis_dibagi_4 && !habis_dibagi_100)) {
+                hasil = tahun+' adalah tahun kabisat';
+            } else {
+                hasil = tahun+' bukanlah tahun kabisat';
+            }
+            document.getElementById("hasil10").innerHTML = hasil; 
+        }
+        proses10();
+    </script>
+</body>
+</html>
