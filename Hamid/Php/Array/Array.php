@@ -12,7 +12,6 @@ $categories = array(
 );
 
 foreach ($students as $student) {
-    // Determine the category based on their grade
     if ($student['nilai'] >= 85 && $student['nilai'] <= 100) {
         $category = 'A';
     } elseif ($student['nilai'] >= 75 && $student['nilai'] <= 84) {
@@ -23,7 +22,6 @@ foreach ($students as $student) {
         $category = 'D';
     }
 
-    // Add the student to the appropriate category
     $categories[$category][] = $student;
 }
 
